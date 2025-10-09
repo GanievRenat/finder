@@ -1,7 +1,7 @@
 part of '../../app_router.dart';
 
 @TypedGoRoute<AuthRoute>(path: AuthRoute.authLocation)
-class AuthRoute extends GoRouteData {
+class AuthRoute extends GoRouteData with $AuthRoute {
   const AuthRoute();
 
   static final GlobalKey<NavigatorState> $parentNavigatorKey = rootNavigatorKey;

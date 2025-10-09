@@ -10,27 +10,27 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:cloud_firestore/cloud_firestore.dart' as _i974;
-import 'package:core_template/common/config/app_config.dart' as _i412;
-import 'package:core_template/common/di/third_party_module.dart' as _i924;
-import 'package:core_template/common/domain/app_config.dart' as _i255;
-import 'package:core_template/common/router/observers/analytics_observer.dart'
+import 'package:flinder/common/config/app_config.dart' as _i412;
+import 'package:flinder/common/di/third_party_module.dart' as _i924;
+import 'package:flinder/common/domain/app_config.dart' as _i255;
+import 'package:flinder/common/router/observers/analytics_observer.dart'
     as _i789;
-import 'package:core_template/common/service/analytics/analytics_service.dart'
+import 'package:flinder/common/service/analytics/analytics_service.dart'
     as _i922;
-import 'package:core_template/common/service/app_state_service.dart' as _i708;
-import 'package:core_template/common/service/crashlytics_service.dart' as _i626;
-import 'package:core_template/common/service/language_service.dart' as _i806;
-import 'package:core_template/common/source/network/http_client/http_client_module.dart'
+import 'package:flinder/common/service/app_state_service.dart' as _i708;
+import 'package:flinder/common/service/crashlytics_service.dart' as _i626;
+import 'package:flinder/common/service/language_service.dart' as _i806;
+import 'package:flinder/common/source/network/http_client/http_client_module.dart'
     as _i31;
-import 'package:core_template/common/source/network/interceptors/error_interceptor.dart'
+import 'package:flinder/common/source/network/interceptors/error_interceptor.dart'
     as _i759;
-import 'package:core_template/common/source/network/interceptors/interceptors.dart'
+import 'package:flinder/common/source/network/interceptors/interceptors.dart'
     as _i447;
-import 'package:core_template/common/source/network/interceptors/language_interceptor.dart'
+import 'package:flinder/common/source/network/interceptors/language_interceptor.dart'
     as _i658;
-import 'package:core_template/common/source/network/interceptors/logger_interceptors.dart'
+import 'package:flinder/common/source/network/interceptors/logger_interceptors.dart'
     as _i1055;
-import 'package:core_template/common/source/network/interceptors/token_interceptor.dart'
+import 'package:flinder/common/source/network/interceptors/token_interceptor.dart'
     as _i27;
 import 'package:dio/dio.dart' as _i361;
 import 'package:firebase_auth/firebase_auth.dart' as _i59;

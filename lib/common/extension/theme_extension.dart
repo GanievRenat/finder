@@ -1,4 +1,4 @@
-import 'package:core_template/common/ui/theme/theme.dart';
+import 'package:flinder/common/ui/theme/theme.dart';
 import 'package:flutter/material.dart';
 
 extension ThemeExtension on BuildContext {

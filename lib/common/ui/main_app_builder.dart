@@ -1,7 +1,7 @@
-import 'package:core_template/common/di/init_di.dart';
-import 'package:core_template/common/extension/extension.dart';
-import 'package:core_template/common/service/app_state_service.dart';
-import 'package:core_template/generated/locale_keys.g.dart';
+import 'package:flinder/common/di/init_di.dart';
+import 'package:flinder/common/extension/extension.dart';
+import 'package:flinder/common/service/app_state_service.dart';
+import 'package:flinder/generated/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 

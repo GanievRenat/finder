@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:core_template/common/domain/app_config.dart';
+import 'package:flinder/common/domain/app_config.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';

@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:core_template/common/di/init_di.dart';
-import 'package:core_template/common/service/analytics/events.dart';
-import 'package:core_template/common/service/services.dart';
+import 'package:flinder/common/di/init_di.dart';
+import 'package:flinder/common/service/analytics/events.dart';
+import 'package:flinder/common/service/services.dart';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';

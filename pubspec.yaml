@@ -1,4 +1,4 @@
-name: core_template
+name: flinder
 description: "Core Template Project"
 publish_to: "none"
 version: 0.1.0
@@ -14,7 +14,7 @@ dependencies:
   injectable: ^2.5.1
 
   # Роутинг
-  go_router: ^16.0.0
+  go_router: ^16.2.4
 
   # Локализация
   easy_localization: ^3.0.8
@@ -46,31 +46,31 @@ dependencies:
   # Аналитика
 
   # Firebase
-  firebase_core: ^3.14.0
-  firebase_auth: ^5.6.0
-  cloud_firestore: ^5.6.9
-  firebase_crashlytics: ^4.3.8
-  firebase_remote_config: ^5.5.0
+  firebase_core: ^4.1.1
+  firebase_auth: ^6.1.0
+  cloud_firestore: ^6.0.2
+  firebase_crashlytics: ^5.0.2
+  firebase_remote_config: ^6.0.2
 
   # Авторизация Apple и Google
-  google_sign_in: ^6.3.0
+  google_sign_in: ^7.2.0
   sign_in_with_apple: ^7.0.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^5.0.0
+  flutter_lints: ^6.0.0
   injectable_generator: ^2.7.0
   json_serializable: ^6.8.0
   build_runner: ^2.5.0
   drift_dev: ^2.27.0
-  go_router_builder: ^2.7.0
-  flutter_gen_runner: ^5.11.0
+  go_router_builder: ^4.1.0
+  flutter_gen_runner: ^5.12.0
   freezed: ^3.1.0
-  retrofit_generator: ^9.7.0
+  retrofit_generator: ^10.0.6
 
   flutter_svg: ^2.2.0
-  melos: ^6.3.3
+  melos: ^7.1.1
 
   flutter_native_splash: ^2.4.6
   flutter_launcher_icons: ^0.14.4
@@ -108,3 +108,41 @@ flutter:
           weight: 400
         - asset: assets/fonts//Roboto-Light.ttf
           weight: 300
+
+melos:
+  packages:
+    - .
+  scripts:
+    clean:
+      run: flutter clean
+      description: Очистка сборки проекта.
+
+    bootstrap:
+      run: flutter pub get
+      description: Устанавливает зависимости для всех пакетов.
+
+    generate:
+      run: |
+        flutter pub run build_runner build --delete-conflicting-outputs
+        flutter pub run easy_localization:generate --source-dir assets/translations -f keys -o locale_keys.g.dart
+        dart run flutter_native_splash:create
+        flutter pub run flutter_launcher_icons
+      description: Генерация кода.
+
+    analyze:
+      run: flutter analyze
+      description: Анализ кода на ошибки.
+
+    format:
+      run: dart format . --set-exit-if-changed
+      description: Форматирование кода.
+
+    go:
+      run: |
+        flutter clean
+        flutter pub get
+        flutter pub run build_runner build --delete-conflicting-outputs
+        flutter pub run easy_localization:generate --source-dir assets/translations -f keys -o locale_keys.g.dart
+        dart run flutter_native_splash:create
+        flutter pub run flutter_launcher_icons
+      description: Запускаем все.

@@ -1,4 +1,4 @@
-import 'package:core_template/common/service/app_state_service.dart';
+import 'package:flinder/common/service/app_state_service.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 

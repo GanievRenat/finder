@@ -39,5 +39,5 @@ abstract class ThirdPartyModule {
   FirebaseRemoteConfig get remoteConfig => FirebaseRemoteConfig.instance;
 
   @singleton
-  GoogleSignIn get googleSignIn => GoogleSignIn();
+  GoogleSignIn get googleSignIn => GoogleSignIn.instance;
 }

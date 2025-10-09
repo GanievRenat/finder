@@ -1,4 +1,4 @@
-import 'package:core_template/common/domain/app_config.dart';
+import 'package:flinder/common/domain/app_config.dart';
 
 abstract class AnalyticsClient<T> {
   Future<T> init({required AppConfig appConfig});

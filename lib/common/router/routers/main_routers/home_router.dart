@@ -1,6 +1,6 @@
 part of '../../app_router.dart';
 
-class HomeRoute extends GoRouteData {
+class HomeRoute extends GoRouteData with $HomeRoute {
   const HomeRoute();
 
   static final GlobalKey<NavigatorState> $parentNavigatorKey =
@@ -20,7 +20,7 @@ class HomeRoute extends GoRouteData {
   }
 }
 
-class SettingsRoute extends GoRouteData {
+class SettingsRoute extends GoRouteData with $SettingsRoute {
   const SettingsRoute();
 
   static final GlobalKey<NavigatorState> $parentNavigatorKey =
@@ -34,7 +34,7 @@ class SettingsRoute extends GoRouteData {
   }
 }
 
-class OnboardingRoute extends GoRouteData {
+class OnboardingRoute extends GoRouteData with $OnboardingRoute {
   const OnboardingRoute();
 
   static final GlobalKey<NavigatorState> $parentNavigatorKey =

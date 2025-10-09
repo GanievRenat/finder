@@ -1,4 +1,4 @@
-name: taro_client
+name: flinder
 
 packages:
   - .

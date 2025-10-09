@@ -11,7 +11,7 @@ class AppStateService {
   bool get isAuth => currentUser != null ? true : false;
   bool get showedOnboarding => false;
 
-  clearCurrentUser() {
+  void clearCurrentUser() {
     currentUser = null;
     premiumAccess = false;
   }
