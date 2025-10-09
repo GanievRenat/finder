@@ -12,6 +12,14 @@ class AuthPage extends StatefulWidget {
 class _AuthPageState extends State<AuthPage> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(title: const Text('Auth Page')),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: widget.onAuth,
+          child: const Text('Authenticate'),
+        ),
+      ),
+    );
   }
 }

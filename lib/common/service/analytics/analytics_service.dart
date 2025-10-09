@@ -4,9 +4,9 @@ import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
 
 import '../../domain/app_config.dart';
-import 'clients/amplitude_client.dart';
-import 'clients/appmetrics_client.dart';
-import 'clients/appsfly_client.dart';
+//import 'clients/amplitude_client.dart';
+//import 'clients/appmetrics_client.dart';
+//import 'clients/appsfly_client.dart';
 
 @singleton
 class AnalyticsService {
@@ -18,7 +18,7 @@ class AnalyticsService {
 
   Future<void> init() async {
     // Initialize all analytics clients
-    _clients = [AmplitudeClient(), AppsFlyerClient(), AppMetricsClient()];
+    _clients = [/*AmplitudeClient(), AppsFlyerClient(), AppMetricsClient()*/];
 
     for (final item in _clients) {
       await item.init(appConfig: config);

@@ -13,7 +13,9 @@ class GlobalMainBlocState extends StatefulWidget {
 class _GlobalMainBlocStateState extends State<GlobalMainBlocState> {
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
+    return widget.child;
+
+    /*return MultiBlocProvider(
       providers: [
         /*BlocProvider(create: (context) => getIt<HistoryCubit>()),
         BlocProvider(create: (context) => getIt<SubscriptionStateCubit>()),
@@ -24,6 +26,6 @@ class _GlobalMainBlocStateState extends State<GlobalMainBlocState> {
         BlocProvider(create: (context) => getIt<ShowBannerCubit>()),*/
       ],
       child: widget.child,
-    );
+    );*/
   }
 }

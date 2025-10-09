@@ -25,7 +25,7 @@ class MainAppRunner implements AppRunner {
     WidgetsFlutterBinding.ensureInitialized();
 
     await EasyLocalization.ensureInitialized();
-    await Firebase.initializeApp();
+    // await Firebase.initializeApp();
 
     // init di
     await initDi(env);
@@ -37,13 +37,6 @@ class MainAppRunner implements AppRunner {
     //await getIt<AuthRepository>().init();
 
     if (getIt<AppStateService>().isAuth) {
-      /*getIt<BalanceCubit>().init();
-      getIt<HistoryCubit>().init();
-      getIt<SubscriptionStateCubit>().init();
-      getIt<SelectModeCubit>().init();
-      getIt<LibraryCardsCubit>().init();
-      getIt<SettingsCubit>().init();*/
-
       if (getIt<AppStateService>().currentUser?.uid != null) {
         final userId = getIt<AppStateService>().currentUser!.uid;
         // Можно добавить дополнительные свойства, если нужно

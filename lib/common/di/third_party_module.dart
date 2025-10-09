@@ -30,7 +30,7 @@ abstract class ThirdPartyModule {
   @preResolve
   Future<SharedPreferences> get storage => SharedPreferences.getInstance();
 
-  FirebaseAuth get auth => FirebaseAuth.instance;
+  /*FirebaseAuth get auth => FirebaseAuth.instance;
 
   @singleton
   FirebaseFirestore get firestore => FirebaseFirestore.instance;
@@ -39,5 +39,5 @@ abstract class ThirdPartyModule {
   FirebaseRemoteConfig get remoteConfig => FirebaseRemoteConfig.instance;
 
   @singleton
-  GoogleSignIn get googleSignIn => GoogleSignIn.instance;
+  GoogleSignIn get googleSignIn => GoogleSignIn.instance;*/
 }
