@@ -1,3 +1,4 @@
+import 'package:flinder/common/ui/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 class AuthPage extends StatefulWidget {
@@ -14,7 +15,7 @@ class _AuthPageState extends State<AuthPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Auth Page')),
-      body: Center(
+      body: SingleChildScrollView(
         child: Column(
           children: [
             Text('Header1', style: Theme.of(context).textTheme.displayLarge),
@@ -30,13 +31,42 @@ class _AuthPageState extends State<AuthPage> {
             Text('actionL', style: Theme.of(context).textTheme.titleLarge),
             Text('actionM', style: Theme.of(context).textTheme.titleMedium),
             Text('actionS', style: Theme.of(context).textTheme.titleSmall),
-            Text(
-              'captionM / FITNESS',
-              style: Theme.of(context).textTheme.labelMedium,
+            Text('captionM', style: Theme.of(context).textTheme.labelMedium),
+            MainButton(title: 'Continue', onPressed: () {}),
+            MainButton(title: 'Continue', onPressed: () {}, isLoading: true),
+            MainButton.small(title: 'Continue', onPressed: () {}),
+            MainButton.inversion(title: 'Continue', onPressed: () {}),
+            MainButton.inversion(
+              title: 'Continue',
+              onPressed: () {},
+              isLoading: true,
             ),
-            ElevatedButton(
-              onPressed: widget.onAuth,
-              child: const Text('Authenticate'),
+            MainButton.inversionSmall(title: 'Continue', onPressed: () {}),
+            MainButton.inversionSmall(
+              title: 'Continue',
+              onPressed: () {},
+              isLoading: true,
+            ),
+            MainButton.red(title: 'Continue', onPressed: () {}),
+            MainButton.red(
+              title: 'Continue',
+              onPressed: () {},
+              isLoading: true,
+            ),
+            MainButton.redSmall(title: 'Continue', onPressed: () {}),
+            MainButton.redSmall(
+              title: 'Continue',
+              onPressed: () {},
+              isLoading: true,
+            ),
+            MainButton.reset(title: 'Reset', onPressed: () {}),
+            BlackButton(title: 'Upgrade', onPressed: () {}),
+            SecondButton(title: 'Continue', onPressed: () {}),
+            SecondButton.small(title: 'Continue', onPressed: () {}),
+            SecondButton.small(
+              title: 'Continue',
+              onPressed: () {},
+              isLoading: true,
             ),
           ],
         ),
