@@ -8,114 +8,155 @@ class AppTextTheme extends TextTheme {
     required this.header2,
     required this.header3,
     required this.header4,
-    required this.header3Light,
-    required this.counter,
-    required this.primaryLightText,
-    required this.primaryText,
-    required this.labelLightText,
-    required this.labelRegularText,
+    required this.header5,
+    required this.bodyXL,
+    required this.bodyL,
+    required this.bodyM,
+    required this.bodyS,
+    required this.bodyXS,
+    required this.actionL,
+    required this.actionM,
+    required this.actionS,
+    required this.captionM,
   }) : super();
 
   factory AppTextTheme.byColorScheme(AppThemeColorScheme colorScheme) =>
       AppTextTheme(
         header1: AppThemeTextStyle(colorScheme).merge(
           TextStyle(
-            fontFamily: 'Roboto',
+            fontFamily: 'Inter',
             color: colorScheme.neutralDarkDarkset,
-            fontWeight: FontWeight.w500,
+            fontWeight: FontWeight.w800,
             fontStyle: FontStyle.normal,
-            fontSize: 48,
-            height: 48 / 48,
+            fontSize: 28,
+            letterSpacing: 18 * 0.01,
           ),
         ),
         header2: AppThemeTextStyle(colorScheme).merge(
           TextStyle(
-            fontFamily: 'Roboto',
+            fontFamily: 'Inter',
             color: colorScheme.neutralDarkDarkset,
-            fontWeight: FontWeight.w300,
+            fontWeight: FontWeight.w800,
             fontStyle: FontStyle.normal,
-            fontSize: 32,
-            height: 28 / 32,
+            fontSize: 24,
+            letterSpacing: 18 * 0.005,
           ),
         ),
         header3: AppThemeTextStyle(colorScheme).merge(
           TextStyle(
-            fontFamily: 'Roboto',
+            fontFamily: 'Inter',
             color: colorScheme.neutralDarkDarkset,
-            fontWeight: FontWeight.w300,
+            fontWeight: FontWeight.w800,
             fontStyle: FontStyle.normal,
-            fontSize: 34,
-            height: 40 / 34,
+            fontSize: 18,
+            letterSpacing: 18 * 0.005,
           ),
         ),
         header4: AppThemeTextStyle(colorScheme).merge(
           TextStyle(
-            fontFamily: 'Roboto',
+            fontFamily: 'Inter',
             color: colorScheme.neutralDarkDark,
-            fontWeight: FontWeight.w500,
+            fontWeight: FontWeight.w700,
             fontStyle: FontStyle.normal,
-            fontSize: 20,
-            height: 28 / 20,
+            fontSize: 16,
           ),
         ),
-        header3Light: AppThemeTextStyle(colorScheme).merge(
+        header5: AppThemeTextStyle(colorScheme).merge(
           TextStyle(
-            fontFamily: 'Roboto',
-            color: colorScheme.neutralLightDark,
-            fontWeight: FontWeight.w300,
-            fontStyle: FontStyle.normal,
-            fontSize: 20,
-            height: 28 / 20,
-          ),
-        ),
-        counter: AppThemeTextStyle(colorScheme).merge(
-          TextStyle(
-            fontFamily: 'Roboto',
+            fontFamily: 'Inter',
             color: colorScheme.neutralDarkDark,
-            fontWeight: FontWeight.w500,
+            fontWeight: FontWeight.w700,
             fontStyle: FontStyle.normal,
-            fontSize: 24,
-            height: 24 / 24,
+            fontSize: 14,
           ),
         ),
-        primaryText: AppThemeTextStyle(colorScheme).merge(
+        bodyXL: AppThemeTextStyle(colorScheme).merge(
           TextStyle(
-            fontFamily: 'Roboto',
+            fontFamily: 'Inter',
+            color: colorScheme.neutralDarkDark,
+            fontWeight: FontWeight.w400,
+            fontStyle: FontStyle.normal,
+            fontSize: 18,
+            height: 24 / 18,
+          ),
+        ),
+        bodyL: AppThemeTextStyle(colorScheme).merge(
+          TextStyle(
+            fontFamily: 'Inter',
             color: colorScheme.neutralDarkDark,
             fontWeight: FontWeight.w400,
             fontStyle: FontStyle.normal,
             fontSize: 16,
-            height: 28 / 16,
+            height: 22 / 16,
           ),
         ),
-        primaryLightText: AppThemeTextStyle(colorScheme).merge(
+        bodyM: AppThemeTextStyle(colorScheme).merge(
           TextStyle(
-            fontFamily: 'Roboto',
+            fontFamily: 'Inter',
             color: colorScheme.neutralDarkDark,
-            fontWeight: FontWeight.w300,
+            fontWeight: FontWeight.w400,
+            fontStyle: FontStyle.normal,
+            fontSize: 14,
+            height: 20 / 14,
+          ),
+        ),
+        bodyS: AppThemeTextStyle(colorScheme).merge(
+          TextStyle(
+            fontFamily: 'Inter',
+            color: colorScheme.neutralDarkDark,
+            fontWeight: FontWeight.w400,
+            fontStyle: FontStyle.normal,
+            fontSize: 12,
+            height: 16 / 12,
+            letterSpacing: 10 * 0.01,
+          ),
+        ),
+        bodyXS: AppThemeTextStyle(colorScheme).merge(
+          TextStyle(
+            fontFamily: 'Inter',
+            color: colorScheme.neutralDarkDark,
+            fontWeight: FontWeight.w400,
+            fontStyle: FontStyle.normal,
+            fontSize: 10,
+            height: 14 / 10,
+            letterSpacing: 10 * 0.015,
+          ),
+        ),
+        actionL: AppThemeTextStyle(colorScheme).merge(
+          TextStyle(
+            fontFamily: 'Inter',
+            color: colorScheme.neutralDarkDark,
+            fontWeight: FontWeight.w600,
             fontStyle: FontStyle.normal,
             fontSize: 16,
-            height: 28 / 16,
           ),
         ),
-        labelRegularText: AppThemeTextStyle(colorScheme).merge(
+        actionM: AppThemeTextStyle(colorScheme).merge(
           TextStyle(
-            fontFamily: 'Roboto',
+            fontFamily: 'Inter',
             color: colorScheme.neutralDarkDark,
-            fontWeight: FontWeight.w500,
+            fontWeight: FontWeight.w600,
             fontStyle: FontStyle.normal,
-            fontSize: 12,
-            height: 16 / 12,
+            fontSize: 14,
           ),
         ),
-        labelLightText: AppThemeTextStyle(colorScheme).merge(
+        actionS: AppThemeTextStyle(colorScheme).merge(
           TextStyle(
-            fontFamily: 'Roboto',
+            fontFamily: 'Inter',
             color: colorScheme.neutralDarkDark,
-            fontWeight: FontWeight.w300,
+            fontWeight: FontWeight.w600,
             fontStyle: FontStyle.normal,
             fontSize: 12,
-            height: 16 / 12,
+          ),
+        ),
+        captionM: AppThemeTextStyle(colorScheme).merge(
+          TextStyle(
+            fontFamily: 'Inter',
+            color: colorScheme.neutralDarkDark,
+            fontWeight: FontWeight.w600,
+            fontStyle: FontStyle.normal,
+            fontSize: 10,
+            letterSpacing: 10 * 0.05,
           ),
         ),
       );
@@ -124,12 +165,19 @@ class AppTextTheme extends TextTheme {
   final AppThemeTextStyle header2;
   final AppThemeTextStyle header3;
   final AppThemeTextStyle header4;
-  final AppThemeTextStyle header3Light;
-  final AppThemeTextStyle counter;
-  final AppThemeTextStyle primaryText;
-  final AppThemeTextStyle primaryLightText;
-  final AppThemeTextStyle labelLightText;
-  final AppThemeTextStyle labelRegularText;
+  final AppThemeTextStyle header5;
+
+  final AppThemeTextStyle bodyXL;
+  final AppThemeTextStyle bodyL;
+  final AppThemeTextStyle bodyM;
+  final AppThemeTextStyle bodyS;
+  final AppThemeTextStyle bodyXS;
+
+  final AppThemeTextStyle actionL;
+  final AppThemeTextStyle actionM;
+  final AppThemeTextStyle actionS;
+
+  final AppThemeTextStyle captionM;
 
   TextTheme toTextTheme() {
     return TextTheme(
@@ -137,12 +185,16 @@ class AppTextTheme extends TextTheme {
       displayMedium: header2,
       displaySmall: header3,
       headlineMedium: header4,
-      headlineSmall: header3Light,
-      titleLarge: counter,
-      bodyLarge: primaryText,
-      bodyMedium: primaryLightText,
-      labelLarge: labelRegularText,
-      labelSmall: labelLightText,
+      headlineSmall: header5,
+      labelLarge: bodyXL,
+      bodyLarge: bodyL,
+      bodyMedium: bodyM,
+      bodySmall: bodyS,
+      labelSmall: bodyXS,
+      titleLarge: actionL,
+      titleMedium: actionM,
+      titleSmall: actionS,
+      labelMedium: captionM,
     );
   }
 }

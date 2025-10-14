@@ -46,6 +46,7 @@ class AppTheme {
     /*splashColor: Colors.transparent,
     highlightColor: Colors.transparent,
     hoverColor: Colors.transparent,*/
+    scaffoldBackgroundColor: colorScheme.background,
     textTheme: textTheme.toTextTheme(),
     pageTransitionsTheme: const PageTransitionsTheme(
       builders: {
