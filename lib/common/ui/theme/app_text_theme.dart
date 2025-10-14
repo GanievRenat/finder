@@ -20,8 +20,8 @@ class AppTextTheme extends TextTheme {
       AppTextTheme(
         header1: AppThemeTextStyle(colorScheme).merge(
           TextStyle(
-            fontFamily: 'TimesNewRoman',
-            color: colorScheme.gold,
+            fontFamily: 'Roboto',
+            color: colorScheme.neutralDarkDarkset,
             fontWeight: FontWeight.w500,
             fontStyle: FontStyle.normal,
             fontSize: 48,
@@ -30,8 +30,8 @@ class AppTextTheme extends TextTheme {
         ),
         header2: AppThemeTextStyle(colorScheme).merge(
           TextStyle(
-            fontFamily: 'TimesNewRoman',
-            color: colorScheme.gold,
+            fontFamily: 'Roboto',
+            color: colorScheme.neutralDarkDarkset,
             fontWeight: FontWeight.w300,
             fontStyle: FontStyle.normal,
             fontSize: 32,
@@ -40,8 +40,8 @@ class AppTextTheme extends TextTheme {
         ),
         header3: AppThemeTextStyle(colorScheme).merge(
           TextStyle(
-            fontFamily: 'TimesNewRoman',
-            color: colorScheme.gold,
+            fontFamily: 'Roboto',
+            color: colorScheme.neutralDarkDarkset,
             fontWeight: FontWeight.w300,
             fontStyle: FontStyle.normal,
             fontSize: 34,
@@ -50,8 +50,8 @@ class AppTextTheme extends TextTheme {
         ),
         header4: AppThemeTextStyle(colorScheme).merge(
           TextStyle(
-            fontFamily: 'TimesNewRoman',
-            color: colorScheme.white,
+            fontFamily: 'Roboto',
+            color: colorScheme.neutralDarkDark,
             fontWeight: FontWeight.w500,
             fontStyle: FontStyle.normal,
             fontSize: 20,
@@ -60,8 +60,8 @@ class AppTextTheme extends TextTheme {
         ),
         header3Light: AppThemeTextStyle(colorScheme).merge(
           TextStyle(
-            fontFamily: 'TimesNewRoman',
-            color: colorScheme.white,
+            fontFamily: 'Roboto',
+            color: colorScheme.neutralLightDark,
             fontWeight: FontWeight.w300,
             fontStyle: FontStyle.normal,
             fontSize: 20,
@@ -70,8 +70,8 @@ class AppTextTheme extends TextTheme {
         ),
         counter: AppThemeTextStyle(colorScheme).merge(
           TextStyle(
-            fontFamily: 'TimesNewRoman',
-            color: colorScheme.white,
+            fontFamily: 'Roboto',
+            color: colorScheme.neutralDarkDark,
             fontWeight: FontWeight.w500,
             fontStyle: FontStyle.normal,
             fontSize: 24,
@@ -80,8 +80,8 @@ class AppTextTheme extends TextTheme {
         ),
         primaryText: AppThemeTextStyle(colorScheme).merge(
           TextStyle(
-            fontFamily: 'TimesNewRoman',
-            color: colorScheme.white,
+            fontFamily: 'Roboto',
+            color: colorScheme.neutralDarkDark,
             fontWeight: FontWeight.w400,
             fontStyle: FontStyle.normal,
             fontSize: 16,
@@ -90,8 +90,8 @@ class AppTextTheme extends TextTheme {
         ),
         primaryLightText: AppThemeTextStyle(colorScheme).merge(
           TextStyle(
-            fontFamily: 'TimesNewRoman',
-            color: colorScheme.white,
+            fontFamily: 'Roboto',
+            color: colorScheme.neutralDarkDark,
             fontWeight: FontWeight.w300,
             fontStyle: FontStyle.normal,
             fontSize: 16,
@@ -100,8 +100,8 @@ class AppTextTheme extends TextTheme {
         ),
         labelRegularText: AppThemeTextStyle(colorScheme).merge(
           TextStyle(
-            fontFamily: 'TimesNewRoman',
-            color: colorScheme.ebony,
+            fontFamily: 'Roboto',
+            color: colorScheme.neutralDarkDark,
             fontWeight: FontWeight.w500,
             fontStyle: FontStyle.normal,
             fontSize: 12,
@@ -110,8 +110,8 @@ class AppTextTheme extends TextTheme {
         ),
         labelLightText: AppThemeTextStyle(colorScheme).merge(
           TextStyle(
-            fontFamily: 'TimesNewRoman',
-            color: colorScheme.white,
+            fontFamily: 'Roboto',
+            color: colorScheme.neutralDarkDark,
             fontWeight: FontWeight.w300,
             fontStyle: FontStyle.normal,
             fontSize: 12,
@@ -130,6 +130,21 @@ class AppTextTheme extends TextTheme {
   final AppThemeTextStyle primaryLightText;
   final AppThemeTextStyle labelLightText;
   final AppThemeTextStyle labelRegularText;
+
+  TextTheme toTextTheme() {
+    return TextTheme(
+      displayLarge: header1,
+      displayMedium: header2,
+      displaySmall: header3,
+      headlineMedium: header4,
+      headlineSmall: header3Light,
+      titleLarge: counter,
+      bodyLarge: primaryText,
+      bodyMedium: primaryLightText,
+      labelLarge: labelRegularText,
+      labelSmall: labelLightText,
+    );
+  }
 }
 
 class AppThemeTextStyle extends TextStyle {
@@ -193,14 +208,12 @@ class AppThemeTextStyle extends TextStyle {
     return AppThemeTextStyle(
       colorScheme,
       inherit: inherit ?? this.inherit,
-      color:
-          this.foreground == null && foreground == null
-              ? color ?? this.color
-              : null,
-      backgroundColor:
-          this.background == null && background == null
-              ? backgroundColor ?? this.backgroundColor
-              : null,
+      color: this.foreground == null && foreground == null
+          ? color ?? this.color
+          : null,
+      backgroundColor: this.background == null && background == null
+          ? backgroundColor ?? this.backgroundColor
+          : null,
       fontFamily: fontFamily ?? this.fontFamily,
       fontFamilyFallback: fontFamilyFallback ?? this.fontFamilyFallback,
       fontSize: fontSize ?? this.fontSize,

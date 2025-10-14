@@ -3,73 +3,102 @@ import 'package:flutter/material.dart';
 abstract class AppThemeColorScheme extends ColorScheme {
   const AppThemeColorScheme({
     required super.brightness,
-    required this.white,
-    required this.white75,
-    required this.black,
-    required this.black20,
-    required this.ashGrey,
-    required this.onAshGrey,
-    required this.dairyCream,
-    required this.grey,
-    required this.ebony,
-    required this.cloudBurst,
-    required this.cloudBurst50,
-    required this.slate,
-    required this.dusk,
-    required this.gold,
-    required this.gold25,
-    required this.budhaGold50,
-    required this.darkGold,
-    required this.orangeYellow,
-    required this.lightGold,
-    required this.goldenGrass,
-    required this.brightGold,
-    required this.goldDivider50,
+    required this.background,
+    required this.onBackground,
+    required this.primaryDarkset,
+    required this.primaryDark,
+    required this.primaryMedium,
+    required this.primaryLight,
+    required this.primaryLightest,
+    required this.neutralLightDarkset,
+    required this.neutralLightDark,
+    required this.neutralLightMedium,
+    required this.neutralLightLight,
+    required this.neutralLightLightest,
+    required this.neutralDarkDarkset,
+    required this.neutralDarkDark,
+    required this.neutralDarkMedium,
+    required this.neutralDarkLight,
+    required this.neutralDarkLightest,
+    required this.supportErrorDark,
+    required this.supportErrorMedium,
+    required this.supportErrorLight,
+    required this.supportSuccessDark,
+    required this.supportSuccessMedium,
+    required this.supportSuccessLight,
+    required this.supportWarningDark,
+    required this.supportWarningMedium,
+    required this.supportWarningLight,
     required this.red,
-    required this.green,
-    required this.carrotOrange,
-    required this.blue,
-    required this.windStar20,
-    required this.lightGrey,
+
+    required this.pushIndicator,
+
+    required this.pushGreen,
+
+    required this.gradientWarmBegin,
+    required this.gradientWarmEnd,
+    required this.gradientColdBegin,
+    required this.gradientColdEnd,
+
+    required this.shadow,
   }) : super(
-         primary: Colors.black,
-         secondary: Colors.black,
-         surface: Colors.black,
-         error: Colors.black,
-         onPrimary: Colors.black,
-         onSecondary: Colors.black,
-         onSurface: Colors.white,
-         onError: Colors.black,
+         primary: primaryDarkset,
+         onPrimary: neutralLightLightest,
+         secondary: primaryMedium,
+         onSecondary: neutralLightLightest,
+         error: supportErrorDark,
+         onError: neutralLightLightest,
+         surface: background,
+         onSurface: onBackground,
        );
 
-  final Color white;
-  final Color white75;
-  final Color black;
-  final Color black20;
-  final Color ashGrey;
-  final Color onAshGrey;
-  final Color dairyCream;
-  final Color grey;
-  final Color ebony;
-  final Color slate;
-  final Color cloudBurst;
-  final Color cloudBurst50;
-  final Color dusk;
-  final Color gold;
-  final Color gold25;
-  final Color budhaGold50;
-  final Color darkGold;
-  final Color orangeYellow;
-  final Color lightGold;
-  final Color goldenGrass;
-  final Color brightGold;
-  final Color goldDivider50;
+  @override
+  final Color background;
+  @override
+  final Color onBackground;
+
+  final Color primaryDarkset;
+  final Color primaryDark;
+  final Color primaryMedium;
+  final Color primaryLight;
+  final Color primaryLightest;
+
+  final Color neutralLightDarkset;
+  final Color neutralLightDark;
+  final Color neutralLightMedium;
+  final Color neutralLightLight;
+  final Color neutralLightLightest;
+
+  final Color neutralDarkDarkset;
+  final Color neutralDarkDark;
+  final Color neutralDarkMedium;
+  final Color neutralDarkLight;
+  final Color neutralDarkLightest;
+
+  final Color supportErrorDark;
+  final Color supportErrorMedium;
+  final Color supportErrorLight;
+
+  final Color supportSuccessDark;
+  final Color supportSuccessMedium;
+  final Color supportSuccessLight;
+
+  final Color supportWarningDark;
+  final Color supportWarningMedium;
+  final Color supportWarningLight;
+
   final Color red;
-  final Color green;
-  final Color carrotOrange;
-  final Color blue;
-  final Color windStar20;
-  final Color lightGrey;
+
+  final Color pushIndicator;
+
+  final Color pushGreen;
+
+  final Color gradientWarmBegin;
+  final Color gradientWarmEnd;
+  final Color gradientColdBegin;
+  final Color gradientColdEnd;
+
+  final Color shadow;
 
   static LightColorScheme light = LightColorScheme();
   static DarkColorScheme dark = DarkColorScheme();
@@ -79,34 +108,51 @@ class LightColorScheme extends AppThemeColorScheme {
   LightColorScheme()
     : super(
         brightness: Brightness.light,
-        white: Colors.white,
-        white75: Colors.white.withValues(alpha: 0.75),
-        black: Color(0XFF141418),
-        black20: Colors.black.withValues(alpha: 0.2),
-        gold: Color(0xFFFEA843),
-        gold25: Color(0xFFFEA843).withValues(alpha: 0.25),
-        budhaGold50: Color(0xFFFEA843).withValues(alpha: 0.5),
-        lightGold: Color(0xFFFFC974),
-        dairyCream: Color(0xFFFFE6C8),
-        ashGrey: Color(0xFF33323A),
-        onAshGrey: Color(0xFF7C798E),
-        grey: Color(0xFF949494),
-        ebony: Color(0xFF1C2848),
-        cloudBurst: Color(0xFF1B2848),
-        cloudBurst50: Color(0xFF1B2848).withValues(alpha: 0.5),
-        slate: Color(0xFF4A596A),
-        dusk: Color(0xFF47567D),
-        darkGold: Color(0xFF9B3800),
-        orangeYellow: Color(0xFFE4C03D),
-        goldenGrass: Color(0xFFDDB72C),
-        brightGold: Color(0xFFFFCE31),
-        goldDivider50: Color(0xFFC39707).withValues(alpha: 0.5),
-        red: Color(0xFFC91C1C),
-        carrotOrange: Color(0xFFED9A1D),
-        green: Color(0xFF29920F),
-        blue: Color(0xFF5275B8),
-        windStar20: Color(0xFF6C78B7).withValues(alpha: 0.2),
-        lightGrey: Color(0xFFD2D2D2),
+        background: Color(0xFFFFFFFF),
+        onBackground: Color(0xFF000000),
+
+        primaryDarkset: Color(0xFF7065E4),
+        primaryDark: Color(0xFF487FFF),
+        primaryMedium: Color(0xFF9AA4FF),
+        primaryLight: Color(0xFFDBD2FF),
+        primaryLightest: Color(0xFFF2EEFF),
+
+        neutralLightDarkset: Color(0xFFC5C6CC),
+        neutralLightDark: Color(0xFFD4D6DD),
+        neutralLightMedium: Color(0xFFE8E9F1),
+        neutralLightLight: Color(0xFFF8F9FE),
+        neutralLightLightest: Color(0xFFFFFFFF),
+
+        neutralDarkDarkset: Color(0xFF1F2024),
+        neutralDarkDark: Color(0xFF2F3036),
+        neutralDarkMedium: Color(0xFF494A50),
+        neutralDarkLight: Color(0xFF71727A),
+        neutralDarkLightest: Color(0xFF8F9098),
+
+        supportErrorDark: Color(0xFFED3241),
+        supportErrorMedium: Color(0xFFFF616D),
+        supportErrorLight: Color(0xFFFFE2E5),
+
+        supportSuccessDark: Color(0xFF6EBD54),
+        supportSuccessMedium: Color(0xFFACE26F),
+        supportSuccessLight: Color(0xFFE7F4E8),
+
+        supportWarningDark: Color(0xFFE86339),
+        supportWarningMedium: Color(0xFFFFB37C),
+        supportWarningLight: Color(0xFFFFF4E4),
+
+        red: Color(0xFFEF488E),
+
+        pushIndicator: Color(0xFFE94057),
+
+        pushGreen: Color(0xFF23C698),
+
+        gradientWarmBegin: Color(0xFFFF7D27),
+        gradientWarmEnd: Color(0xFFEF488E),
+        gradientColdBegin: Color(0xFF35C9EA),
+        gradientColdEnd: Color(0xFF636FF4),
+
+        shadow: Color(0x73675C95),
       );
 }
 
@@ -114,34 +160,51 @@ class DarkColorScheme extends AppThemeColorScheme {
   DarkColorScheme()
     : super(
         brightness: Brightness.dark,
-        white: Colors.white,
-        white75: Colors.white.withValues(alpha: 0.75),
-        black: Color(0XFF141418),
-        black20: Colors.white.withValues(alpha: 0.2),
-        ashGrey: Color(0xFF33323A),
-        onAshGrey: Color(0xFF7C798E),
-        dairyCream: Color(0xFFF0E5C1),
-        lightGold: Color(0xFFFFC974),
-        grey: Color(0xFF949494),
-        ebony: Color(0xFF1C2848),
-        cloudBurst: Color(0xFF1B2848),
-        cloudBurst50: Color.fromARGB(255, 67, 69, 75).withValues(alpha: 0.5),
-        slate: Color(0xFF4A596A),
-        dusk: Color(0xFF47567D),
-        gold: Color(0xFFCAA229),
-        gold25: Color(0xFFCAA229).withValues(alpha: 0.25),
-        budhaGold50: Color(0xFFC39707).withValues(alpha: 0.5),
-        darkGold: Color(0xFF9B3800),
-        orangeYellow: Color(0xFFE4C03D),
-        goldenGrass: Color(0xFFDDB72C),
-        brightGold: Color(0xFFFFCE31),
-        goldDivider50: Color(0xFFC39707).withValues(alpha: 0.5),
-        red: Color(0xFFC91C1C),
-        carrotOrange: Color(0xFFED9A1D),
-        green: Color(0xFF29920F),
-        blue: Color(0xFF5275B8),
-        windStar20: Color(0xFF6C78B7).withValues(alpha: 0.2),
-        lightGrey: Color(0xFFD2D2D2),
+        background: Color(0xFFFFFFFF),
+        onBackground: Color(0xFF000000),
+
+        primaryDarkset: Color(0xFF7065E4),
+        primaryDark: Color(0xFF487FFF),
+        primaryMedium: Color(0xFF9AA4FF),
+        primaryLight: Color(0xFFDBD2FF),
+        primaryLightest: Color(0xFFF2EEFF),
+
+        neutralLightDarkset: Color(0xFFC5C6CC),
+        neutralLightDark: Color(0xFFD4D6DD),
+        neutralLightMedium: Color(0xFFE8E9F1),
+        neutralLightLight: Color(0xFFF8F9FE),
+        neutralLightLightest: Color(0xFFFFFFFF),
+
+        neutralDarkDarkset: Color(0xFF1F2024),
+        neutralDarkDark: Color(0xFF2F3036),
+        neutralDarkMedium: Color(0xFF494A50),
+        neutralDarkLight: Color(0xFF71727A),
+        neutralDarkLightest: Color(0xFF8F9098),
+
+        supportErrorDark: Color(0xFFED3241),
+        supportErrorMedium: Color(0xFFFF616D),
+        supportErrorLight: Color(0xFFFFE2E5),
+
+        supportSuccessDark: Color(0xFF6EBD54),
+        supportSuccessMedium: Color(0xFFACE26F),
+        supportSuccessLight: Color(0xFFE7F4E8),
+
+        supportWarningDark: Color(0xFFE86339),
+        supportWarningMedium: Color(0xFFFFB37C),
+        supportWarningLight: Color(0xFFFFF4E4),
+
+        red: Color(0xFFEF488E),
+
+        pushIndicator: Color(0xFFE94057),
+
+        pushGreen: Color(0xFF23C698),
+
+        gradientWarmBegin: Color(0xFFFF7D27),
+        gradientWarmEnd: Color(0xFFEF488E),
+        gradientColdBegin: Color(0xFF35C9EA),
+        gradientColdEnd: Color(0xFF636FF4),
+
+        shadow: Color(0x73675C95),
       );
 }
 
