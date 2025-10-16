@@ -55,19 +55,35 @@ class AppTheme {
       },
     ),
     switchTheme: SwitchThemeData(
-      trackOutlineWidth: WidgetStatePropertyAll(1),
+      trackOutlineWidth: WidgetStatePropertyAll(0),
       trackOutlineColor: WidgetStateColor.resolveWith((states) {
-        return colorScheme.primaryDarkset;
+        return Colors.transparent;
       }),
       thumbColor: WidgetStateColor.resolveWith((states) {
-        return colorScheme.primaryDarkset;
+        if (states.contains(WidgetState.selected)) {
+          return colorScheme.neutralLightLightest;
+        }
+        return colorScheme.neutralLightLightest;
       }),
       trackColor: WidgetStateColor.resolveWith((states) {
         if (states.contains(WidgetState.selected)) {
           return colorScheme.primaryDarkset;
         }
-        return colorScheme.primaryDarkset;
+        return colorScheme.neutralLightDark;
       }),
+      thumbIcon: WidgetStateProperty.resolveWith<Icon?>((
+        Set<WidgetState> states,
+      ) {
+        if (states.contains(WidgetState.selected)) {
+          return Icon(Icons.circle, color: Colors.white, size: 16);
+        }
+        return Icon(Icons.circle, color: Colors.white, size: 16);
+      }),
+      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+    ),
+    listTileTheme: ListTileThemeData(
+      titleTextStyle: textTheme.header5,
+      subtitleTextStyle: textTheme.bodyS,
     ),
   );
 

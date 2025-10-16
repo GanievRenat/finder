@@ -98,6 +98,7 @@ abstract class AppThemeColorScheme extends ColorScheme {
   final Color gradientColdBegin;
   final Color gradientColdEnd;
 
+  @override
   final Color shadow;
 
   static LightColorScheme light = LightColorScheme();

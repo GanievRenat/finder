@@ -5,7 +5,7 @@ import 'package:flinder/common/service/analytics/events.dart';
 import 'package:flinder/common/service/services.dart';
 
 import 'package:easy_localization/easy_localization.dart';
-import 'package:firebase_core/firebase_core.dart';
+//import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
