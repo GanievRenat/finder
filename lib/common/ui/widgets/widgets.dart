@@ -9,3 +9,6 @@ export 'list_tile_item/list_tile_item.dart';
 export 'list_tile_item/list_tile_profile_item.dart';
 export 'premium_status/no_premium_status.dart';
 export 'premium_status/premium_status.dart';
+export 'avatar/avatar_profile.dart';
+export 'avatar/avatar_models.dart';
+export 'chat/list_tile_chat_item.dart';

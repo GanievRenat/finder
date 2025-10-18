@@ -1,4 +1,4 @@
-import 'package:flinder/common/service/analytics/analytics_service.dart';
+import 'package:flirta/common/service/analytics/analytics_service.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';

@@ -1,4 +1,4 @@
-import 'package:flinder/common/domain/app_config.dart';
+import 'package:flirta/common/domain/app_config.dart';
 import 'package:injectable/injectable.dart';
 
 class DefAppConfig implements AppConfig {

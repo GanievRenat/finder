@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "flinder" "\0"
+            VALUE "FileDescription", "flirta" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "flinder" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2025 io.levelapp. All rights reserved." "\0"
-            VALUE "OriginalFilename", "flinder.exe" "\0"
-            VALUE "ProductName", "flinder" "\0"
+            VALUE "InternalName", "flirta" "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2025 io.applife. All rights reserved." "\0"
+            VALUE "OriginalFilename", "flirta.exe" "\0"
+            VALUE "ProductName", "flirta" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

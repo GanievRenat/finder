@@ -1,5 +1,5 @@
-import 'package:flinder/common/enums/enums.dart';
-import 'package:flinder/common/ui/theme/app_spacing.dart';
+import 'package:flirta/common/enums/enums.dart';
+import 'package:flirta/common/ui/theme/app_spacing.dart';
 import 'package:flutter/material.dart';
 import 'interested_gender_option_item.dart';
 

@@ -1,4 +1,4 @@
-import 'package:flinder/common/ui/theme/theme.dart';
+import 'package:flirta/common/ui/theme/theme.dart';
 import 'package:flutter/material.dart';
 
 extension ThemeExtension on BuildContext {

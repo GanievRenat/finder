@@ -1,5 +1,5 @@
-import 'package:flinder/common/ui/theme/app_theme.dart';
-import 'package:flinder/generated/assets.gen.dart';
+import 'package:flirta/common/ui/theme/app_theme.dart';
+import 'package:flirta/generated/assets.gen.dart';
 import 'package:flutter/material.dart';
 
 class PremiumStatus extends StatelessWidget {

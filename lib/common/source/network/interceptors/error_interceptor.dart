@@ -1,4 +1,4 @@
-import 'package:flinder/common/source/network/exceptions/base_api_exceptions.dart';
+import 'package:flirta/common/source/network/exceptions/base_api_exceptions.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';

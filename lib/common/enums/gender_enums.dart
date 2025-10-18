@@ -1,4 +1,4 @@
-import 'package:flinder/generated/assets.gen.dart';
+import 'package:flirta/generated/assets.gen.dart';
 import 'package:flutter/material.dart';
 
 enum Gender {

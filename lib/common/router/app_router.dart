@@ -1,10 +1,10 @@
-import 'package:flinder/common/di/init_di.dart';
-import 'package:flinder/common/domain/app_config.dart';
-import 'package:flinder/common/service/app_state_service.dart';
-import 'package:flinder/featuries/auth/pages/auth_page.dart';
-import 'package:flinder/featuries/home/pages/home_page.dart';
-import 'package:flinder/featuries/onboarding/pages/onboarding_page.dart';
-import 'package:flinder/featuries/settings/pages/settings_page.dart';
+import 'package:flirta/common/di/init_di.dart';
+import 'package:flirta/common/domain/app_config.dart';
+import 'package:flirta/common/service/app_state_service.dart';
+import 'package:flirta/featuries/auth/pages/auth_page.dart';
+import 'package:flirta/featuries/home/pages/home_page.dart';
+import 'package:flirta/featuries/onboarding/pages/onboarding_page.dart';
+import 'package:flirta/featuries/settings/pages/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

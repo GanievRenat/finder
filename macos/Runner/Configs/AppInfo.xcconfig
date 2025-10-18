@@ -5,10 +5,10 @@
 // 'flutter create' template.
 
 // The application's name. By default this is also the title of the Flutter window.
-PRODUCT_NAME = flinder
+PRODUCT_NAME = flirta
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = io.levelapp.flinder
+PRODUCT_BUNDLE_IDENTIFIER = com.applife.flirta
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2025 io.levelapp. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2025 io.applife. All rights reserved.

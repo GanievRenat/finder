@@ -1,5 +1,5 @@
-name: flinder
-description: "Flinder Project"
+name: flirta
+description: "flirta Project"
 publish_to: "none"
 version: 0.1.0
 
@@ -55,6 +55,8 @@ dependencies:
   # Авторизация Apple и Google
   google_sign_in: ^7.2.0
   sign_in_with_apple: ^7.0.1
+
+  cached_network_image: ^3.4.1
 
 dev_dependencies:
   flutter_test:

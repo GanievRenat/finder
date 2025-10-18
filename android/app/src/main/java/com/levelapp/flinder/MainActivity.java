@@ -1,4 +1,4 @@
-package io.levelapp.flinder;
+package com.applife.flirta;
 
 import io.flutter.embedding.android.FlutterActivity;
 

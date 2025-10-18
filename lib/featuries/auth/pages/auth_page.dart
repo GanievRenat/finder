@@ -1,6 +1,7 @@
-import 'package:flinder/common/enums/enums.dart';
-import 'package:flinder/common/ui/theme/app_spacing.dart';
-import 'package:flinder/common/ui/widgets/widgets.dart';
+import 'package:flirta/common/enums/enums.dart';
+import 'package:flirta/common/ui/theme/app_spacing.dart';
+import 'package:flirta/common/ui/widgets/widgets.dart';
+import 'package:flirta/generated/assets.gen.dart';
 import 'package:flutter/material.dart';
 
 class AuthPage extends StatefulWidget {
@@ -20,6 +21,11 @@ class _AuthPageState extends State<AuthPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            AvatarModel(imageURL: ''),
+            AvatarProfile(fileName: Assets.images.gender.path, canEdit: true),
+            AvatarProfile(fileName: Assets.images.gender.path, radius: 50),
+            AvatarProfile(canEdit: true),
+            AvatarProfile(radius: 50),
             Text('Header1', style: Theme.of(context).textTheme.displayLarge),
             Text('Header2', style: Theme.of(context).textTheme.displayMedium),
             Text('Header3', style: Theme.of(context).textTheme.displaySmall),
@@ -136,6 +142,31 @@ class _AuthPageState extends State<AuthPage> {
                 onTap: () {},
               ),
             ),
+            ListTileChatItem(
+              imageURL:
+                  'https://img.freepik.com/free-photo/portrait-blonde-woman-looking-photographer_23-2148348970.jpg?semt=ais_hybrid&w=740&q=80',
+              modelName: 'Annette Black',
+              lastMessage:
+                  'Stand up for what you believ Stand up for what you believ',
+              countNewMessage: 200,
+            ),
+            Divider(),
+            ListTileChatItem(
+              imageURL:
+                  'https://pg11.ru/userfiles/picfullsize/img-53415-14964303316571.jpg',
+              modelName: 'Jane Cooper',
+              lastMessage: 'One day you’re seventeen One day you’re seventeen',
+              countNewMessage: 2,
+            ),
+            Divider(),
+            ListTileChatItem(
+              imageURL:
+                  'https://img.freepik.com/free-photo/attractive-positive-elegant-young-woman-cafe_23-2148071691.jpg?semt=ais_hybrid&w=740&q=80',
+              modelName: 'Eleanor Pena',
+              lastMessage: 'One day you’re seventeen One day you’re seventeen',
+              countNewMessage: 0,
+            ),
+            //
           ],
         ),
       ),

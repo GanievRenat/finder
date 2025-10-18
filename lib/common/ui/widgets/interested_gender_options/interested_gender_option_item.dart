@@ -1,4 +1,4 @@
-import 'package:flinder/common/ui/theme/app_theme.dart';
+import 'package:flirta/common/ui/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
 import '../gender_options/gender_option_item.dart';

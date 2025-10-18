@@ -85,6 +85,12 @@ class AppTheme {
       titleTextStyle: textTheme.header5,
       subtitleTextStyle: textTheme.bodyS,
     ),
+    dividerTheme: DividerThemeData(
+      color: colorScheme.neutralLightDark,
+      space: 0.5,
+      thickness: 0.5,
+      radius: BorderRadius.circular(1),
+    ),
   );
 
   factory AppTheme.initializeTheme({
