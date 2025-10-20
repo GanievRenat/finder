@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'theme.dart';
@@ -90,6 +91,32 @@ class AppTheme {
       space: 0.5,
       thickness: 0.5,
       radius: BorderRadius.circular(1),
+    ),
+    inputDecorationTheme: InputDecorationTheme(
+      // Толщина нижней линии
+      border: UnderlineInputBorder(
+        borderSide: BorderSide(width: 1.0, color: colorScheme.neutralLightDark),
+      ),
+      enabledBorder: UnderlineInputBorder(
+        borderSide: BorderSide(width: 1.0, color: colorScheme.neutralLightDark),
+      ),
+      focusedBorder: UnderlineInputBorder(
+        borderSide: BorderSide(width: 1.0, color: colorScheme.primaryDarkset),
+      ),
+      // Цвет выделенного состояния
+      focusColor: colorScheme.primaryDarkset,
+      // Цвет ошибки
+      errorBorder: UnderlineInputBorder(
+        borderSide: BorderSide(width: 1.0, color: colorScheme.error),
+      ),
+      focusedErrorBorder: UnderlineInputBorder(
+        borderSide: BorderSide(width: 2.0, color: colorScheme.error),
+      ),
+      errorStyle: textTheme.bodyXL.copyWith(color: colorScheme.error),
+      hintStyle: textTheme.bodyXL,
+      labelStyle: textTheme.bodyXL,
+      // Размер текста
+      contentPadding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 8.0),
     ),
   );
 

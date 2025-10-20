@@ -17,10 +17,39 @@ class _AuthPageState extends State<AuthPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Auth Page')),
+      appBar: AppBar(title: const LogoFlirta()),
       body: SingleChildScrollView(
         child: Column(
           children: [
+            Form(child: FieldUserName(onChange: (name) {})),
+            Padding(
+              padding: const EdgeInsets.only(left: 16.0, top: 16, right: 16),
+              child: GenderTagsGroup(
+                title: 'Preference',
+                initGender: Gender.female,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                left: 16.0,
+                top: 16,
+                right: 16,
+                bottom: 16,
+              ),
+              child: MainTagsGroup(
+                title: 'Interests',
+                tags: {
+                  'Fitness',
+                  'Cooking',
+                  'Gamer',
+                  'Travelling',
+                  'Photo',
+                  'Music',
+                },
+                initTags: {'Cooking', 'Gamer'},
+              ),
+            ),
+
             AvatarModel(imageURL: ''),
             AvatarProfile(fileName: Assets.images.gender.path, canEdit: true),
             AvatarProfile(fileName: Assets.images.gender.path, radius: 50),
@@ -167,6 +196,14 @@ class _AuthPageState extends State<AuthPage> {
               countNewMessage: 0,
             ),
             //
+            SelectAge(
+              beginAge: 18,
+              endAge: 99,
+              initAge: 99,
+              onChange: (age) {
+                print(age);
+              },
+            ),
           ],
         ),
       ),
