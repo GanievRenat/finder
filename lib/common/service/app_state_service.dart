@@ -1,18 +1,16 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flirta/common/domain/entites/user/user.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 
 @singleton
 class AppStateService {
-  User? currentUser;
-  bool premiumAccess = false;
   Locale currentLocale = const Locale('en', 'EN');
+  User currentUser = User.empty();
 
-  bool get isAuth => currentUser != null ? true : false;
-  bool get showedOnboarding => false;
+  bool get isAuth => currentUser != User.empty() ? true : false;
+  bool get showedOnboarding => currentUser.isSaveed;
 
   void clearCurrentUser() {
-    currentUser = null;
-    premiumAccess = false;
+    currentUser = User.empty();
   }
 }

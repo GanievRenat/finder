@@ -25,6 +25,10 @@ class _FieldUserNameState extends State<FieldUserName> {
     super.initState();
 
     controller = TextEditingController(text: widget.initName);
+
+    if (controller.text.isNotEmpty) {
+      showTips = false;
+    }
   }
 
   @override

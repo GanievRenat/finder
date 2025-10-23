@@ -15,7 +15,7 @@ class TokenInterceptor extends Interceptor {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    final token = appStateService.currentUser?.uid ?? '';
+    final token = appStateService.currentUser.uid;
     if (token.isNotEmpty) {
       options.headers['Authorization'] = 'Bearer $token';
     }

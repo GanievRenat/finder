@@ -37,11 +37,8 @@ class MainAppRunner implements AppRunner {
     //await getIt<AuthRepository>().init();
 
     if (getIt<AppStateService>().isAuth) {
-      if (getIt<AppStateService>().currentUser?.uid != null) {
-        final userId = getIt<AppStateService>().currentUser!.uid;
-        // Можно добавить дополнительные свойства, если нужно
-        getIt<CrashlyticsService>().setUserId(userId, properties: null);
-      }
+      final userId = getIt<AppStateService>().currentUser.uid;
+      getIt<CrashlyticsService>().setUserId(userId, properties: null);
     }
 
     unawaited(getIt<AnalyticsService>().logEvent(OnStartApp()));

@@ -17,6 +17,21 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Home Page'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: widget.onSettings,
+          ),
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: widget.onSingOut,
+          ),
+        ],
+      ),
+      body: const Center(child: Text('Welcome to the Home Page!')),
+    );
   }
 }
