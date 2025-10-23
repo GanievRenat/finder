@@ -1,3 +1,118 @@
 {
-    "project_name": "Flirta"
+    "project_name": "Flirta",
+    "properties": {
+        "genders": {
+            "male1": "Male",
+            "female1": "Female",
+            "nonBinary": "Non-binary",
+            "everyone": "Everyone"
+        },
+        "skip": "Skip",
+        "camera": "Camera",
+        "gallery": "Gallery",
+        "no_premium_banner": {
+            "title": "Get PRO plan",
+            "subtitle": "Access exclusive tools",
+            "button": "Upgrade"
+        },
+        "premium_banner": {
+            "title": "PRO plan activated",
+            "subtitle": "Enjoy all premium features"
+        }
+    },
+    "auth": {
+        "slider": {
+            "0": "Train conversations and dating with realistic scenarios\n\nA safe chat for any topic\n\nComfortable conversations fully under your control",
+            "1": "Train conversations and dating with realistic scenarios\n\nA safe chat for any topic\n\nComfortable conversations fully under your control",
+            "2": "Train conversations and dating with realistic scenarios\n\nA safe chat for any topic\n\nComfortable conversations fully under your control"
+        },
+        "whats_your_name_title": "What’s your name?",
+        "please_enter_you_name": "Please enter your name",
+        "welcome": "Welcome, {}",
+        "how_old_are_you_title": "How old are you?",
+        "how_old_are_you_subtitle": "We need this information to make sure you’re old enough to safety use Flirta",
+        "not_old_enough_error": {
+            "title": "You’re not old enough to use Flirta",
+            "subtitle": "You don’t meet the minimum age requirement. You must be over 18 to use Flinder",
+            "button_terms": "Terms of service",
+            "button_got_it": "Got It"
+        },
+        "you_identify_title": "How do you identify?",
+        "you_identify_tip": "Choose the opton",
+        "interested_title": "Who are you interested in?",
+        "interested_gender": {
+            "male1": "Men",
+            "female1": "Women",
+            "nonBinary": "Non-binary",
+            "everyone": "Everyone"
+        },
+        "button_get_start": "Get Started",
+        "button_continue": "Continue"
+    },
+    "bottom_menu": {
+        "0": "Swipe",
+        "1": "Chats",
+        "2": "Profile"
+    },
+    "model_profile": {
+        "bio": "Bio",
+        "interests": "Interests",
+        "life_style": "Life style"
+    },
+    "filter": {
+        "title": "Filter",
+        "button_clear_all": "Clear All",
+        "button_add_tag": "Add new tag",
+        "button_apply_tag": "Apply",
+        "button_apply_filter": "Apply Filteres",
+        "interests": "Interests",
+        "preference": "Preference"
+    },
+    "chat": {
+        "title": "Chats",
+        "tap_unblur": "Tap to unblur",
+        "menu": {
+            "0": "Profile",
+            "1": "Photos"
+        }
+    },
+    "user_profile": {
+        "title": "Profile",
+        "menu": {
+            "your_profile": {
+                "title": "Your Profile",
+                "field_name": "Name",
+                "field_gender": "Gender identify",
+                "field_age": "Age",
+                "button_delete_account": "Delete your account"
+            },
+            "restore_subscription": {
+                "title": "Restore subscription"
+            },
+            "notifications": {
+                "title": "Notifications",
+                "page_subtitle": "Customize your notification preferences. You can change this anytime.",
+                "switch_text_message_title": "Text messages",
+                "switch_text_message_subtitle": "Get notified when your matches message you",
+                "switch_photos_title": "Photos",
+                "switch_photos_subtitle": "Be the first to see new photos from matches",
+                "switch_videos_title": "Videos",
+                "switch_videos_subtitle": "Get alerts for new videos",
+                "switch_other_title": "Offers & Promotions",
+                "switch_other_subtitle": "Receive discounts, offers, promos, and other news from Flirta"
+            },
+            "term": {
+                "title": "Term of use"
+            },
+            "privacy_policy": {
+                "title": "Privacy Policy"
+            },
+            "rate_app": {
+                "title": "Rate App"
+            },
+            "contact_support": {
+                "title": "Contact Support"
+            }
+        }
+    }
 }

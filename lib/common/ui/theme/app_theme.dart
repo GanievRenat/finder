@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'theme.dart';
@@ -117,6 +116,27 @@ class AppTheme {
       labelStyle: textTheme.bodyXL,
       // Размер текста
       contentPadding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 8.0),
+    ),
+    appBarTheme: AppBarTheme(
+      backgroundColor: colorScheme.background,
+      foregroundColor: colorScheme.onBackground,
+      actionsPadding: EdgeInsets.all(0),
+      leadingWidth: 12,
+      titleSpacing: 16,
+      elevation: 0,
+      scrolledUnderElevation: 0,
+    ),
+    popupMenuTheme: PopupMenuThemeData(
+      color: colorScheme.background,
+      elevation: 4,
+      shadowColor: colorScheme.shadow,
+      labelTextStyle: WidgetStatePropertyAll(textTheme.actionL),
+      position: PopupMenuPosition.under,
+      menuPadding: EdgeInsets.zero,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+    ),
+    menuTheme: MenuThemeData(
+      style: MenuStyle(padding: WidgetStatePropertyAll(EdgeInsets.all(16))),
     ),
   );
 

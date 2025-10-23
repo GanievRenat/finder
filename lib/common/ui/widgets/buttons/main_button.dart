@@ -109,7 +109,7 @@ class MainButton extends StatelessWidget {
 
     return ConstrainedBox(
       constraints: BoxConstraints(
-        minWidth: double.infinity,
+        minWidth: _small ? 0.0 : double.infinity,
         minHeight: _small ? 40 : 48,
       ),
       child: OutlinedButton(
@@ -134,7 +134,7 @@ class MainButton extends StatelessWidget {
                 style: _small
                     ? AppTheme.of(
                         context,
-                      ).textStyle.actionM.copyWith(color: textColor)
+                      ).textStyle.actionS.copyWith(color: textColor)
                     : AppTheme.of(
                         context,
                       ).textStyle.actionL.copyWith(color: textColor),

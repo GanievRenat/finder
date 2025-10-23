@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flirta/common/ui/theme/app_theme.dart';
 import 'package:flirta/common/ui/widgets/buttons/black_button.dart';
+import 'package:flirta/generated/locale_keys.g.dart';
 import 'package:flutter/material.dart';
 
 class NoPremiumStatus extends StatelessWidget {
@@ -35,14 +37,14 @@ class NoPremiumStatus extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Get PRO plan',
+                      LocaleKeys.properties_no_premium_banner_title.tr(),
                       style: AppTheme.of(context).textStyle.header3.copyWith(
                         color: AppTheme.of(context).color.neutralLightLightest,
                       ),
                     ),
                     SizedBox(height: 2),
                     Text(
-                      'Access exclusive tools',
+                      LocaleKeys.properties_no_premium_banner_subtitle.tr(),
                       style: AppTheme.of(context).textStyle.bodyM.copyWith(
                         color: AppTheme.of(context).color.neutralLightLightest,
                       ),
@@ -50,7 +52,9 @@ class NoPremiumStatus extends StatelessWidget {
                   ],
                 ),
               ),
-              BlackButton(title: 'Upgrade'),
+              BlackButton(
+                title: LocaleKeys.properties_no_premium_banner_button.tr(),
+              ),
             ],
           ),
         ),

@@ -1,5 +1,6 @@
 import 'package:flirta/common/enums/enums.dart';
 import 'package:flirta/common/ui/theme/app_spacing.dart';
+import 'package:flirta/common/ui/widgets/dialog/alert_dialog.dart';
 import 'package:flirta/common/ui/widgets/widgets.dart';
 import 'package:flirta/generated/assets.gen.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,27 @@ class _AuthPageState extends State<AuthPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            ChatAppBar(
+              imageURL:
+                  'https://pg11.ru/userfiles/picfullsize/img-53415-14964303316571.jpg',
+              modelName: 'Jane Cooper',
+              onProfile: () {
+                print('profile');
+              },
+              onPhoto: () {
+                print('photo');
+              },
+            ),
+            ChatAppBar(
+              imageURL: '',
+              modelName: 'Jane Cooper',
+              onProfile: () {
+                print('profile');
+              },
+              onPhoto: () {
+                print('photo');
+              },
+            ),
             Form(child: FieldUserName(onChange: (name) {})),
             Padding(
               padding: const EdgeInsets.only(left: 16.0, top: 16, right: 16),
@@ -69,8 +91,27 @@ class _AuthPageState extends State<AuthPage> {
             Text('actionM', style: Theme.of(context).textTheme.titleMedium),
             Text('actionS', style: Theme.of(context).textTheme.titleSmall),
             Text('captionM', style: Theme.of(context).textTheme.labelMedium),
-            MainButton(title: 'Continue', onPressed: () {}),
-            MainButton(title: 'Continue', onPressed: () {}, isLoading: true),
+
+            Row(
+              children: [
+                Expanded(
+                  child: MainButton(
+                    title: 'Continue',
+                    onPressed: () async {
+                      await AgeValidateDialog().present(context);
+                    },
+                  ),
+                ),
+                Expanded(
+                  child: MainButton(
+                    title: 'Continue',
+                    onPressed: () {},
+                    isLoading: true,
+                  ),
+                ),
+              ],
+            ),
+
             MainButton.small(title: 'Continue', onPressed: () {}),
             MainButton.inversion(title: 'Continue', onPressed: () {}),
             MainButton.inversion(

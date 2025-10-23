@@ -1,7 +1,8 @@
+import 'package:flirta/common/enums/gender_enums.dart';
 import 'package:flutter/material.dart';
 import 'gender_option_item.dart';
 
-class GenderOptionsGroup<T> extends StatefulWidget {
+class GenderOptionsGroup<T extends Gender> extends StatefulWidget {
   const GenderOptionsGroup({
     super.key,
     required this.options,
@@ -14,11 +15,13 @@ class GenderOptionsGroup<T> extends StatefulWidget {
   final T? selectedOption;
 
   @override
-  State<GenderOptionsGroup<T>> createState() => _GenderOptionsGroupState<T>();
+  State<GenderOptionsGroup<Gender>> createState() =>
+      _GenderOptionsGroupState<Gender>();
 }
 
-class _GenderOptionsGroupState<T> extends State<GenderOptionsGroup<T>> {
-  T? value;
+class _GenderOptionsGroupState<T extends Gender>
+    extends State<GenderOptionsGroup<Gender>> {
+  Gender? value;
 
   @override
   void initState() {
@@ -42,8 +45,8 @@ class _GenderOptionsGroupState<T> extends State<GenderOptionsGroup<T>> {
           .map(
             (option) => Padding(
               padding: const EdgeInsets.only(bottom: 12.0),
-              child: GenderOptionItem<T>(
-                title: option.toString(),
+              child: GenderOptionItem<Gender>(
+                title: option.getGenderName(),
                 valuel: option,
                 isSelected: option == value,
                 onTap: (selectedOption) {

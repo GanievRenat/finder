@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flirta/common/ui/theme/app_spacing.dart';
 import 'package:flirta/common/ui/widgets/tips/main_tips.dart';
+import 'package:flirta/generated/locale_keys.g.dart';
 import 'package:flutter/material.dart';
 
 class FieldUserName extends StatefulWidget {
@@ -63,7 +65,8 @@ class _FieldUserNameState extends State<FieldUserName> {
           },
         ),
         AppSpacing.vertical.s5,
-        if (showTips) MainTips(tips: 'Please enter your name'),
+        if (showTips)
+          MainTips(tips: LocaleKeys.auth_please_enter_you_name.tr()),
       ],
     );
   }

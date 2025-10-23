@@ -48,7 +48,7 @@ class _InterestedGenderOptionsGroupState
               children: [
                 Expanded(
                   child: InterestedGenderOptionItem<Gender>(
-                    title: 'Woman',
+                    title: Gender.female.getGenderForInterestedName(),
                     valuel: Gender.female,
                     isSelected: Gender.female == value,
                     image: Gender.female.getImageProvider(),
@@ -65,7 +65,7 @@ class _InterestedGenderOptionsGroupState
                 AppSpacing.horizontal.s4,
                 Expanded(
                   child: InterestedGenderOptionItem<Gender>(
-                    title: 'Man',
+                    title: Gender.male.getGenderForInterestedName(),
                     valuel: Gender.male,
                     isSelected: Gender.male == value,
                     image: Gender.male.getImageProvider(),
@@ -88,7 +88,7 @@ class _InterestedGenderOptionsGroupState
               children: [
                 Expanded(
                   child: InterestedGenderOptionItem<Gender>(
-                    title: 'Non-binary',
+                    title: Gender.nonBinary.getGenderForInterestedName(),
                     valuel: Gender.nonBinary,
                     isSelected: Gender.nonBinary == value,
                     image: Gender.nonBinary.getImageProvider(),
@@ -105,7 +105,7 @@ class _InterestedGenderOptionsGroupState
                 AppSpacing.horizontal.s4,
                 Expanded(
                   child: InterestedGenderOptionItem<Gender>(
-                    title: 'Everyone',
+                    title: Gender.none.getGenderForInterestedName(),
                     valuel: Gender.none,
                     isSelected: Gender.none == value,
                     image: Gender.none.getImageProvider(),

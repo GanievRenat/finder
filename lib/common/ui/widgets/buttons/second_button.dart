@@ -26,7 +26,7 @@ class SecondButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: BoxConstraints(
-        minWidth: double.infinity,
+        minWidth: _small ? 0.0 : double.infinity,
         minHeight: _small ? 40 : 48,
       ),
       child: OutlinedButton(
@@ -54,7 +54,7 @@ class SecondButton extends StatelessWidget {
             : Text(
                 title,
                 style: _small
-                    ? AppTheme.of(context).textStyle.actionM.copyWith(
+                    ? AppTheme.of(context).textStyle.actionS.copyWith(
                         color: AppTheme.of(context).color.primaryDarkset,
                       )
                     : AppTheme.of(context).textStyle.actionL.copyWith(
