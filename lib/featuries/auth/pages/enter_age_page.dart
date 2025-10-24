@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flirta/common/di/init_di.dart';
 import 'package:flirta/common/service/app_state_service.dart';
-import 'package:flirta/common/ui/theme/app_theme.dart';
 import 'package:flirta/common/ui/widgets/widgets.dart';
 import 'package:flirta/featuries/auth/widgets/auth_widgets.dart';
 import 'package:flirta/generated/locale_keys.g.dart';
