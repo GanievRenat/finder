@@ -27,8 +27,9 @@
             "2": "Train conversations and dating with realistic scenarios\n\nA safe chat for any topic\n\nComfortable conversations fully under your control"
         },
         "whats_your_name_title": "What’s your name?",
+        "your_name_hint": "Name",
         "please_enter_you_name": "Please enter your name",
-        "welcome": "Welcome, {}",
+        "welcome": "Welcome, {}!",
         "how_old_are_you_title": "How old are you?",
         "how_old_are_you_subtitle": "We need this information to make sure you’re old enough to safety use Flirta",
         "not_old_enough_error": {

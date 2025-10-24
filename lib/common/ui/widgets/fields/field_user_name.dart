@@ -1,34 +1,29 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flirta/common/ui/theme/app_spacing.dart';
-import 'package:flirta/common/ui/widgets/tips/main_tips.dart';
+import 'package:flirta/common/di/init_di.dart';
+import 'package:flirta/common/router/toastification.dart';
 import 'package:flirta/generated/locale_keys.g.dart';
 import 'package:flutter/material.dart';
 
 class FieldUserName extends StatefulWidget {
-  const FieldUserName({super.key, required this.onChange, this.initName = ''});
+  const FieldUserName({
+    super.key,
+    required this.onChange,
+    required this.onFieldSubmitted,
+    this.initName = '',
+  });
 
   final String initName;
   final Function(String name) onChange;
+  final Function onFieldSubmitted;
 
   @override
   State<FieldUserName> createState() => _FieldUserNameState();
 }
 
 class _FieldUserNameState extends State<FieldUserName> {
-  late TextEditingController controller;
-
-  bool isError = false;
-  bool showTips = true;
-
   @override
   void initState() {
     super.initState();
-
-    controller = TextEditingController(text: widget.initName);
-
-    if (controller.text.isNotEmpty) {
-      showTips = false;
-    }
   }
 
   @override
@@ -37,40 +32,29 @@ class _FieldUserNameState extends State<FieldUserName> {
       mainAxisSize: MainAxisSize.min,
       children: [
         TextFormField(
-          controller: controller,
           textAlign: TextAlign.center,
-          decoration: InputDecoration(hintText: 'Name'),
+          errorBuilder: (context, errorText) => const SizedBox.shrink(),
+          decoration: InputDecoration(
+            hintText: LocaleKeys.auth_your_name_hint.tr(),
+            errorStyle: TextStyle(height: 0, fontSize: 0),
+          ),
+          keyboardType: TextInputType.name,
+          textCapitalization: TextCapitalization.sentences,
+
+          textInputAction: TextInputAction.next,
           validator: (value) {
-            if ((value ?? '').isEmpty) {
-              setState(() {
-                isError = true;
-                showTips = true;
-              });
-              return null;
-            } else {
-              setState(() {
-                isError = false;
-              });
-              return value;
+            if ((value ?? '').trim().isEmpty) {
+              getIt<AppToast>().show(
+                context: context,
+                message: LocaleKeys.auth_please_enter_you_name.tr(),
+              );
+              return '';
             }
+            return null;
           },
-          onFieldSubmitted: (value) {
-            if (value.isEmpty) {
-              setState(() {
-                isError = true;
-                showTips = true;
-              });
-            }
-          },
-          onChanged: (value) {
-            setState(() {
-              showTips = value.isEmpty;
-            });
-          },
+          onChanged: (value) => widget.onChange(value),
+          onFieldSubmitted: (value) => widget.onFieldSubmitted(),
         ),
-        AppSpacing.vertical.s5,
-        if (showTips)
-          MainTips(tips: LocaleKeys.auth_please_enter_you_name.tr()),
       ],
     );
   }

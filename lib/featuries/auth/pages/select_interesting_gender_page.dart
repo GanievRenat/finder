@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flirta/common/ui/theme/app_theme.dart';
 import 'package:flirta/common/ui/widgets/widgets.dart';
 import 'package:flirta/featuries/auth/widgets/auth_widgets.dart';
 import 'package:flirta/generated/locale_keys.g.dart';
@@ -27,23 +26,13 @@ class SelectInterestingGenderPage extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(32.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              LocaleKeys.auth_interested_title.tr(),
-              style: AppTheme.of(context).textStyle.header1.copyWith(height: 1),
-              textAlign: TextAlign.center,
-            ),
-            InterestedGenderOptionsGroup(
-              selectedOption: null,
-              onChanged: (value) {},
-            ),
-            MainButton(
-              onPressed: () => onFinishRegistration(),
-              title: LocaleKeys.auth_button_continue.tr(),
-            ),
-          ],
+        child: BodyStepPage(
+          title: LocaleKeys.auth_interested_title.tr(),
+          content: InterestedGenderOptionsGroup(
+            selectedOption: null,
+            onChanged: (value) {},
+          ),
+          onPressed: () => onFinishRegistration(),
         ),
       ),
     );

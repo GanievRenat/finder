@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 //import 'package:flutter_bloc/flutter_bloc.dart';
 
 class GlobalMainBlocState extends StatefulWidget {
@@ -13,7 +14,7 @@ class GlobalMainBlocState extends StatefulWidget {
 class _GlobalMainBlocStateState extends State<GlobalMainBlocState> {
   @override
   Widget build(BuildContext context) {
-    return widget.child;
+    return KeyboardVisibilityProvider(child: widget.child);
 
     /*return MultiBlocProvider(
       providers: [

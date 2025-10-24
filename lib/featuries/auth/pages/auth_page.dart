@@ -1,6 +1,5 @@
 import 'package:flirta/common/enums/enums.dart';
 import 'package:flirta/common/ui/theme/app_spacing.dart';
-import 'package:flirta/common/ui/widgets/dialog/alert_dialog.dart';
 import 'package:flirta/common/ui/widgets/widgets.dart';
 import 'package:flirta/generated/assets.gen.dart';
 import 'package:flutter/material.dart';
@@ -26,24 +25,16 @@ class _AuthPageState extends State<AuthPage> {
               imageURL:
                   'https://pg11.ru/userfiles/picfullsize/img-53415-14964303316571.jpg',
               modelName: 'Jane Cooper',
-              onProfile: () {
-                print('profile');
-              },
-              onPhoto: () {
-                print('photo');
-              },
+              onProfile: () {},
+              onPhoto: () {},
             ),
             ChatAppBar(
               imageURL: '',
               modelName: 'Jane Cooper',
-              onProfile: () {
-                print('profile');
-              },
-              onPhoto: () {
-                print('photo');
-              },
+              onProfile: () {},
+              onPhoto: () {},
             ),
-            Form(child: FieldUserName(onChange: (name) {})),
+
             Padding(
               padding: const EdgeInsets.only(left: 16.0, top: 16, right: 16),
               child: GenderTagsGroup(
@@ -149,17 +140,13 @@ class _AuthPageState extends State<AuthPage> {
             GenderOptionsGroup<Gender>(
               options: [Gender.male, Gender.female, Gender.nonBinary],
               selectedOption: Gender.nonBinary,
-              onChanged: (value) {
-                print(value.toString());
-              },
+              onChanged: (value) {},
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: InterestedGenderOptionsGroup(
                 selectedOption: Gender.nonBinary,
-                onChanged: (value) {
-                  print(value.toString());
-                },
+                onChanged: (value) {},
               ),
             ),
 
@@ -241,9 +228,7 @@ class _AuthPageState extends State<AuthPage> {
               beginAge: 18,
               endAge: 99,
               initAge: 99,
-              onChange: (age) {
-                print(age);
-              },
+              onChange: (age) {},
             ),
           ],
         ),

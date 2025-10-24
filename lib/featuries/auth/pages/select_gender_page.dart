@@ -27,24 +27,18 @@ class SelectGenderPage extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(32.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              LocaleKeys.auth_you_identify_title.tr(),
-              style: AppTheme.of(context).textStyle.header1,
-              textAlign: TextAlign.center,
-            ),
-            GenderOptionsGroup<Gender>(
-              options: [Gender.male, Gender.female, Gender.nonBinary],
-              selectedOption: getIt<AppStateService>().currentUser.gender,
-              onChanged: (value) {},
-            ),
-            MainButton(
-              onPressed: () => onSelectInterestingGender(),
-              title: LocaleKeys.auth_button_continue.tr(),
-            ),
-          ],
+        child: BodyStepPage(
+          title: LocaleKeys.auth_you_identify_title.tr(),
+          content: GenderOptionsGroup<Gender>(
+            options: [Gender.male, Gender.female, Gender.nonBinary],
+            selectedOption: getIt<AppStateService>().currentUser.gender,
+            onChanged: (value) {
+              getIt<AppStateService>().currentUser = getIt<AppStateService>()
+                  .currentUser
+                  .copyWith(gender: value);
+            },
+          ),
+          onPressed: () => onSelectInterestingGender(),
         ),
       ),
     );

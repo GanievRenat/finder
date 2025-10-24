@@ -41,7 +41,9 @@ class SliderPage extends StatelessWidget {
             ),
           ),
           Positioned(
-            bottom: MediaQuery.of(context).padding.bottom,
+            bottom: MediaQuery.of(context).padding.bottom == 0
+                ? 32
+                : MediaQuery.of(context).padding.bottom,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: SizedBox(
@@ -115,7 +117,9 @@ class OnboardingSlide extends StatelessWidget {
             ),
           ),
           Positioned(
-            bottom: MediaQuery.of(context).padding.bottom + 45 + 8 + 8 + 32,
+            bottom: MediaQuery.of(context).padding.bottom == 0
+                ? 32 + 45 + 8 + 8 + 32
+                : MediaQuery.of(context).padding.bottom + 45 + 8 + 8 + 32,
             child: SizedBox(
               width: MediaQuery.of(context).size.width,
               child: Padding(

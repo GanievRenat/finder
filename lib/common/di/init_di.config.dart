@@ -14,6 +14,7 @@ import 'package:flirta/common/config/app_config.dart' as _i67;
 import 'package:flirta/common/di/third_party_module.dart' as _i362;
 import 'package:flirta/common/domain/app_config.dart' as _i1048;
 import 'package:flirta/common/router/observers/analytics_observer.dart' as _i36;
+import 'package:flirta/common/router/toastification.dart' as _i534;
 import 'package:flirta/common/service/analytics/analytics_service.dart'
     as _i957;
 import 'package:flirta/common/service/app_state_service.dart' as _i523;
@@ -62,6 +63,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i974.Logger>(() => thirdPartyModule.logger);
     gh.singleton<_i523.AppStateService>(() => _i523.AppStateService());
     gh.singleton<_i551.CrashlyticsService>(() => _i551.CrashlyticsService());
+    gh.singleton<_i534.AppToast>(() => _i534.AppToast());
     gh.singleton<_i1048.AppConfig>(
       () => _i67.TestAppConfig(),
       registerFor: {_test},

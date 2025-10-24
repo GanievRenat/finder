@@ -70,6 +70,7 @@ class EnterAgeRoute extends GoRouteData with $EnterAgeRoute {
         name: name,
         child: EnterAgePage(
           onSelectGender: () => const SelectGenderRoute().push(context),
+          onTerms: () {},
         ),
       );
 }
