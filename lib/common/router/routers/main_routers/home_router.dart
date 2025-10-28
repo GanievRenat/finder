@@ -15,47 +15,71 @@ class HomeRoute extends GoRouteData with $HomeRoute {
       pageKey: state.pageKey,
       name: name,
       child: HomePage(
-        onSettings: () => const SettingsRoute().push(context),
+        onSettings: () => const ProfileRoute().push(context),
         onSingOut: () {},
       ),
     );
   }
 }
 
-class SettingsRoute extends GoRouteData with $SettingsRoute {
-  const SettingsRoute();
+class ProfileRoute extends GoRouteData with $ProfileRoute {
+  const ProfileRoute();
 
   static final GlobalKey<NavigatorState> $parentNavigatorKey =
       shellNavigatorKey;
 
-  static const path = '/settings';
-  static const name = '/settings';
+  static const path = '/profile';
+  static const name = '/profile';
 
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
-    return Transition.fade(
+    return Transition.slide(
       pageKey: state.pageKey,
       name: name,
-      child: SettingsPage(),
+      child: ProfilePage(
+        onEditProfile: () => const EditProfileRoute().push(context),
+        onNotificationSettings: () =>
+            const NotificationSettingsRoute().push(context),
+      ),
     );
   }
 }
 
-class OnboardingRoute extends GoRouteData with $OnboardingRoute {
-  const OnboardingRoute();
+class EditProfileRoute extends GoRouteData with $EditProfileRoute {
+  const EditProfileRoute();
 
   static final GlobalKey<NavigatorState> $parentNavigatorKey =
       shellNavigatorKey;
 
-  static const path = '/onboarding';
-  static const name = '/onboarding';
+  static const path = 'edit-profile';
+  static const name = 'edit-profile';
 
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
-    return Transition.fade(
+    return Transition.slide(
       pageKey: state.pageKey,
       name: name,
-      child: OnboardingPage(onHome: () => const HomeRoute().go(context)),
+      child: EditProfilePage(),
+    );
+  }
+}
+
+class NotificationSettingsRoute extends GoRouteData
+    with $NotificationSettingsRoute {
+  const NotificationSettingsRoute();
+
+  static final GlobalKey<NavigatorState> $parentNavigatorKey =
+      shellNavigatorKey;
+
+  static const path = 'notification-settings';
+  static const name = 'notification-settings';
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return Transition.slide(
+      pageKey: state.pageKey,
+      name: name,
+      child: NotificationSettingsPage(),
     );
   }
 }

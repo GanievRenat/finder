@@ -18,6 +18,14 @@
         "premium_banner": {
             "title": "PRO plan activated",
             "subtitle": "Enjoy all premium features"
+        },
+        "dialogs": {
+            "delete_account": {
+                "title": "Delete your account",
+                "message": "Are you sure you want to delete your account? This action cannot be undone.",
+                "button_cancel": "Cancel",
+                "button_delete": "Delete"
+            }
         }
     },
     "auth": {
@@ -82,6 +90,7 @@
         "menu": {
             "your_profile": {
                 "title": "Your Profile",
+                "title_page": "Edit profile",
                 "field_name": "Name",
                 "field_gender": "Gender identify",
                 "field_age": "Age",
@@ -114,6 +123,9 @@
             "contact_support": {
                 "title": "Contact Support"
             }
+        },
+        "error": {
+            "get_profile_error": "Something is wrong!"
         }
     }
 }

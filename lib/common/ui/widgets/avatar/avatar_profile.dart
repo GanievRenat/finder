@@ -11,11 +11,13 @@ class AvatarProfile extends StatefulWidget {
     this.canEdit = false,
     this.fileName = '',
     this.radius = 80,
+    this.onTap,
   });
 
   final String fileName;
   final bool canEdit;
   final double radius;
+  final VoidCallback? onTap;
 
   @override
   State<AvatarProfile> createState() => _AvatarProfileState();
@@ -50,7 +52,7 @@ class _AvatarProfileState extends State<AvatarProfile> {
 
   Widget _buildAvatarWithEditOption() {
     return AnimationClickWidget(
-      onTap: () {},
+      onTap: widget.onTap ?? () {},
       child: Stack(
         children: [
           _buildAvatar(),

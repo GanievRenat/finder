@@ -2,15 +2,23 @@ import 'package:flirta/common/ui/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class ListTileItem extends StatelessWidget {
-  const ListTileItem({super.key, required this.title, this.onTap});
+  const ListTileItem({
+    super.key,
+    required this.title,
+    this.onTap,
+    this.isLink = false,
+  });
 
   final String title;
   final VoidCallback? onTap;
+  final bool isLink;
 
   @override
   Widget build(BuildContext context) {
     Color activeColor = (onTap != null)
-        ? AppTheme.of(context).color.neutralDarkDark
+        ? !isLink
+              ? AppTheme.of(context).color.neutralDarkDark
+              : AppTheme.of(context).color.neutralDarkLight
         : AppTheme.of(context).color.neutralDarkLight;
 
     return Ink(
@@ -24,7 +32,10 @@ class ListTileItem extends StatelessWidget {
         splashColor: AppTheme.of(context).color.primaryLightest,
         child: Container(
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(16.0)),
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+          padding: EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: !isLink ? 24 : 16,
+          ),
           child: Row(
             children: [
               Expanded(
@@ -35,7 +46,13 @@ class ListTileItem extends StatelessWidget {
                   ).textStyle.header4.copyWith(color: activeColor),
                 ),
               ),
-              Icon(Icons.chevron_right_sharp, color: activeColor, size: 35),
+              Icon(
+                !isLink
+                    ? Icons.chevron_right_sharp
+                    : Icons.arrow_outward_rounded,
+                color: activeColor,
+                size: 35,
+              ),
             ],
           ),
         ),

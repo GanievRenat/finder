@@ -1,16 +1,17 @@
 import 'package:flirta/common/di/init_di.dart';
 import 'package:flirta/common/service/app_state_service.dart';
 
-import 'package:flirta/featuries/home/pages/home_page.dart';
-import 'package:flirta/featuries/onboarding/pages/onboarding_page.dart';
-import 'package:flirta/featuries/settings/pages/settings_page.dart';
+import 'package:flirta/featuries/home/pages/home/home_page.dart';
+import 'package:flirta/featuries/profile/pages/profile/edit_profile_page.dart';
+import 'package:flirta/featuries/profile/pages/settings/notification_settings_page.dart';
+import 'package:flirta/featuries/profile/profile.dart';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import 'transition.dart';
 
-import 'package:flirta/featuries/auth/auth.dart';
+import 'package:flirta/featuries/registration/auth.dart';
 
 part 'routers/auth_routers/auth_router.dart';
 part 'routers/main_routers/home_router.dart';

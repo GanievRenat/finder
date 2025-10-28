@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flirta/common/di/init_di.dart';
+import 'package:flirta/common/domain/repository/repositories.dart';
 import 'package:flirta/common/service/analytics/events.dart';
 import 'package:flirta/common/service/services.dart';
 
@@ -34,11 +35,14 @@ class MainAppRunner implements AppRunner {
     getIt<CrashlyticsService>().init();
     await getIt<AnalyticsService>().init();
 
-    //await getIt<AuthRepository>().init();
-
-    if (getIt<AppStateService>().isAuth) {
-      final userId = getIt<AppStateService>().currentUser.uid;
-      getIt<CrashlyticsService>().setUserId(userId, properties: null);
+    if (getIt<AuthRepository>().isAuth()) {
+      var result = await getIt<ProfileRepository>().getProfile();
+      if (result.isRight) {
+        getIt<CrashlyticsService>().setUserId(
+          result.right.uid,
+          properties: null,
+        );
+      }
     }
 
     unawaited(getIt<AnalyticsService>().logEvent(OnStartApp()));

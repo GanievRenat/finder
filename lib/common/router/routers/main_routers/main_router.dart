@@ -3,8 +3,19 @@ part of '../../app_router.dart';
 @TypedShellRoute<MainRoute>(
   routes: [
     TypedGoRoute<HomeRoute>(path: HomeRoute.path),
-    TypedGoRoute<OnboardingRoute>(path: OnboardingRoute.path),
-    TypedGoRoute<SettingsRoute>(path: SettingsRoute.path),
+    TypedGoRoute<ProfileRoute>(
+      path: ProfileRoute.path,
+      routes: [
+        TypedGoRoute<EditProfileRoute>(
+          path: EditProfileRoute.path,
+          name: EditProfileRoute.name,
+        ),
+        TypedGoRoute<NotificationSettingsRoute>(
+          path: NotificationSettingsRoute.path,
+          name: NotificationSettingsRoute.name,
+        ),
+      ],
+    ),
   ],
 )
 class MainRoute extends ShellRouteData {

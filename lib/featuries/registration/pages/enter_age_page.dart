@@ -1,10 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flirta/common/di/init_di.dart';
-import 'package:flirta/common/service/app_state_service.dart';
+import 'package:flirta/common/state/registration/registration_cubit.dart';
 import 'package:flirta/common/ui/widgets/widgets.dart';
-import 'package:flirta/featuries/auth/widgets/auth_widgets.dart';
+import 'package:flirta/featuries/registration/widgets/auth_widgets.dart';
 import 'package:flirta/generated/locale_keys.g.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class EnterAgePage extends StatefulWidget {
@@ -37,23 +38,31 @@ class _EnterAgePageState extends State<EnterAgePage> {
         child: BodyStepPage(
           title: LocaleKeys.auth_how_old_are_you_title.tr(),
           subtitle: LocaleKeys.auth_how_old_are_you_subtitle.tr(),
-          content: SelectAge(
-            beginAge: 18,
-            endAge: 99,
-            initAge: getIt<AppStateService>().currentUser.age,
-            onChange: (age) {
-              getIt<AppStateService>().currentUser = getIt<AppStateService>()
-                  .currentUser
-                  .copyWith(age: age);
+          content: BlocBuilder<RegistrationCubit, RegistrationState>(
+            bloc: getIt<RegistrationCubit>(),
+            builder: (context, state) {
+              return state.when(
+                loading: () => Center(child: CircularProgressIndicator()),
+                init: () => Center(child: CircularProgressIndicator()),
+                data: (data) => SelectAge(
+                  beginAge: 18,
+                  endAge: 99,
+                  initAge: data.age,
+                  onChange: (age) {
+                    getIt<RegistrationCubit>().setAge(age);
+                  },
+                ),
+              );
             },
           ),
           onPressed: () async {
-            if (getIt<AppStateService>().currentUser.age < 18) {
+            if (getIt<RegistrationCubit>().currentData.age < 18) {
               var result = await AgeValidateDialog().present(context) ?? false;
               if (result) {
                 widget.onTerms();
               }
             } else {
+              await getIt<RegistrationCubit>().saveCurrentState();
               widget.onSelectGender();
             }
           },

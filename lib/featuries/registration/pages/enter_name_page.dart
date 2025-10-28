@@ -1,10 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flirta/common/di/init_di.dart';
-import 'package:flirta/common/service/app_state_service.dart';
+import 'package:flirta/common/state/registration/registration_cubit.dart';
 import 'package:flirta/common/ui/widgets/widgets.dart';
-import 'package:flirta/featuries/auth/widgets/auth_widgets.dart';
+import 'package:flirta/featuries/registration/widgets/auth_widgets.dart';
 import 'package:flirta/generated/locale_keys.g.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
 class EnterNamePage extends StatefulWidget {
@@ -21,7 +22,7 @@ class _EnterNamePageState extends State<EnterNamePage> {
 
   @override
   Widget build(BuildContext context) {
-    void checkContinue() {
+    void checkContinue() async {
       if (formKey.currentState!.validate()) {
         bool keyboardVisible = KeyboardVisibilityProvider.isKeyboardVisible(
           context,
@@ -33,31 +34,42 @@ class _EnterNamePageState extends State<EnterNamePage> {
           }
         }
 
-        OverlayManager.showOverlay(
-          context: context,
-          message: LocaleKeys.auth_welcome.tr(
-            args: [getIt<AppStateService>().currentUser.name],
-          ),
-          onHideOverlay: () {
-            widget.onEnterAge();
-          },
-        );
+        await getIt<RegistrationCubit>().saveCurrentState();
+
+        if (context.mounted) {
+          OverlayManager.showOverlay(
+            context: context,
+            message: LocaleKeys.auth_welcome.tr(
+              args: [getIt<RegistrationCubit>().currentData.name],
+            ),
+            onHideOverlay: () {
+              widget.onEnterAge();
+            },
+          );
+        }
       }
     }
 
-    Widget content = Form(
-      key: formKey,
-      child: FieldUserName(
-        initName: getIt<AppStateService>().currentUser.name,
-        onChange: (name) {
-          getIt<AppStateService>().currentUser = getIt<AppStateService>()
-              .currentUser
-              .copyWith(name: name);
-        },
-        onFieldSubmitted: () {
-          checkContinue();
-        },
-      ),
+    Widget content = BlocBuilder<RegistrationCubit, RegistrationState>(
+      bloc: getIt<RegistrationCubit>(),
+      builder: (context, state) {
+        return state.when(
+          loading: () => Center(child: CircularProgressIndicator()),
+          init: () => Center(child: CircularProgressIndicator()),
+          data: (data) => Form(
+            key: formKey,
+            child: FieldUserName(
+              initName: data.name,
+              onChange: (name) {
+                getIt<RegistrationCubit>().setName(name);
+              },
+              onFieldSubmitted: () {
+                checkContinue();
+              },
+            ),
+          ),
+        );
+      },
     );
 
     return KeyboardDismissOnTap(

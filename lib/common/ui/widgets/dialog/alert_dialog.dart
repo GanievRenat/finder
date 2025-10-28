@@ -2,7 +2,7 @@ import 'package:flirta/common/ui/theme/app_theme.dart';
 import 'package:flirta/common/ui/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
-enum TypeAlertDialogButton { main, black, second }
+enum TypeAlertDialogButton { main, black, second, red }
 
 class AlertDialogButton<T> {
   final TypeAlertDialogButton type;
@@ -25,6 +25,11 @@ extension PresentAlertButton<T> on AlertDialogButton<T> {
       );
     } else if (type == TypeAlertDialogButton.black) {
       return BlackButton(
+        title: title,
+        onPressed: () => Navigator.of(context).pop(value),
+      );
+    } else if (type == TypeAlertDialogButton.red) {
+      return MainButton.redSmall(
         title: title,
         onPressed: () => Navigator.of(context).pop(value),
       );

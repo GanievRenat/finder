@@ -8,7 +8,7 @@ class AnimationClickWidget extends StatefulWidget {
   });
 
   final Widget child;
-  final Function() onTap;
+  final VoidCallback onTap;
 
   @override
   State<AnimationClickWidget> createState() => _AnimationClickWidgetState();

@@ -32,6 +32,7 @@ class _FieldUserNameState extends State<FieldUserName> {
       mainAxisSize: MainAxisSize.min,
       children: [
         TextFormField(
+          initialValue: widget.initName,
           textAlign: TextAlign.center,
           errorBuilder: (context, errorText) => const SizedBox.shrink(),
           decoration: InputDecoration(
