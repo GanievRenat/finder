@@ -18,13 +18,13 @@ enum Gender {
   ImageProvider getImageProvider() {
     switch (this) {
       case Gender.male:
-        return Assets.images.gender.provider();
+        return Assets.images.men.provider();
       case Gender.female:
-        return Assets.images.gender.provider();
+        return Assets.images.women.provider();
       case Gender.nonBinary:
-        return Assets.images.gender.provider();
+        return Assets.images.everyone.provider();
       case Gender.none:
-        return Assets.images.gender.provider();
+        return Assets.images.everyone.provider();
     }
   }
 

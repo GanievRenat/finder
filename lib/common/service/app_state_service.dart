@@ -8,6 +8,7 @@ class AppStateService {
   User currentUser = User.empty();
 
   bool get isAuth => currentUser != User.empty() ? true : false;
+  bool get isPremium => false;
 
   void clearCurrentUser() {
     currentUser = User.empty();

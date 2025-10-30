@@ -5,11 +5,19 @@ import 'package:flirta/generated/assets.gen.dart';
 import 'package:flirta/generated/locale_keys.g.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:video_player/video_player.dart';
 
-class SliderPage extends StatelessWidget {
-  SliderPage({super.key, required this.onEnterName});
+class SliderPage extends StatefulWidget {
+  const SliderPage({super.key, required this.onEnterName});
 
   final Function onEnterName;
+
+  @override
+  State<SliderPage> createState() => _SliderPageState();
+}
+
+class _SliderPageState extends State<SliderPage> {
+  late VideoPlayerController _controller;
 
   final PageController pageController = PageController(
     viewportFraction: 1,
@@ -17,11 +25,70 @@ class SliderPage extends StatelessWidget {
   );
 
   @override
+  void initState() {
+    super.initState();
+
+    _controller = VideoPlayerController.asset('assets/videos/slider_1.mp4')
+      ..initialize().then((_) {
+        setState(() {});
+        _controller.setLooping(true);
+        _controller.play();
+      });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
-          Positioned.fill(child: Assets.images.gender.image(fit: BoxFit.cover)),
+          Positioned.fill(
+            child: _controller.value.isInitialized
+                ? FittedBox(
+                    fit: BoxFit.cover,
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.width * 1.77777,
+                      child: VideoPlayer(_controller),
+                    ),
+                  )
+                : Assets.images.firstSlider.image(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.width * 1.77777,
+                    fit: BoxFit.cover,
+                  ),
+          ),
+          Positioned(
+            bottom: 0,
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height * 0.5,
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Colors.black.withAlpha(180), Colors.transparent],
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Positioned.fill(
+            child: PageView(
+              controller: pageController,
+              children: [
+                ScrollTextPage(text: LocaleKeys.auth_slider_0.tr()),
+                ScrollTextPage(text: LocaleKeys.auth_slider_1.tr()),
+                ScrollTextPage(text: LocaleKeys.auth_slider_2.tr()),
+              ],
+            ),
+          ),
           Positioned(
             bottom: MediaQuery.of(context).padding.bottom == 0
                 ? 32
@@ -33,50 +100,6 @@ class SliderPage extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    SizedBox(
-                      height: 60,
-                      child: PageView(
-                        controller: pageController,
-                        children: [
-                          Text(
-                            LocaleKeys.auth_slider_0.tr(),
-                            softWrap: true,
-                            style: AppTheme.of(context).textStyle.header3
-                                .copyWith(
-                                  color: AppTheme.of(
-                                    context,
-                                  ).color.neutralLightLightest,
-                                  height: 1,
-                                ),
-                            textAlign: TextAlign.center,
-                          ),
-                          Text(
-                            LocaleKeys.auth_slider_1.tr(),
-                            softWrap: true,
-                            style: AppTheme.of(context).textStyle.header3
-                                .copyWith(
-                                  color: AppTheme.of(
-                                    context,
-                                  ).color.neutralLightLightest,
-                                  height: 1,
-                                ),
-                            textAlign: TextAlign.center,
-                          ),
-                          Text(
-                            LocaleKeys.auth_slider_2.tr(),
-                            softWrap: true,
-                            style: AppTheme.of(context).textStyle.header3
-                                .copyWith(
-                                  color: AppTheme.of(
-                                    context,
-                                  ).color.neutralLightLightest,
-                                  height: 1,
-                                ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
-                    ),
                     SmoothPageIndicator(
                       controller: pageController,
                       axisDirection: Axis.horizontal,
@@ -95,7 +118,10 @@ class SliderPage extends StatelessWidget {
                     SizedBox(height: 8),
                     MainButton.inversion(
                       title: LocaleKeys.auth_button_get_start.tr(),
-                      onPressed: () => onEnterName(),
+                      onPressed: () async {
+                        await _controller.pause();
+                        widget.onEnterName();
+                      },
                     ),
                   ],
                 ),
@@ -103,6 +129,34 @@ class SliderPage extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class ScrollTextPage extends StatelessWidget {
+  const ScrollTextPage({super.key, required this.text});
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(
+        top:
+            MediaQuery.of(context).size.height -
+            (MediaQuery.of(context).padding.bottom + 45 + 32 + 50),
+        left: 16,
+        right: 16,
+      ),
+      child: Text(
+        text,
+        softWrap: true,
+        style: AppTheme.of(context).textStyle.header3.copyWith(
+          color: AppTheme.of(context).color.neutralLightLightest,
+          height: 1,
+        ),
+        textAlign: TextAlign.center,
       ),
     );
   }

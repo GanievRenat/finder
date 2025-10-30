@@ -60,16 +60,14 @@ class _ProfilePageState extends State<ProfilePage> {
                 },
               ),
               AppSpacing.vertical.s8,
-              ListTileItem(
+              ListTileItem.link(
                 title: LocaleKeys.user_profile_menu_term_title.tr(),
-                isLink: true,
-                onTap: () {},
+                url: 'https://levelapp.io/pages/terms',
               ),
               AppSpacing.vertical.s3,
-              ListTileItem(
+              ListTileItem.link(
                 title: LocaleKeys.user_profile_menu_privacy_policy_title.tr(),
-                isLink: true,
-                onTap: () {},
+                url: 'https://levelapp.io/pages/privacyPolicy',
               ),
               AppSpacing.vertical.s3,
               ListTileItem(
@@ -78,10 +76,13 @@ class _ProfilePageState extends State<ProfilePage> {
                 onTap: () {},
               ),
               AppSpacing.vertical.s3,
-              ListTileItem(
+              ListTileItem.email(
                 title: LocaleKeys.user_profile_menu_contact_support_title.tr(),
-                isLink: true,
-                onTap: () {},
+                email: 'info@levelapp.io',
+                queryParameters: {
+                  'subject': 'Support of Flider App',
+                  'body': 'Hello!',
+                },
               ),
             ],
           ),

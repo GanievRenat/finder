@@ -84,6 +84,22 @@ class _InterestedGenderOptionsGroupState
           ),
           AppSpacing.vertical.s4,
           Expanded(
+            child: InterestedGenderOptionItem<Gender>(
+              title: Gender.none.getGenderForInterestedName(),
+              valuel: Gender.none,
+              isSelected: Gender.none == value,
+              image: Gender.none.getImageProvider(),
+              onTap: (selectedOption) {
+                if (value != selectedOption) {
+                  setState(() {
+                    value = selectedOption;
+                  });
+                  widget.onChanged(selectedOption);
+                }
+              },
+            ),
+          ),
+          /*Expanded(
             child: Row(
               children: [
                 Expanded(
@@ -121,7 +137,7 @@ class _InterestedGenderOptionsGroupState
                 ),
               ],
             ),
-          ),
+          ),*/
         ],
       ),
     );

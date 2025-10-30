@@ -1,5 +1,6 @@
 import 'package:flirta/common/ui/theme/app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ListTileItem extends StatelessWidget {
   const ListTileItem({
@@ -7,11 +8,34 @@ class ListTileItem extends StatelessWidget {
     required this.title,
     this.onTap,
     this.isLink = false,
-  });
+  }) : _urlLink = '',
+       _email = '',
+       _emailBody = const {};
+
+  const ListTileItem.link({super.key, required this.title, required String url})
+    : onTap = null,
+      isLink = true,
+      _urlLink = url,
+      _email = '',
+      _emailBody = const {};
+
+  const ListTileItem.email({
+    super.key,
+    required this.title,
+    required String email,
+    required Map<String, String> queryParameters,
+  }) : onTap = null,
+       isLink = true,
+       _urlLink = '',
+       _email = email,
+       _emailBody = queryParameters;
 
   final String title;
   final VoidCallback? onTap;
   final bool isLink;
+  final String _urlLink;
+  final String _email;
+  final Map<String, String> _emailBody;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +51,25 @@ class ListTileItem extends StatelessWidget {
         color: AppTheme.of(context).color.neutralLightLight,
       ),
       child: InkWell(
-        onTap: onTap,
+        onTap: (isLink)
+            ? () async {
+                if (_urlLink.isNotEmpty) {
+                  if (await canLaunchUrl(Uri.parse(_urlLink))) {
+                    await launchUrl(
+                      Uri.parse(_urlLink),
+                      mode: LaunchMode.externalApplication,
+                    );
+                  }
+                } else if (_email.isNotEmpty) {
+                  final Uri emailLaunchUri = Uri(
+                    scheme: 'mailto',
+                    path: _email,
+                    queryParameters: _emailBody,
+                  );
+                  launchUrl(emailLaunchUri);
+                }
+              }
+            : onTap,
         borderRadius: BorderRadius.circular(16.0),
         splashColor: AppTheme.of(context).color.primaryLightest,
         child: Container(
