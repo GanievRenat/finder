@@ -44,6 +44,7 @@ import 'package:flirta/common/domain/usecase/registration_user/registration_new_
 import 'package:flirta/common/domain/usecase/registration_user/save_registration_form_data_usecase.dart'
     as _i220;
 import 'package:flirta/common/domain/usecase/usecases.dart' as _i25;
+import 'package:flirta/common/router/modal_bottom_sheet.dart' as _i216;
 import 'package:flirta/common/router/observers/analytics_observer.dart' as _i36;
 import 'package:flirta/common/router/toastification.dart' as _i534;
 import 'package:flirta/common/service/analytics/analytics_service.dart'
@@ -97,6 +98,7 @@ extension GetItInjectableX on _i174.GetIt {
       preResolve: true,
     );
     gh.singleton<_i974.Logger>(() => thirdPartyModule.logger);
+    gh.singleton<_i216.AppModalBottomSheet>(() => _i216.AppModalBottomSheet());
     gh.singleton<_i534.AppToast>(() => _i534.AppToast());
     gh.singleton<_i523.AppStateService>(() => _i523.AppStateService());
     gh.singleton<_i551.CrashlyticsService>(() => _i551.CrashlyticsService());
@@ -255,6 +257,7 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i227.ProfileCubit(
         getProfileGuest: gh<_i25.GetProfile>(),
         deleteProfile: gh<_i25.DeleteProfile>(),
+        updateProfile: gh<_i25.UpdateProfile>(),
         registrationCubit: gh<_i761.RegistrationCubit>(),
       ),
     );

@@ -1,13 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flirta/common/di/init_di.dart';
 import 'package:flirta/common/ui/theme/app_spacing.dart';
 import 'package:flirta/common/ui/widgets/widgets.dart';
+import 'package:flirta/featuries/profile/pages/profile/state/profile_cubit.dart';
+import 'package:flirta/featuries/profile/profile.dart';
 import 'package:flirta/generated/locale_keys.g.dart';
 import 'package:flutter/material.dart';
 
-import '../../widgets/profile_head.dart';
-import '../../widgets/profile_premium_status.dart';
-
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({
     super.key,
     required this.onEditProfile,
@@ -18,17 +18,23 @@ class ProfilePage extends StatelessWidget {
   final Function onNotificationSettings;
 
   @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  @override
+  void initState() {
+    super.initState();
+
+    getIt<ProfileCubit>().init();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(LocaleKeys.user_profile_title.tr())),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.only(
-            left: 16.0,
-            top: 16,
-            right: 16,
-            bottom: 16 + MediaQuery.of(context).padding.bottom,
-          ),
+        child: BackgroundProfile(
           child: Column(
             children: [
               ProfileHead(),
@@ -37,7 +43,7 @@ class ProfilePage extends StatelessWidget {
               ListTileItem(
                 title: LocaleKeys.user_profile_menu_your_profile_title.tr(),
                 onTap: () {
-                  onEditProfile();
+                  widget.onEditProfile();
                 },
               ),
               AppSpacing.vertical.s3,
@@ -50,7 +56,7 @@ class ProfilePage extends StatelessWidget {
               ListTileItem(
                 title: LocaleKeys.user_profile_menu_notifications_title.tr(),
                 onTap: () {
-                  onNotificationSettings();
+                  widget.onNotificationSettings();
                 },
               ),
               AppSpacing.vertical.s8,

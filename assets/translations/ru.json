@@ -26,6 +26,13 @@
                 "button_cancel": "Cancel",
                 "button_delete": "Delete"
             }
+        },
+        "buttons": {
+            "ok": "Ok",
+            "cancel": "Cancel",
+            "continue": "Continue",
+            "save": "Save",
+            "back": "Back"
         }
     },
     "auth": {

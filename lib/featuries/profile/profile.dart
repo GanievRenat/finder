@@ -1,3 +1,11 @@
 export 'pages/profile/profile_page.dart';
 export 'widgets/dialog/delete_account_dialog.dart';
 export 'widgets/buttons/delete_profile_button.dart';
+export 'widgets/profile_premium_status.dart';
+export 'widgets/profile_head.dart';
+export 'widgets/profile_info/profile_info.dart';
+export 'widgets/profile_info/age_edit_widget.dart';
+export 'widgets/profile_info/gender_edit_widget.dart';
+export 'widgets/profile_info/name_edit_widget.dart';
+export 'widgets/profile_builder.dart';
+export 'widgets/background_profile.dart';

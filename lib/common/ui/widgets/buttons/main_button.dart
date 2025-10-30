@@ -83,13 +83,15 @@ class MainButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color backgroundColor = _inversion
-        ? AppTheme.of(context).color.neutralLightLightest
-        : (_red)
-        ? AppTheme.of(context).color.supportErrorLight
-        : (_reset)
-        ? AppTheme.of(context).color.primaryLightest
-        : AppTheme.of(context).color.primaryDarkset;
+    Color backgroundColor = (onPressed != null)
+        ? _inversion
+              ? AppTheme.of(context).color.neutralLightLightest
+              : (_red)
+              ? AppTheme.of(context).color.supportErrorLight
+              : (_reset)
+              ? AppTheme.of(context).color.primaryLightest
+              : AppTheme.of(context).color.primaryDarkset
+        : AppTheme.of(context).color.primaryLight;
 
     Color foregroundColor = _inversion
         ? AppTheme.of(context).color.neutralDarkLightest

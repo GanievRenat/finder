@@ -62,6 +62,7 @@ dependencies:
   step_progress_indicator: ^1.0.2
   flutter_keyboard_visibility: ^6.0.0
   toastification: ^3.0.3
+  skeletonizer: ^2.1.0+1
 
 dev_dependencies:
   flutter_test:
