@@ -17,7 +17,7 @@ class DeleteAccountDialog extends AlertDialogModel<bool> {
             value: true,
           ),
           AlertDialogButton(
-            type: TypeAlertDialogButton.second,
+            type: TypeAlertDialogButton.main,
             title: LocaleKeys.properties_dialogs_delete_account_button_cancel
                 .tr(),
             value: false,

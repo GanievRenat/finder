@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flirta/common/di/init_di.dart';
-import 'package:flirta/common/state/registration/registration_cubit.dart';
+import 'package:flirta/featuries/registration/state/registration_cubit.dart';
 import 'package:flirta/common/ui/widgets/widgets.dart';
 import 'package:flirta/featuries/registration/widgets/auth_widgets.dart';
 import 'package:flirta/generated/locale_keys.g.dart';

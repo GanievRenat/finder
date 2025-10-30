@@ -11,14 +11,17 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:dio/dio.dart' as _i361;
 import 'package:flirta/common/config/app_config.dart' as _i67;
-import 'package:flirta/common/data/providers/auth_data_provider.dart' as _i312;
 import 'package:flirta/common/data/providers/data_providers.dart' as _i443;
+import 'package:flirta/common/data/providers/profile_data_provider.dart'
+    as _i220;
 import 'package:flirta/common/data/providers/registration_data_provider.dart'
     as _i566;
-import 'package:flirta/common/data/repository/auth_repository_impl.dart'
-    as _i985;
+import 'package:flirta/common/data/providers/registration_form_data_provider.dart'
+    as _i207;
 import 'package:flirta/common/data/repository/profile_repository_impl.dart'
     as _i473;
+import 'package:flirta/common/data/repository/registration_form_repository_impl.dart'
+    as _i789;
 import 'package:flirta/common/data/repository/registration_repository_impl.dart'
     as _i558;
 import 'package:flirta/common/data/repository/settings_repository_impl.dart'
@@ -26,14 +29,20 @@ import 'package:flirta/common/data/repository/settings_repository_impl.dart'
 import 'package:flirta/common/di/third_party_module.dart' as _i362;
 import 'package:flirta/common/domain/app_config.dart' as _i1048;
 import 'package:flirta/common/domain/repository/repositories.dart' as _i243;
+import 'package:flirta/common/domain/usecase/profile/delete_profile_usecase.dart'
+    as _i851;
 import 'package:flirta/common/domain/usecase/profile/get_profile_usecase.dart'
     as _i194;
-import 'package:flirta/common/domain/usecase/registration_user/load_registration_data_usecase.dart'
-    as _i711;
+import 'package:flirta/common/domain/usecase/profile/update_profile_usecase.dart'
+    as _i942;
+import 'package:flirta/common/domain/usecase/registration_user/clear_registration_form_data_usecase.dart'
+    as _i732;
+import 'package:flirta/common/domain/usecase/registration_user/load_registration_form_data_usecase.dart'
+    as _i344;
 import 'package:flirta/common/domain/usecase/registration_user/registration_new_user_by_guest_usecase.dart'
     as _i671;
-import 'package:flirta/common/domain/usecase/registration_user/save_registration_data_usecase.dart'
-    as _i55;
+import 'package:flirta/common/domain/usecase/registration_user/save_registration_form_data_usecase.dart'
+    as _i220;
 import 'package:flirta/common/domain/usecase/usecases.dart' as _i25;
 import 'package:flirta/common/router/observers/analytics_observer.dart' as _i36;
 import 'package:flirta/common/router/toastification.dart' as _i534;
@@ -42,6 +51,7 @@ import 'package:flirta/common/service/analytics/analytics_service.dart'
 import 'package:flirta/common/service/app_state_service.dart' as _i523;
 import 'package:flirta/common/service/crashlytics_service.dart' as _i551;
 import 'package:flirta/common/service/language_service.dart' as _i39;
+import 'package:flirta/common/service/services.dart' as _i697;
 import 'package:flirta/common/source/network/http_client/http_client_module.dart'
     as _i1066;
 import 'package:flirta/common/source/network/interceptors/error_interceptor.dart'
@@ -55,9 +65,9 @@ import 'package:flirta/common/source/network/interceptors/logger_interceptors.da
 import 'package:flirta/common/source/network/interceptors/token_interceptor.dart'
     as _i970;
 import 'package:flirta/featuries/profile/pages/profile/state/profile_cubit.dart'
-    as _i442;
-import 'package:flirta/common/state/registration/registration_cubit.dart'
-    as _i118;
+    as _i227;
+import 'package:flirta/featuries/registration/state/registration_cubit.dart'
+    as _i761;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:go_router/go_router.dart' as _i583;
 import 'package:injectable/injectable.dart' as _i526;
@@ -122,11 +132,6 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i67.ProdAppConfig(),
       registerFor: {_prod},
     );
-    gh.singleton<_i312.AuthDataProvider>(
-      () => _i312.AuthDataProviderLocal(
-        sharedPreferences: gh<_i460.SharedPreferences>(),
-      ),
-    );
     gh.factory<_i361.Dio>(
       () => httpClientModule.dioWithoutAuth(
         gh<_i1048.AppConfig>(),
@@ -139,6 +144,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i566.RegistrationDataProvider>(
       () => _i566.RegistrationDataProviderLocal(
         sharedPreferences: gh<_i460.SharedPreferences>(),
+        appConfig: gh<_i1048.AppConfig>(),
       ),
     );
     gh.factory<_i361.Dio>(
@@ -174,46 +180,83 @@ extension GetItInjectableX on _i174.GetIt {
         dataProvider: gh<_i443.RegistrationDataProvider>(),
       ),
     );
-    gh.singleton<_i243.ProfileRepository>(
-      () => _i473.ProfileRepositoryImpl(
-        appStateService: gh<_i523.AppStateService>(),
-        dataProvider: gh<_i443.AuthDataProvider>(),
+    gh.singleton<_i207.RegistrationFormDataProvider>(
+      () => _i207.RegistrationFormDataProviderLocal(
+        sharedPreferences: gh<_i460.SharedPreferences>(),
+        appConfig: gh<_i1048.AppConfig>(),
       ),
     );
-    gh.singleton<_i243.AuthRepository>(
-      () =>
-          _i985.AuthRepositoryImpl(dataProvider: gh<_i443.AuthDataProvider>()),
-    );
-    gh.singleton<_i711.LoadRegistrationData>(
-      () => _i711.LoadRegistrationData(
-        repository: gh<_i243.RegistrationRepository>(),
+    gh.singleton<_i671.RegistrationNewUserByGuest>(
+      () => _i671.RegistrationNewUserByGuest(
+        registrationRepository: gh<_i243.RegistrationRepository>(),
       ),
     );
-    gh.singleton<_i55.SaveRegistrationData>(
-      () => _i55.SaveRegistrationData(
-        repository: gh<_i243.RegistrationRepository>(),
+    gh.singleton<_i220.ProfileDataProvider>(
+      () => _i220.ProfileDataProviderLocal(
+        sharedPreferences: gh<_i460.SharedPreferences>(),
+        appConfig: gh<_i1048.AppConfig>(),
       ),
     );
     gh.factory<_i583.GoRouter>(
       () => thirdPartyModule.router(gh<_i36.AnalyticsObserver>()),
     );
-    gh.singleton<_i194.GetProfile>(
-      () => _i194.GetProfile(repository: gh<_i243.ProfileRepository>()),
-    );
-    gh.singleton<_i671.RegistrationNewUserByGuest>(
-      () => _i671.RegistrationNewUserByGuest(
-        repository: gh<_i243.AuthRepository>(),
+    gh.singleton<_i243.RegistrationFormRepository>(
+      () => _i789.RegistrationFormRepositoryImpl(
+        dataProvider: gh<_i443.RegistrationFormDataProvider>(),
       ),
     );
-    gh.singleton<_i118.RegistrationCubit>(
-      () => _i118.RegistrationCubit(
-        saveRegistrationData: gh<_i25.SaveRegistrationData>(),
-        loadRegistrationData: gh<_i25.LoadRegistrationData>(),
+    gh.singleton<_i243.ProfileRepository>(
+      () => _i473.ProfileRepositoryImpl(
+        dataProvider: gh<_i443.ProfileDataProvider>(),
+      ),
+    );
+    gh.singleton<_i194.GetProfile>(
+      () => _i194.GetProfile(
+        profileRepository: gh<_i243.ProfileRepository>(),
+        appStateService: gh<_i523.AppStateService>(),
+      ),
+    );
+    gh.singleton<_i851.DeleteProfile>(
+      () => _i851.DeleteProfile(
+        appStateService: gh<_i523.AppStateService>(),
+        profileRepository: gh<_i243.ProfileRepository>(),
+      ),
+    );
+    gh.singleton<_i732.ClearRegistrationFormData>(
+      () => _i732.ClearRegistrationFormData(
+        registrationFormRepository: gh<_i243.RegistrationFormRepository>(),
+      ),
+    );
+    gh.singleton<_i344.LoadRegistrationFormData>(
+      () => _i344.LoadRegistrationFormData(
+        registrationFormRepository: gh<_i243.RegistrationFormRepository>(),
+      ),
+    );
+    gh.singleton<_i220.SaveRegistrationFormData>(
+      () => _i220.SaveRegistrationFormData(
+        registrationFormRepository: gh<_i243.RegistrationFormRepository>(),
+      ),
+    );
+    gh.singleton<_i942.UpdateProfile>(
+      () => _i942.UpdateProfile(
+        profileRepository: gh<_i243.ProfileRepository>(),
+        appStateService: gh<_i697.AppStateService>(),
+      ),
+    );
+    gh.singleton<_i761.RegistrationCubit>(
+      () => _i761.RegistrationCubit(
+        saveRegistrationData: gh<_i25.SaveRegistrationFormData>(),
+        loadRegistrationData: gh<_i25.LoadRegistrationFormData>(),
+        clearRegistrationData: gh<_i25.ClearRegistrationFormData>(),
         registrationNewUserByGuest: gh<_i25.RegistrationNewUserByGuest>(),
       ),
     );
-    gh.singleton<_i442.ProfileCubit>(
-      () => _i442.ProfileCubit(getProfileGuest: gh<_i25.GetProfile>()),
+    gh.singleton<_i227.ProfileCubit>(
+      () => _i227.ProfileCubit(
+        getProfileGuest: gh<_i25.GetProfile>(),
+        deleteProfile: gh<_i25.DeleteProfile>(),
+        registrationCubit: gh<_i761.RegistrationCubit>(),
+      ),
     );
     return this;
   }

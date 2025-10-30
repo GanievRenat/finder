@@ -5,14 +5,16 @@ import 'package:injectable/injectable.dart';
 
 @singleton
 class RegistrationNewUserByGuest {
-  final AuthRepository repository;
+  final RegistrationRepository _registrationRepository;
 
-  RegistrationNewUserByGuest({required this.repository});
+  RegistrationNewUserByGuest({
+    required RegistrationRepository registrationRepository,
+  }) : _registrationRepository = registrationRepository;
 
   Future<Either<AuthRepositoryErrors, bool>> call(
     RegistrationByGuestBody data,
   ) async {
-    var result = await repository.registrationByGuest(data);
+    var result = await _registrationRepository.registrationByGuest(data);
     return result;
   }
 }

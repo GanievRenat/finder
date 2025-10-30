@@ -59,7 +59,7 @@ class EditProfileRoute extends GoRouteData with $EditProfileRoute {
     return Transition.slide(
       pageKey: state.pageKey,
       name: name,
-      child: EditProfilePage(),
+      child: EditProfilePage(onDeleteProfile: () => AuthRoute().go(context)),
     );
   }
 }

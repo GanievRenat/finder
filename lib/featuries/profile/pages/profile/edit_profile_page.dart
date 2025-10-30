@@ -8,7 +8,8 @@ import 'package:flutter/material.dart';
 import '../../widgets/profile_head.dart';
 
 class EditProfilePage extends StatelessWidget {
-  const EditProfilePage({super.key});
+  const EditProfilePage({super.key, required this.onDeleteProfile});
+  final Function onDeleteProfile;
 
   @override
   Widget build(BuildContext context) {
@@ -58,12 +59,9 @@ class EditProfilePage extends StatelessWidget {
               ),
             ),
             AppSpacing.vertical.s3,
-            MainButton.red(
-              title: LocaleKeys
-                  .user_profile_menu_your_profile_button_delete_account
-                  .tr(),
-              onPressed: () async {
-                await DeleteAccountDialog().present(context) ?? false;
+            DeleteProfileButton(
+              onSuccess: () {
+                onDeleteProfile();
               },
             ),
           ],

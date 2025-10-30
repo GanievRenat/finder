@@ -25,6 +25,12 @@ class DefAppConfig implements AppConfig {
 
   @override
   String get termsURL => '';
+
+  @override
+  Map<LocalKeies, String> get localKeies => {
+    LocalKeies.localProfileKey: 'profile',
+    LocalKeies.localRegistrationFormKey: 'registration_data',
+  };
 }
 
 @Singleton(as: AppConfig)

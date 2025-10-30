@@ -14,18 +14,21 @@ part 'registration_cubit.freezed.dart';
 
 @singleton
 class RegistrationCubit extends Cubit<RegistrationState> {
-  final SaveRegistrationData _saveRegistrationData;
-  final LoadRegistrationData _loadRegistrationData;
+  final SaveRegistrationFormData _saveRegistrationData;
+  final LoadRegistrationFormData _loadRegistrationData;
+  final ClearRegistrationFormData _clearRegistrationData;
   final RegistrationNewUserByGuest _registrationNewUserByGuest;
 
   RegistrationData currentData = RegistrationData.empty();
 
   RegistrationCubit({
-    required SaveRegistrationData saveRegistrationData,
-    required LoadRegistrationData loadRegistrationData,
+    required SaveRegistrationFormData saveRegistrationData,
+    required LoadRegistrationFormData loadRegistrationData,
+    required ClearRegistrationFormData clearRegistrationData,
     required RegistrationNewUserByGuest registrationNewUserByGuest,
   }) : _saveRegistrationData = saveRegistrationData,
        _loadRegistrationData = loadRegistrationData,
+       _clearRegistrationData = clearRegistrationData,
        _registrationNewUserByGuest = registrationNewUserByGuest,
        super(RegistrationState.init()) {
     getCurrentData();
@@ -57,6 +60,12 @@ class RegistrationCubit extends Cubit<RegistrationState> {
       ),
     );
     return result;
+  }
+
+  Future<void> clearCurrentData() async {
+    await _clearRegistrationData();
+    currentData = RegistrationData.empty();
+    emit(RegistrationState.data(currentData));
   }
 
   void setName(String name) async {

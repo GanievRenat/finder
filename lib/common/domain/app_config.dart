@@ -1,3 +1,5 @@
+enum LocalKeies { localProfileKey, localRegistrationFormKey }
+
 abstract class AppConfig {
   String get baseUrl;
   String get host;
@@ -9,4 +11,6 @@ abstract class AppConfig {
   String get termsURL;
   String get privatURL;
   String get aboutURL;
+
+  Map<LocalKeies, String> get localKeies;
 }

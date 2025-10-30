@@ -1,25 +1,26 @@
-import 'package:flirta/common/data/models/models.dart';
 import 'package:flirta/common/data/providers/data_providers.dart';
-import 'package:flirta/common/domain/entites/registration/registration_data.dart';
 import 'package:flirta/common/domain/repository/bodies/bodies.dart';
 import 'package:flirta/common/domain/repository/repositories.dart';
 import 'package:injectable/injectable.dart';
+import 'package:either_dart/either.dart';
 
 @Singleton(as: RegistrationRepository)
 class RegistrationRepositoryImpl implements RegistrationRepository {
-  final RegistrationDataProvider dataProvider;
+  final RegistrationDataProvider _dataProvider;
 
-  RegistrationRepositoryImpl({required this.dataProvider});
-
-  @override
-  Future<RegistrationData?> getRegistrationData() async {
-    var value = await dataProvider.getRegistrationData();
-    return Future.value(value?.toEntites());
-  }
+  RegistrationRepositoryImpl({required RegistrationDataProvider dataProvider})
+    : _dataProvider = dataProvider;
 
   @override
-  Future<bool> saveRegistrationData(RegistrationDataBody body) async {
-    var value = await dataProvider.saveRegistrationData(body);
-    return Future.value(value);
+  Future<Either<AuthRepositoryErrors, bool>> registrationByGuest(
+    RegistrationByGuestBody body,
+  ) async {
+    var result = await _dataProvider.registrationByGuest(body);
+
+    if (result.isRight) {
+      return Future.value(Right(true));
+    } else {
+      return Left(AuthRepositoryErrors.wrongRegistration);
+    }
   }
 }

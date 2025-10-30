@@ -30,9 +30,9 @@
     },
     "auth": {
         "slider": {
-            "0": "Train conversations and dating with realistic scenarios\n\nA safe chat for any topic\n\nComfortable conversations fully under your control",
-            "1": "Train conversations and dating with realistic scenarios\n\nA safe chat for any topic\n\nComfortable conversations fully under your control",
-            "2": "Train conversations and dating with realistic scenarios\n\nA safe chat for any topic\n\nComfortable conversations fully under your control"
+            "0": "Train conversations and dating with realistic scenarios",
+            "1": "A safe chat for any topic",
+            "2": "Comfortable conversations fully under your control"
         },
         "whats_your_name_title": "What’s your name?",
         "your_name_hint": "Name",
@@ -125,7 +125,9 @@
             }
         },
         "error": {
-            "get_profile_error": "Something is wrong!"
+            "get_profile_error": "Sorry, that didn't go as planned. Please try again later.",
+            "delete_profile_error": "Sorry, that didn't go as planned. Please try again later.",
+            "update_profile_error": "Sorry, that didn't go as planned. Please try again later."
         }
     }
 }

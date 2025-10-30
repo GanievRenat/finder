@@ -21,25 +21,7 @@ class SliderPage extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          Positioned.fill(
-            child: PageView(
-              controller: pageController,
-              children: [
-                OnboardingSlide(
-                  background: Assets.images.gender.image(fit: BoxFit.cover),
-                  title: LocaleKeys.auth_slider_0.tr(),
-                ),
-                OnboardingSlide(
-                  background: Assets.images.gender.image(fit: BoxFit.cover),
-                  title: LocaleKeys.auth_slider_1.tr(),
-                ),
-                OnboardingSlide(
-                  background: Assets.images.gender.image(fit: BoxFit.cover),
-                  title: LocaleKeys.auth_slider_2.tr(),
-                ),
-              ],
-            ),
-          ),
+          Positioned.fill(child: Assets.images.gender.image(fit: BoxFit.cover)),
           Positioned(
             bottom: MediaQuery.of(context).padding.bottom == 0
                 ? 32
@@ -51,6 +33,50 @@ class SliderPage extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
+                    SizedBox(
+                      height: 60,
+                      child: PageView(
+                        controller: pageController,
+                        children: [
+                          Text(
+                            LocaleKeys.auth_slider_0.tr(),
+                            softWrap: true,
+                            style: AppTheme.of(context).textStyle.header3
+                                .copyWith(
+                                  color: AppTheme.of(
+                                    context,
+                                  ).color.neutralLightLightest,
+                                  height: 1,
+                                ),
+                            textAlign: TextAlign.center,
+                          ),
+                          Text(
+                            LocaleKeys.auth_slider_1.tr(),
+                            softWrap: true,
+                            style: AppTheme.of(context).textStyle.header3
+                                .copyWith(
+                                  color: AppTheme.of(
+                                    context,
+                                  ).color.neutralLightLightest,
+                                  height: 1,
+                                ),
+                            textAlign: TextAlign.center,
+                          ),
+                          Text(
+                            LocaleKeys.auth_slider_2.tr(),
+                            softWrap: true,
+                            style: AppTheme.of(context).textStyle.header3
+                                .copyWith(
+                                  color: AppTheme.of(
+                                    context,
+                                  ).color.neutralLightLightest,
+                                  height: 1,
+                                ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    ),
                     SmoothPageIndicator(
                       controller: pageController,
                       axisDirection: Axis.horizontal,

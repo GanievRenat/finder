@@ -1,41 +1,45 @@
-import 'package:flirta/common/data/models/models.dart';
+import 'package:either_dart/either.dart';
+import 'package:flirta/common/domain/app_config.dart';
 import 'package:flirta/common/domain/repository/bodies/bodies.dart';
+import 'package:flirta/common/domain/repository/repositories.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'dart:convert';
 
 abstract class RegistrationDataProvider {
-  Future<bool> saveRegistrationData(RegistrationDataBody body);
-  Future<RegistrationDataModel?> getRegistrationData();
+  Future<Either<AuthRepositoryErrors, bool>> registrationByGuest(
+    RegistrationByGuestBody body,
+  );
 }
 
 //**
-// Реализация локального хранилища для анкеты во время регистрации
+// Поставщик данных для регистрации пользователя
 // */
 @Singleton(as: RegistrationDataProvider)
 class RegistrationDataProviderLocal extends RegistrationDataProvider {
-  final SharedPreferences sharedPreferences;
+  final SharedPreferences _sharedPreferences;
+  final AppConfig _appConfig;
 
-  final String registrationDataKey = 'registration_data';
-
-  RegistrationDataProviderLocal({required this.sharedPreferences});
-
-  @override
-  Future<bool> saveRegistrationData(RegistrationDataBody body) {
-    var bodyStr = json.encode(body.toMap());
-    sharedPreferences.setString(registrationDataKey, bodyStr);
-    return Future.value(true);
-  }
+  RegistrationDataProviderLocal({
+    required SharedPreferences sharedPreferences,
+    required AppConfig appConfig,
+  }) : _sharedPreferences = sharedPreferences,
+       _appConfig = appConfig;
 
   @override
-  Future<RegistrationDataModel?> getRegistrationData() {
-    var profileData = sharedPreferences.getString(registrationDataKey) ?? '';
-    if (profileData.isNotEmpty) {
-      Map<String, dynamic> decoded = json.decode(profileData);
-      return Future.value(RegistrationDataModel.fromJson(decoded));
+  Future<Either<AuthRepositoryErrors, bool>> registrationByGuest(
+    RegistrationByGuestBody body,
+  ) {
+    try {
+      var bodyStr = json.encode(body.toMap());
+      _sharedPreferences.setString(
+        _appConfig.localKeies[LocalKeies.localProfileKey]!,
+        bodyStr,
+      );
+      return Future.value(Right(true));
+    } catch (e) {
+      return Future.value(Left(AuthRepositoryErrors.wrongRegistration));
     }
-
-    return Future.value(null);
   }
 }
