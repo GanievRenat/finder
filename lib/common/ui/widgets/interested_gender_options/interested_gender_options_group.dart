@@ -99,45 +99,6 @@ class _InterestedGenderOptionsGroupState
               },
             ),
           ),
-          /*Expanded(
-            child: Row(
-              children: [
-                Expanded(
-                  child: InterestedGenderOptionItem<Gender>(
-                    title: Gender.nonBinary.getGenderForInterestedName(),
-                    valuel: Gender.nonBinary,
-                    isSelected: Gender.nonBinary == value,
-                    image: Gender.nonBinary.getImageProvider(),
-                    onTap: (selectedOption) {
-                      if (value != selectedOption) {
-                        setState(() {
-                          value = selectedOption;
-                        });
-                        widget.onChanged(selectedOption);
-                      }
-                    },
-                  ),
-                ),
-                AppSpacing.horizontal.s4,
-                Expanded(
-                  child: InterestedGenderOptionItem<Gender>(
-                    title: Gender.none.getGenderForInterestedName(),
-                    valuel: Gender.none,
-                    isSelected: Gender.none == value,
-                    image: Gender.none.getImageProvider(),
-                    onTap: (selectedOption) {
-                      if (value != selectedOption) {
-                        setState(() {
-                          value = selectedOption;
-                        });
-                        widget.onChanged(selectedOption);
-                      }
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ),*/
         ],
       ),
     );
