@@ -8,7 +8,6 @@ class AppStateService {
   User currentUser = User.empty();
 
   bool get isAuth => currentUser != User.empty() ? true : false;
-  bool get showedOnboarding => currentUser.isSaveed;
 
   void clearCurrentUser() {
     currentUser = User.empty();

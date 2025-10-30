@@ -74,6 +74,17 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
+  Future<void> updatePhoto(String photo) async {
+    final userCurrent = await _getProfileGuest();
+    if (userCurrent.isRight) {
+      final newUserData = userCurrent.right.copyWith(photo: photo);
+      var updateResult = await _updateProfile(newUserData);
+      if (updateResult.isRight) {
+        emit(ProfileState.data(newUserData));
+      }
+    }
+  }
+
   Future<Either<ProfileRepositoryError, bool>> deleteProfile() async {
     var result = await _deleteProfile();
     if (result.isRight) {

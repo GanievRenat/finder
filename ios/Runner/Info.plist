@@ -47,5 +47,11 @@
 		<true/>
 		<key>UIStatusBarHidden</key>
 		<false/>
+		<key>NSCameraUsageDescription</key>
+		<string>Для съемки фото профиля</string>
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>Для выбора фото из галереи</string>
+		<key>NSPhotoLibraryAddUsageDescription</key>
+		<string>Для сохранения фото в галерею</string>
 	</dict>
 </plist>

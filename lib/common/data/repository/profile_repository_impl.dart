@@ -30,7 +30,12 @@ class ProfileRepositoryImpl implements ProfileRepository {
   @override
   Future<Either<ProfileRepositoryError, bool>> update(User user) async {
     var result = await _dataProvider.updateCurrentUser(
-      UpdateUserBody(name: user.name, age: user.age, gender: user.gender),
+      UpdateUserBody(
+        name: user.name,
+        age: user.age,
+        gender: user.gender,
+        photo: user.photo,
+      ),
     );
     return result;
   }

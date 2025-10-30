@@ -1,7 +1,6 @@
 import 'package:flirta/common/domain/entites/entities.dart';
 import 'package:flirta/common/ui/widgets/widgets.dart';
 import 'package:flirta/featuries/profile/widgets/profile_builder.dart';
-import 'package:flirta/generated/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -19,33 +18,23 @@ class ProfileHead extends StatelessWidget {
       loading: (BuildContext context) => ProfileHeadLoading(),
       error: (BuildContext context, value, Widget? child) => ProfileHeadError(),
       success: (BuildContext context, value, Widget? child) =>
-          ProfileHeadData(user: value, canEdit: canEdit, onTap: () {}),
+          ProfileHeadData(user: value, canEdit: canEdit),
     );
   }
 }
 
 class ProfileHeadData extends StatelessWidget {
-  const ProfileHeadData({
-    super.key,
-    required this.user,
-    this.canEdit = false,
-    this.onTap,
-  });
+  const ProfileHeadData({super.key, required this.user, this.canEdit = false});
 
   final User user;
   final bool canEdit;
-  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        AvatarProfile(
-          fileName: Assets.images.gender.path,
-          canEdit: canEdit,
-          onTap: onTap,
-        ),
+        AvatarProfile(canEdit: canEdit, pathToImage: user.photo),
         Padding(
           padding: const EdgeInsets.only(top: 16.0, bottom: 32),
           child: Text(
@@ -67,7 +56,7 @@ class ProfileHeadError extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        AvatarProfile(fileName: ''),
+        AvatarProfile(),
         Padding(
           padding: const EdgeInsets.only(top: 16.0, bottom: 32),
           child: Text(
@@ -92,7 +81,7 @@ class ProfileHeadLoading extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          AvatarProfile(fileName: ''),
+          AvatarProfile(),
           Padding(
             padding: const EdgeInsets.only(top: 16.0, bottom: 32),
             child: Text(

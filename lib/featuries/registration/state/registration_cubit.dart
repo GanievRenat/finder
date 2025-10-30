@@ -57,6 +57,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
         name: currentData.name,
         age: currentData.age,
         gender: currentData.gender!,
+        photo: '',
       ),
     );
     return result;

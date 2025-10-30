@@ -9,6 +9,7 @@ part 'user_model.g.dart';
 abstract class UserModel with _$UserModel {
   const factory UserModel({
     required String name,
+    required String photo,
     required int age,
     required int gender,
   }) = _UserModel;
@@ -19,6 +20,11 @@ abstract class UserModel with _$UserModel {
 
 extension UsetModelToEntites on UserModel {
   User toEntites() {
-    return User(name: name, age: age, gender: Gender.values[gender]);
+    return User(
+      name: name,
+      age: age,
+      gender: Gender.values[gender],
+      photo: photo,
+    );
   }
 }

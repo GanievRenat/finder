@@ -1,7 +1,6 @@
 import 'package:flirta/common/enums/enums.dart';
 import 'package:flirta/common/ui/theme/app_spacing.dart';
 import 'package:flirta/common/ui/widgets/widgets.dart';
-import 'package:flirta/generated/assets.gen.dart';
 import 'package:flutter/material.dart';
 
 class AuthPage extends StatefulWidget {
@@ -64,8 +63,6 @@ class _AuthPageState extends State<AuthPage> {
             ),
 
             AvatarModel(imageURL: ''),
-            AvatarProfile(fileName: Assets.images.gender.path, canEdit: true),
-            AvatarProfile(fileName: Assets.images.gender.path, radius: 50),
             AvatarProfile(canEdit: true),
             AvatarProfile(radius: 50),
             Text('Header1', style: Theme.of(context).textTheme.displayLarge),

@@ -52,6 +52,7 @@ import 'package:flirta/common/service/analytics/analytics_service.dart'
 import 'package:flirta/common/service/app_state_service.dart' as _i523;
 import 'package:flirta/common/service/crashlytics_service.dart' as _i551;
 import 'package:flirta/common/service/language_service.dart' as _i39;
+import 'package:flirta/common/service/photo_picker_service.dart' as _i651;
 import 'package:flirta/common/service/services.dart' as _i697;
 import 'package:flirta/common/source/network/http_client/http_client_module.dart'
     as _i1066;
@@ -65,6 +66,8 @@ import 'package:flirta/common/source/network/interceptors/logger_interceptors.da
     as _i1072;
 import 'package:flirta/common/source/network/interceptors/token_interceptor.dart'
     as _i970;
+import 'package:flirta/common/ui/widgets/photo/image_source_bottom_sheet.dart'
+    as _i682;
 import 'package:flirta/featuries/profile/pages/profile/state/profile_cubit.dart'
     as _i227;
 import 'package:flirta/featuries/registration/state/registration_cubit.dart'
@@ -102,6 +105,10 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i534.AppToast>(() => _i534.AppToast());
     gh.singleton<_i523.AppStateService>(() => _i523.AppStateService());
     gh.singleton<_i551.CrashlyticsService>(() => _i551.CrashlyticsService());
+    gh.singleton<_i651.PhotoPickerService>(() => _i651.PhotoPickerService());
+    gh.singleton<_i682.ImageSourceBottomSheet>(
+      () => _i682.ImageSourceBottomSheet(),
+    );
     gh.singleton<_i1048.AppConfig>(
       () => _i67.TestAppConfig(),
       registerFor: {_test},
