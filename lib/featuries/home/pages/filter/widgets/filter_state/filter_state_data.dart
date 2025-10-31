@@ -4,8 +4,6 @@ import 'package:flirta/common/domain/entites/entities.dart';
 import 'package:flirta/featuries/home/pages/filter/state/filter_cubit.dart';
 import 'package:flirta/generated/locale_keys.g.dart';
 import 'package:flutter/material.dart';
-import 'package:skeletonizer/skeletonizer.dart';
-
 import '../../../../../../common/ui/widgets/widgets.dart';
 
 class FilterStateData extends StatelessWidget {
