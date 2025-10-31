@@ -12,12 +12,16 @@
 import 'package:dio/dio.dart' as _i361;
 import 'package:flirta/common/config/app_config.dart' as _i67;
 import 'package:flirta/common/data/providers/data_providers.dart' as _i443;
+import 'package:flirta/common/data/providers/filter_data_provider.dart'
+    as _i713;
 import 'package:flirta/common/data/providers/profile_data_provider.dart'
     as _i220;
 import 'package:flirta/common/data/providers/registration_data_provider.dart'
     as _i566;
 import 'package:flirta/common/data/providers/registration_form_data_provider.dart'
     as _i207;
+import 'package:flirta/common/data/repository/filter_repository_impl.dart'
+    as _i120;
 import 'package:flirta/common/data/repository/profile_repository_impl.dart'
     as _i473;
 import 'package:flirta/common/data/repository/registration_form_repository_impl.dart'
@@ -29,6 +33,10 @@ import 'package:flirta/common/data/repository/settings_repository_impl.dart'
 import 'package:flirta/common/di/third_party_module.dart' as _i362;
 import 'package:flirta/common/domain/app_config.dart' as _i1048;
 import 'package:flirta/common/domain/repository/repositories.dart' as _i243;
+import 'package:flirta/common/domain/usecase/filter/get_filter_state_usecase.dart'
+    as _i751;
+import 'package:flirta/common/domain/usecase/filter/save_filter_state_usecase.dart'
+    as _i372;
 import 'package:flirta/common/domain/usecase/profile/delete_profile_usecase.dart'
     as _i851;
 import 'package:flirta/common/domain/usecase/profile/get_profile_usecase.dart'
@@ -45,7 +53,10 @@ import 'package:flirta/common/domain/usecase/registration_user/save_registration
     as _i220;
 import 'package:flirta/common/domain/usecase/usecases.dart' as _i25;
 import 'package:flirta/common/router/modal_bottom_sheet.dart' as _i216;
-import 'package:flirta/common/router/observers/analytics_observer.dart' as _i36;
+import 'package:flirta/common/router/observers/auth_analytics_observer.dart'
+    as _i845;
+import 'package:flirta/common/router/observers/main_analytics_observer.dart'
+    as _i151;
 import 'package:flirta/common/router/toastification.dart' as _i534;
 import 'package:flirta/common/service/analytics/analytics_service.dart'
     as _i957;
@@ -68,6 +79,8 @@ import 'package:flirta/common/source/network/interceptors/token_interceptor.dart
     as _i970;
 import 'package:flirta/common/ui/widgets/photo/image_source_bottom_sheet.dart'
     as _i682;
+import 'package:flirta/featuries/home/pages/filter/state/filter_cubit.dart'
+    as _i706;
 import 'package:flirta/featuries/profile/pages/profile/state/profile_cubit.dart'
     as _i227;
 import 'package:flirta/featuries/registration/state/registration_cubit.dart'
@@ -172,8 +185,14 @@ extension GetItInjectableX on _i174.GetIt {
         config: gh<_i1048.AppConfig>(),
       ),
     );
-    gh.factory<_i36.AnalyticsObserver>(
-      () => _i36.AnalyticsObserver(
+    gh.factory<_i845.AuthAnalyticsObserver>(
+      () => _i845.AuthAnalyticsObserver(
+        analyticsService: gh<_i957.AnalyticsService>(),
+        logger: gh<_i974.Logger>(),
+      ),
+    );
+    gh.factory<_i151.MainAnalyticsObserver>(
+      () => _i151.MainAnalyticsObserver(
         analyticsService: gh<_i957.AnalyticsService>(),
         logger: gh<_i974.Logger>(),
       ),
@@ -189,8 +208,17 @@ extension GetItInjectableX on _i174.GetIt {
         dataProvider: gh<_i443.RegistrationDataProvider>(),
       ),
     );
+    gh.factory<_i583.GoRouter>(
+      () => thirdPartyModule.router(gh<_i845.AuthAnalyticsObserver>()),
+    );
     gh.singleton<_i207.RegistrationFormDataProvider>(
       () => _i207.RegistrationFormDataProviderLocal(
+        sharedPreferences: gh<_i460.SharedPreferences>(),
+        appConfig: gh<_i1048.AppConfig>(),
+      ),
+    );
+    gh.singleton<_i713.FilterDataProvider>(
+      () => _i713.FilterDataProviderLocal(
         sharedPreferences: gh<_i460.SharedPreferences>(),
         appConfig: gh<_i1048.AppConfig>(),
       ),
@@ -206,8 +234,18 @@ extension GetItInjectableX on _i174.GetIt {
         appConfig: gh<_i1048.AppConfig>(),
       ),
     );
-    gh.factory<_i583.GoRouter>(
-      () => thirdPartyModule.router(gh<_i36.AnalyticsObserver>()),
+    gh.singleton<_i243.FilterRepository>(
+      () => _i120.FilterRepositoryImpl(
+        dataProvider: gh<_i443.FilterDataProvider>(),
+      ),
+    );
+    gh.singleton<_i751.GetFilterState>(
+      () =>
+          _i751.GetFilterState(filterRepository: gh<_i243.FilterRepository>()),
+    );
+    gh.singleton<_i372.SaveFilterState>(
+      () =>
+          _i372.SaveFilterState(filterRepository: gh<_i243.FilterRepository>()),
     );
     gh.singleton<_i243.RegistrationFormRepository>(
       () => _i789.RegistrationFormRepositoryImpl(
@@ -217,6 +255,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i243.ProfileRepository>(
       () => _i473.ProfileRepositoryImpl(
         dataProvider: gh<_i443.ProfileDataProvider>(),
+      ),
+    );
+    gh.lazySingleton<_i706.FilterCubit>(
+      () => _i706.FilterCubit(
+        getFilterState: gh<_i25.GetFilterState>(),
+        saveFilterState: gh<_i25.SaveFilterState>(),
       ),
     );
     gh.singleton<_i194.GetProfile>(

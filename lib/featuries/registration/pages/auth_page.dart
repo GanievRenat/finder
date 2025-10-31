@@ -39,6 +39,7 @@ class _AuthPageState extends State<AuthPage> {
               child: GenderTagsGroup(
                 title: 'Preference',
                 initGender: Gender.female,
+                onChanged: (newGender) {},
               ),
             ),
             Padding(
@@ -59,6 +60,7 @@ class _AuthPageState extends State<AuthPage> {
                   'Music',
                 },
                 initTags: {'Cooking', 'Gamer'},
+                onChanged: (selectTags) {},
               ),
             ),
 
@@ -79,26 +81,6 @@ class _AuthPageState extends State<AuthPage> {
             Text('actionM', style: Theme.of(context).textTheme.titleMedium),
             Text('actionS', style: Theme.of(context).textTheme.titleSmall),
             Text('captionM', style: Theme.of(context).textTheme.labelMedium),
-
-            Row(
-              children: [
-                Expanded(
-                  child: MainButton(
-                    title: 'Continue',
-                    onPressed: () async {
-                      await AgeValidateDialog().present(context);
-                    },
-                  ),
-                ),
-                Expanded(
-                  child: MainButton(
-                    title: 'Continue',
-                    onPressed: () {},
-                    isLoading: true,
-                  ),
-                ),
-              ],
-            ),
 
             MainButton.small(title: 'Continue', onPressed: () {}),
             MainButton.inversion(title: 'Continue', onPressed: () {}),

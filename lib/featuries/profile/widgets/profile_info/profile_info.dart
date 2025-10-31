@@ -1,21 +1,24 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flirta/common/di/init_di.dart';
 import 'package:flirta/common/domain/entites/entities.dart';
 import 'package:flirta/common/enums/enums.dart';
-import 'package:flirta/common/router/router.dart';
 import 'package:flirta/common/ui/theme/app_spacing.dart';
 import 'package:flirta/common/ui/widgets/widgets.dart';
 import 'package:flirta/featuries/profile/profile.dart';
 import 'package:flirta/generated/locale_keys.g.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class ProfileInfo extends StatelessWidget {
-  const ProfileInfo({super.key, this.canEdit = false, this.onTap});
+  const ProfileInfo({
+    super.key,
+    required this.onAgeEdit,
+    required this.onNameEdit,
+    required this.onGenderEdit,
+  });
 
-  final bool canEdit;
-  final VoidCallback? onTap;
+  final Function(int initAge) onAgeEdit;
+  final Function(int initGenderIndex) onGenderEdit;
+  final Function(String initName) onNameEdit;
 
   @override
   Widget build(BuildContext context) {
@@ -23,16 +26,30 @@ class ProfileInfo extends StatelessWidget {
       init: (BuildContext context) => ProfileInfoLoading(),
       loading: (BuildContext context) => ProfileInfoLoading(),
       error: (BuildContext context, value, Widget? child) => ProfileInfoError(),
-      success: (BuildContext context, value, Widget? child) =>
-          ProfileInfoData(user: value),
+      success: (BuildContext context, value, Widget? child) => ProfileInfoData(
+        user: value,
+        onAgeEdit: onAgeEdit,
+        onGenderEdit: onGenderEdit,
+        onNameEdit: onNameEdit,
+      ),
     );
   }
 }
 
 class ProfileInfoData extends StatelessWidget {
-  const ProfileInfoData({super.key, required this.user});
+  const ProfileInfoData({
+    super.key,
+    required this.user,
+    required this.onAgeEdit,
+    required this.onGenderEdit,
+    required this.onNameEdit,
+  });
 
   final User user;
+
+  final Function(int initAge) onAgeEdit;
+  final Function(int initGenderIndex) onGenderEdit;
+  final Function(String initName) onNameEdit;
 
   @override
   Widget build(BuildContext context) {
@@ -42,53 +59,19 @@ class ProfileInfoData extends StatelessWidget {
         ListTileProfileItem(
           title: LocaleKeys.user_profile_menu_your_profile_field_name.tr(),
           subtitle: user.name,
-          onTap: () {
-            getIt<AppModalBottomSheet>().show(
-              context,
-              title: LocaleKeys.auth_whats_your_name_title.tr(),
-              content: NameEditWidget(
-                initName: user.name,
-                onComplited: () {
-                  context.pop();
-                },
-              ),
-            );
-          },
+          onTap: () => onNameEdit(user.name),
         ),
         AppSpacing.vertical.s3,
         ListTileProfileItem(
           title: LocaleKeys.user_profile_menu_your_profile_field_gender.tr(),
           subtitle: user.gender?.getGenderName() ?? '',
-          onTap: () {
-            getIt<AppModalBottomSheet>().show(
-              context,
-              title: LocaleKeys.auth_you_identify_title.tr(),
-              content: GenderEditWidget(
-                initGender: user.gender ?? Gender.male,
-                onComplited: () {
-                  context.pop();
-                },
-              ),
-            );
-          },
+          onTap: () => onGenderEdit((user.gender ?? Gender.male).index),
         ),
         AppSpacing.vertical.s3,
         ListTileProfileItem(
           title: LocaleKeys.user_profile_menu_your_profile_field_age.tr(),
           subtitle: '${user.age}',
-          onTap: () {
-            getIt<AppModalBottomSheet>().show(
-              context,
-              title: LocaleKeys.auth_how_old_are_you_title.tr(),
-              subtitle: LocaleKeys.auth_how_old_are_you_subtitle.tr(),
-              content: AgeEditWidget(
-                initAge: user.age,
-                onComplited: () {
-                  context.pop();
-                },
-              ),
-            );
-          },
+          onTap: () => onAgeEdit(user.age),
         ),
       ],
     );

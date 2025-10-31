@@ -3,9 +3,6 @@ part of '../../app_router.dart';
 class HomeRoute extends GoRouteData with $HomeRoute {
   const HomeRoute();
 
-  static final GlobalKey<NavigatorState> $parentNavigatorKey =
-      shellNavigatorKey;
-
   static const path = '/home';
   static const name = '/home';
 
@@ -14,10 +11,7 @@ class HomeRoute extends GoRouteData with $HomeRoute {
     return Transition.fade(
       pageKey: state.pageKey,
       name: name,
-      child: HomePage(
-        onSettings: () => const ProfileRoute().push(context),
-        onSingOut: () {},
-      ),
+      child: HomePage(onFilter: () => const FiltersRoute().go(context)),
     );
   }
 }
@@ -25,15 +19,12 @@ class HomeRoute extends GoRouteData with $HomeRoute {
 class ProfileRoute extends GoRouteData with $ProfileRoute {
   const ProfileRoute();
 
-  static final GlobalKey<NavigatorState> $parentNavigatorKey =
-      shellNavigatorKey;
-
   static const path = '/profile';
   static const name = '/profile';
 
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
-    return Transition.slide(
+    return Transition.fade(
       pageKey: state.pageKey,
       name: name,
       child: ProfilePage(
@@ -45,11 +36,40 @@ class ProfileRoute extends GoRouteData with $ProfileRoute {
   }
 }
 
+class ChatsRoute extends GoRouteData with $ChatsRoute {
+  const ChatsRoute();
+
+  static const path = '/chats';
+  static const name = '/chats';
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return Transition.fade(
+      pageKey: state.pageKey,
+      name: name,
+      child: ListChatPage(),
+    );
+  }
+}
+
+class FiltersRoute extends GoRouteData with $FiltersRoute {
+  const FiltersRoute();
+
+  static const path = 'filters';
+  static const name = 'filters';
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return Transition.slide(
+      pageKey: state.pageKey,
+      name: name,
+      child: FilterPage(),
+    );
+  }
+}
+
 class EditProfileRoute extends GoRouteData with $EditProfileRoute {
   const EditProfileRoute();
-
-  static final GlobalKey<NavigatorState> $parentNavigatorKey =
-      shellNavigatorKey;
 
   static const path = 'edit-profile';
   static const name = 'edit-profile';
@@ -59,7 +79,93 @@ class EditProfileRoute extends GoRouteData with $EditProfileRoute {
     return Transition.slide(
       pageKey: state.pageKey,
       name: name,
-      child: EditProfilePage(onDeleteProfile: () => AuthRoute().go(context)),
+      child: EditProfilePage(
+        onRegistration: () => AuthRoute().go(context),
+        onAgeEdit: (initAge) =>
+            EditAgeProfileRoute(initAge: initAge).push(context),
+        onNameEdit: (initName) =>
+            EditNameProfileRoute(initName: initName).push(context),
+        onGenderEdit: (initGenderIndex) => EditGenderProfileRoute(
+          initGenderIndex: initGenderIndex,
+        ).push(context),
+        onDialogDeleteProfile: () async =>
+            await AlertDialogDeleteProfileRoute().push<bool?>(context) ?? false,
+      ),
+    );
+  }
+}
+
+class EditAgeProfileRoute extends GoRouteData with $EditAgeProfileRoute {
+  const EditAgeProfileRoute({required this.initAge});
+
+  static const path = 'age-edit-profile';
+  static const name = 'age-edit-profile';
+
+  final int initAge;
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return ModalBottomSheetPage(
+      key: state.pageKey,
+      name: name,
+      title: LocaleKeys.auth_how_old_are_you_title.tr(),
+      subtitle: LocaleKeys.auth_how_old_are_you_subtitle.tr(),
+      child: AgeEditWidget(
+        initAge: initAge,
+        onComplited: () {
+          context.pop();
+        },
+      ),
+    );
+  }
+}
+
+class EditGenderProfileRoute extends GoRouteData with $EditGenderProfileRoute {
+  const EditGenderProfileRoute({required this.initGenderIndex});
+
+  static const path = 'gender-edit-profile';
+  static const name = 'gender-edit-profile';
+
+  final int initGenderIndex;
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return ModalBottomSheetPage(
+      key: state.pageKey,
+      name: name,
+      title: LocaleKeys.auth_how_old_are_you_title.tr(),
+      subtitle: LocaleKeys.auth_how_old_are_you_subtitle.tr(),
+      child: GenderEditWidget(
+        initGender: Gender.values[initGenderIndex],
+        onComplited: () {
+          context.pop();
+        },
+      ),
+    );
+  }
+}
+
+class EditNameProfileRoute extends GoRouteData with $EditNameProfileRoute {
+  const EditNameProfileRoute({required this.initName});
+
+  static const path = 'name-edit-profile';
+  static const name = 'name-edit-profile';
+
+  final String initName;
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return ModalBottomSheetPage(
+      key: state.pageKey,
+      name: name,
+      title: LocaleKeys.auth_how_old_are_you_title.tr(),
+      subtitle: LocaleKeys.auth_how_old_are_you_subtitle.tr(),
+      child: NameEditWidget(
+        initName: initName,
+        onComplited: () {
+          context.pop();
+        },
+      ),
     );
   }
 }
@@ -67,9 +173,6 @@ class EditProfileRoute extends GoRouteData with $EditProfileRoute {
 class NotificationSettingsRoute extends GoRouteData
     with $NotificationSettingsRoute {
   const NotificationSettingsRoute();
-
-  static final GlobalKey<NavigatorState> $parentNavigatorKey =
-      shellNavigatorKey;
 
   static const path = 'notification-settings';
   static const name = 'notification-settings';
@@ -80,6 +183,40 @@ class NotificationSettingsRoute extends GoRouteData
       pageKey: state.pageKey,
       name: name,
       child: NotificationSettingsPage(),
+    );
+  }
+}
+
+class AlertDialogDeleteProfileRoute extends GoRouteData
+    with $AlertDialogDeleteProfileRoute {
+  const AlertDialogDeleteProfileRoute();
+
+  static const path = 'dialog-delete-profile';
+  static const name = 'dialog-delete-profile';
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return DialogPage<bool>(
+      key: state.pageKey,
+      name: name,
+      dialogContent: MainDialog(
+        title: LocaleKeys.properties_dialogs_delete_account_title.tr(),
+        message: LocaleKeys.properties_dialogs_delete_account_message.tr(),
+        buttons: [
+          AlertDialogButton<bool>(
+            type: TypeAlertDialogButton.red,
+            title: LocaleKeys.properties_dialogs_delete_account_button_delete
+                .tr(),
+            value: true,
+          ),
+          AlertDialogButton<bool>(
+            type: TypeAlertDialogButton.main,
+            title: LocaleKeys.properties_dialogs_delete_account_button_cancel
+                .tr(),
+            value: false,
+          ),
+        ],
+      ),
     );
   }
 }

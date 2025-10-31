@@ -30,6 +30,7 @@ class DefAppConfig implements AppConfig {
   Map<LocalKeies, String> get localKeies => {
     LocalKeies.localProfileKey: 'profile',
     LocalKeies.localRegistrationFormKey: 'registration_data',
+    LocalKeies.localFilterStateKey: 'filter_state',
   };
 }
 

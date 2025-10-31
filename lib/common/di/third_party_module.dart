@@ -11,15 +11,17 @@ import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../router/app_router.dart';
-import '../router/observers/analytics_observer.dart';
+import '../router/observers/auth_analytics_observer.dart';
 
 @module
 abstract class ThirdPartyModule {
-  GoRouter router(AnalyticsObserver analyticsObserver) => GoRouter(
-    navigatorKey: rootNavigatorKey,
-    routes: $appRoutes,
-    observers: [analyticsObserver],
-  );
+  GoRouter router(AuthAnalyticsObserver analyticsObserver) {
+    return GoRouter(
+      navigatorKey: rootNavigatorKey,
+      routes: $appRoutes,
+      observers: [analyticsObserver],
+    );
+  }
 
   @singleton
   Logger get logger => Logger();

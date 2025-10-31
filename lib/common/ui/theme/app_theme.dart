@@ -121,8 +121,7 @@ class AppTheme {
       backgroundColor: colorScheme.background,
       foregroundColor: colorScheme.onBackground,
       actionsPadding: EdgeInsets.all(0),
-      //leadingWidth: 12,
-      //titleSpacing: 16,
+      titleTextStyle: textTheme.header3,
       elevation: 0,
       scrolledUnderElevation: 0,
     ),
@@ -137,6 +136,28 @@ class AppTheme {
     ),
     menuTheme: MenuThemeData(
       style: MenuStyle(padding: WidgetStatePropertyAll(EdgeInsets.all(16))),
+    ),
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      elevation: 0,
+      enableFeedback: false,
+      backgroundColor: colorScheme.background,
+      selectedItemColor: colorScheme.neutralDarkDarkset,
+      unselectedItemColor: colorScheme.neutralDarkLight,
+      selectedLabelStyle: textTheme.actionS.copyWith(
+        color: colorScheme.neutralDarkDarkset,
+      ),
+      unselectedLabelStyle: textTheme.bodyXS.copyWith(
+        color: colorScheme.neutralDarkLight,
+      ),
+      type: BottomNavigationBarType.fixed,
+      selectedIconTheme: IconThemeData(
+        size: AppSpacing.s8,
+        color: colorScheme.neutralDarkDarkset,
+      ),
+      unselectedIconTheme: IconThemeData(
+        size: AppSpacing.s8,
+        color: colorScheme.neutralLightDark,
+      ),
     ),
   );
 

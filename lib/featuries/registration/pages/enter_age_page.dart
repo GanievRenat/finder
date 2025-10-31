@@ -12,10 +12,12 @@ class EnterAgePage extends StatefulWidget {
   const EnterAgePage({
     super.key,
     required this.onSelectGender,
+    required this.onDialogAgeValidate,
     required this.onTerms,
   });
 
   final Function onSelectGender;
+  final Future<bool> Function() onDialogAgeValidate;
   final Function onTerms;
 
   @override
@@ -57,7 +59,7 @@ class _EnterAgePageState extends State<EnterAgePage> {
           ),
           onPressed: () async {
             if (getIt<RegistrationCubit>().currentData.age < 18) {
-              var result = await AgeValidateDialog().present(context) ?? false;
+              var result = await widget.onDialogAgeValidate();
               if (result) {
                 widget.onTerms();
               }

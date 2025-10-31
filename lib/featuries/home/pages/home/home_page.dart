@@ -1,14 +1,11 @@
+import 'package:flirta/common/ui/widgets/logo/logo.dart';
+import 'package:flirta/generated/assets.gen.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({
-    super.key,
-    required this.onSettings,
-    required this.onSingOut,
-  });
+  const HomePage({super.key, required this.onFilter});
 
-  final VoidCallback onSettings;
-  final VoidCallback onSingOut;
+  final VoidCallback onFilter;
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -19,15 +16,15 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home Page'),
+        centerTitle: false,
+        title: const LogoFlirta(),
         actions: [
           IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: widget.onSettings,
-          ),
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: widget.onSingOut,
+            icon: Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: Assets.images.icons.filter.svg(),
+            ),
+            onPressed: widget.onFilter,
           ),
         ],
       ),

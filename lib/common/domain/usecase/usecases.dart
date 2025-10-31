@@ -5,3 +5,5 @@ export 'registration_user/registration_new_user_by_guest_usecase.dart';
 export 'profile/get_profile_usecase.dart';
 export 'profile/update_profile_usecase.dart';
 export 'profile/delete_profile_usecase.dart';
+export 'filter/get_filter_state_usecase.dart';
+export 'filter/save_filter_state_usecase.dart';

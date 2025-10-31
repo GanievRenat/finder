@@ -1,4 +1,8 @@
-enum LocalKeies { localProfileKey, localRegistrationFormKey }
+enum LocalKeies {
+  localProfileKey,
+  localRegistrationFormKey,
+  localFilterStateKey,
+}
 
 abstract class AppConfig {
   String get baseUrl;

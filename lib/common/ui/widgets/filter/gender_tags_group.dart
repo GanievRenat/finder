@@ -8,11 +8,13 @@ class GenderTagsGroup extends StatefulWidget {
   const GenderTagsGroup({
     super.key,
     required this.title,
+    required this.onChanged,
     this.initGender = Gender.none,
   });
 
   final Gender initGender;
   final String title;
+  final Function(Gender newGender) onChanged;
 
   @override
   State<GenderTagsGroup> createState() => _GenderTagsGroupState();
@@ -29,13 +31,26 @@ class _GenderTagsGroupState extends State<GenderTagsGroup> {
         SizedBox(height: 16),
         GroupOptionsTags(
           tags: {
-            Gender.female.displayName,
-            Gender.male.displayName,
-            Gender.nonBinary.displayName,
-            Gender.none.displayName,
+            Gender.female.getGenderForInterestedName(),
+            Gender.male.getGenderForInterestedName(),
+            Gender.nonBinary.getGenderForInterestedName(),
+            Gender.none.getGenderForInterestedName(),
           },
-          initTag: widget.initGender.displayName,
-          onChange: (tags) {},
+          initTag: widget.initGender.getGenderForInterestedName(),
+          onChange: (tags) {
+            if (tags == Gender.female.getGenderForInterestedName()) {
+              widget.onChanged(Gender.female);
+            }
+            if (tags == Gender.male.getGenderForInterestedName()) {
+              widget.onChanged(Gender.male);
+            }
+            if (tags == Gender.nonBinary.getGenderForInterestedName()) {
+              widget.onChanged(Gender.nonBinary);
+            }
+            if (tags == Gender.none.getGenderForInterestedName()) {
+              widget.onChanged(Gender.none);
+            }
+          },
         ),
       ],
     );

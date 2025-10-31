@@ -3,3 +3,4 @@ export 'dialog_page.dart';
 export 'observers/observers.dart';
 export 'transition.dart';
 export 'modal_bottom_sheet.dart';
+export 'dialogs/main_dialog.dart';

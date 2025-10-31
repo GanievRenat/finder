@@ -8,12 +8,14 @@ class MainTagsGroup extends StatefulWidget {
     super.key,
     required this.title,
     required this.tags,
+    required this.onChanged,
     this.initTags = const {},
   });
 
   final String title;
   final Set<String> tags;
   final Set<String> initTags;
+  final Function(Set<String> selectTags) onChanged;
 
   @override
   State<MainTagsGroup> createState() => _MainTagsGroupState();

@@ -12,6 +12,12 @@ part of '../../app_router.dart';
     TypedGoRoute<EnterAgeRoute>(
       path: EnterAgeRoute.path,
       name: EnterAgeRoute.name,
+      routes: [
+        TypedGoRoute<AlertDialogAgeValidateRoute>(
+          path: AlertDialogAgeValidateRoute.path,
+          name: AlertDialogAgeValidateRoute.name,
+        ),
+      ],
     ),
     TypedGoRoute<SelectGenderRoute>(
       path: SelectGenderRoute.path,
@@ -26,7 +32,7 @@ part of '../../app_router.dart';
 class AuthRoute extends GoRouteData with $AuthRoute {
   const AuthRoute();
 
-  static final GlobalKey<NavigatorState> $parentNavigatorKey = rootNavigatorKey;
+  //static final GlobalKey<NavigatorState> $parentNavigatorKey = rootNavigatorKey;
 
   static const path = '/auth';
   static const name = '/slider';
@@ -70,6 +76,8 @@ class EnterAgeRoute extends GoRouteData with $EnterAgeRoute {
         name: name,
         child: EnterAgePage(
           onSelectGender: () => const SelectGenderRoute().push(context),
+          onDialogAgeValidate: () async =>
+              await AlertDialogAgeValidateRoute().push<bool?>(context) ?? false,
           onTerms: () {},
         ),
       );
@@ -109,4 +117,36 @@ class SelectInterestingGenderRoute extends GoRouteData
           onFinishRegistration: () => const HomeRoute().go(context),
         ),
       );
+}
+
+class AlertDialogAgeValidateRoute<T> extends GoRouteData
+    with $AlertDialogAgeValidateRoute {
+  const AlertDialogAgeValidateRoute();
+
+  static const path = 'dialog-age-validate';
+  static const name = 'dialog-age-validate';
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return DialogPage<bool>(
+      key: state.pageKey,
+      name: name,
+      dialogContent: MainDialog(
+        title: LocaleKeys.auth_not_old_enough_error_title.tr(),
+        message: LocaleKeys.auth_not_old_enough_error_subtitle.tr(),
+        buttons: [
+          AlertDialogButton(
+            type: TypeAlertDialogButton.second,
+            title: LocaleKeys.auth_not_old_enough_error_button_terms.tr(),
+            value: true,
+          ),
+          AlertDialogButton(
+            type: TypeAlertDialogButton.main,
+            title: LocaleKeys.auth_not_old_enough_error_button_got_it.tr(),
+            value: false,
+          ),
+        ],
+      ),
+    );
+  }
 }

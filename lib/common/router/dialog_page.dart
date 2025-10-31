@@ -6,10 +6,10 @@ class DialogPage<T> extends Page<T> {
   final String? barrierLabel;
   final bool useSafeArea;
   final CapturedThemes? themes;
-  final WidgetBuilder builder;
+  final Widget dialogContent;
 
   const DialogPage({
-    required this.builder,
+    required this.dialogContent,
     this.anchorPoint,
     this.barrierDismissible = true,
     this.barrierLabel,
@@ -25,9 +25,8 @@ class DialogPage<T> extends Page<T> {
   Route<T> createRoute(BuildContext context) => DialogRoute<T>(
     context: context,
     settings: this,
-    builder: (context) => builder(context),
+    builder: (context) => dialogContent,
     anchorPoint: anchorPoint,
-    //barrierColor: context.color.windStar20,
     barrierDismissible: barrierDismissible,
     barrierLabel: barrierLabel,
     useSafeArea: useSafeArea,

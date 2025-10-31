@@ -1,5 +1,4 @@
 export 'pages/profile/profile_page.dart';
-export 'widgets/dialog/delete_account_dialog.dart';
 export 'widgets/buttons/delete_profile_button.dart';
 export 'widgets/profile_premium_status.dart';
 export 'widgets/profile_head.dart';
