@@ -30,6 +30,7 @@ abstract class AppThemeColorScheme extends ColorScheme {
     required this.supportWarningMedium,
     required this.supportWarningLight,
     required this.red,
+    required this.green,
 
     required this.pushIndicator,
 
@@ -88,6 +89,7 @@ abstract class AppThemeColorScheme extends ColorScheme {
   final Color supportWarningLight;
 
   final Color red;
+  final Color green;
 
   final Color pushIndicator;
 
@@ -143,6 +145,7 @@ class LightColorScheme extends AppThemeColorScheme {
         supportWarningLight: Color(0xFFFFF4E4),
 
         red: Color(0xFFEF488E),
+        green: Color(0xFF35C9EA),
 
         pushIndicator: Color(0xFFE94057),
 
@@ -195,6 +198,7 @@ class DarkColorScheme extends AppThemeColorScheme {
         supportWarningLight: Color(0xFFFFF4E4),
 
         red: Color(0xFFEF488E),
+        green: Color(0xFF35C9EA),
 
         pushIndicator: Color(0xFFE94057),
 
