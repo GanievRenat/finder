@@ -14,6 +14,7 @@ part 'filter_cubit.freezed.dart';
 class FilterCubit extends Cubit<FilterState> {
   final GetFilterState _getFilterState;
   final SaveFilterState _saveFilterState;
+  final ClearFilterState _clearFilterState;
 
   FilterData currentFilterData = FilterData.empty();
   FilterData forUpdateFilterData = FilterData.empty();
@@ -21,8 +22,10 @@ class FilterCubit extends Cubit<FilterState> {
   FilterCubit({
     required GetFilterState getFilterState,
     required SaveFilterState saveFilterState,
+    required ClearFilterState clearFilterState,
   }) : _getFilterState = getFilterState,
        _saveFilterState = saveFilterState,
+       _clearFilterState = clearFilterState,
        super(FilterState.init());
 
   Future<void> init() async {
@@ -31,7 +34,12 @@ class FilterCubit extends Cubit<FilterState> {
     if (result.isRight) {
       currentFilterData = result.right;
       forUpdateFilterData = result.right;
-      emit(FilterState.data(currentFilterData));
+      emit(
+        FilterState.data(
+          currentFilterData,
+          DateTime.now().millisecondsSinceEpoch,
+        ),
+      );
     } else {
       emit(FilterState.error(result.left));
     }
@@ -40,18 +48,44 @@ class FilterCubit extends Cubit<FilterState> {
   Future<void> saveState() async {
     var result = await _saveFilterState(forUpdateFilterData);
     if (result.isRight) {
-      emit(FilterState.data(forUpdateFilterData));
+      emit(
+        FilterState.data(
+          forUpdateFilterData,
+          DateTime.now().millisecondsSinceEpoch,
+        ),
+      );
       currentFilterData = forUpdateFilterData;
     } else {
       emit(FilterState.error(result.left));
     }
   }
 
+  Future<void> clearState() async {
+    var result = await _clearFilterState();
+    if (result.isRight) {
+      currentFilterData = currentFilterData.copyWith(
+        interestedGender: Gender.none,
+        selectTags: [],
+      );
+      forUpdateFilterData = currentFilterData;
+      emit(
+        FilterState.data(
+          currentFilterData,
+          DateTime.now().millisecondsSinceEpoch,
+        ),
+      );
+    }
+  }
+
   void setNewInterestedGender(Gender gender) {
-    forUpdateFilterData.copyWith(interestedGender: gender);
+    forUpdateFilterData = forUpdateFilterData.copyWith(
+      interestedGender: gender,
+    );
   }
 
   void setNewSelectTags(Set<String> selectTags) {
-    forUpdateFilterData.copyWith(selectTags: selectTags.toList());
+    forUpdateFilterData = forUpdateFilterData.copyWith(
+      selectTags: selectTags.toList(),
+    );
   }
 }

@@ -8,9 +8,9 @@ part 'filter_state_model.g.dart';
 @freezed
 abstract class FilterStateModel with _$FilterStateModel {
   const factory FilterStateModel({
-    required List<String> tags,
-    required List<String> selectTags,
-    required int genderIndex,
+    @Default([]) List<String> tags,
+    @Default([]) List<String> selectTags,
+    @Default(0) @JsonKey(name: 'interestedGender') int genderIndex,
   }) = _FilterStateModel;
 
   factory FilterStateModel.fromJson(Map<String, Object?> json) =>

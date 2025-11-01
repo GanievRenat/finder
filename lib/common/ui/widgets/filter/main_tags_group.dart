@@ -33,7 +33,7 @@ class _MainTagsGroupState extends State<MainTagsGroup> {
         GroupTags(
           tags: widget.tags,
           initTags: widget.initTags,
-          onChange: (tags) {},
+          onChange: widget.onChanged,
         ),
       ],
     );

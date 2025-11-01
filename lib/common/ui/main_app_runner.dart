@@ -6,6 +6,7 @@ import 'package:flirta/common/service/analytics/events.dart';
 import 'package:flirta/common/service/services.dart';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flirta/featuries/home/pages/filter/state/filter_cubit.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -40,7 +41,7 @@ class MainAppRunner implements AppRunner {
       auth: (user) async {
         // Добавить все что надо проинициализировать если пользователь авторизован
         getIt<CrashlyticsService>().setUserId(user.uid, properties: null);
-        //await getIt<FilterCubit>().init();
+        await getIt<FilterCubit>().init();
       },
       noAuth: () async {
         // Добавить все что надо проинициализировать если пользователь НЕ авторизован

@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:easy_localization/easy_localization.dart';
+//import 'package:easy_localization/easy_localization.dart';
 import 'package:either_dart/either.dart';
 
 import 'package:flirta/common/data/models/models.dart';
@@ -32,10 +32,61 @@ class FilterDataProviderLocal extends FilterDataProvider {
   @override
   Future<Either<FilterError, FilterStateModel>> getFilterState() {
     try {
-      List<String> tags = List.generate(
+      List<String> tags = [
+        "Fitness",
+        "Running",
+        "Yoga",
+        "Cycling",
+        "Swimming",
+        "Hiking",
+        "Skiing",
+        "Climbing",
+        "Martial Arts",
+        "Dancing",
+        "Photography",
+        "Painting",
+        "Music",
+        "Guitar",
+        "Singing",
+        "Cooking",
+        "Literature",
+        "Theater",
+        "Cinema",
+        "Handmade",
+        "Gaming",
+        "Board Games",
+        "Clubs",
+        "Bars",
+        "Travel",
+        "Cars",
+        "Motorcycles",
+        "Festivals",
+        "Walking",
+        "Picnics",
+        "Science",
+        "Technology",
+        "History",
+        "Psychology",
+        "Self-development",
+        "Languages",
+        "Gardening",
+        "Pets",
+        "Design",
+        "Wine",
+        "Tattoos",
+        "Piercing",
+        "Fashion",
+        "Bodybuilding",
+        "Cosplay",
+        "Sensual",
+        "Intimacy",
+        "Affection",
+        "Romance",
+        "Chemistry",
+      ]; /*List.generate(
         50,
         (index) => 'filter.interests_tags.$index'.tr(),
-      );
+      );*/
 
       var localState =
           _sharedPreferences.getString(

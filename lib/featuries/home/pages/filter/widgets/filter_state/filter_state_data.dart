@@ -7,9 +7,12 @@ import 'package:flutter/material.dart';
 import '../../../../../../common/ui/widgets/widgets.dart';
 
 class FilterStateData extends StatelessWidget {
-  const FilterStateData({super.key, required this.filterStateData});
+  FilterStateData({super.key, required this.filterStateData});
 
   final FilterData filterStateData;
+
+  final GlobalKey globalKeyGender = GlobalKey(debugLabel: 'gender');
+  final GlobalKey globalKeyInterests = GlobalKey(debugLabel: 'interests');
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +22,7 @@ class FilterStateData extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 16.0, top: 16, right: 16),
             child: GenderTagsGroup(
+              key: globalKeyGender,
               title: LocaleKeys.filter_preference.tr(),
               initGender: filterStateData.interestedGender,
               onChanged: (newGender) {
@@ -34,6 +38,7 @@ class FilterStateData extends StatelessWidget {
               bottom: 16,
             ),
             child: MainTagsGroup(
+              key: globalKeyInterests,
               title: LocaleKeys.filter_interests.tr(),
               tags: filterStateData.tags.toSet(),
               initTags: filterStateData.selectTags.toSet(),

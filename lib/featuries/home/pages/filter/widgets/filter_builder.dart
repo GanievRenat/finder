@@ -27,7 +27,8 @@ class FilterBuilder extends StatelessWidget {
           init: () => init(context),
           loading: () => loading(context),
           error: (errorText) => error(context, errorText.errorText, this),
-          data: (FilterData filter) => success(context, filter, this),
+          data: (FilterData filter, int timeStemp) =>
+              success(context, filter, this),
         );
       },
     );

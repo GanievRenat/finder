@@ -33,6 +33,8 @@ import 'package:flirta/common/data/repository/settings_repository_impl.dart'
 import 'package:flirta/common/di/third_party_module.dart' as _i362;
 import 'package:flirta/common/domain/app_config.dart' as _i1048;
 import 'package:flirta/common/domain/repository/repositories.dart' as _i243;
+import 'package:flirta/common/domain/usecase/filter/clear_filter_state_usecase.dart'
+    as _i616;
 import 'package:flirta/common/domain/usecase/filter/get_filter_state_usecase.dart'
     as _i751;
 import 'package:flirta/common/domain/usecase/filter/save_filter_state_usecase.dart'
@@ -239,6 +241,11 @@ extension GetItInjectableX on _i174.GetIt {
         dataProvider: gh<_i443.FilterDataProvider>(),
       ),
     );
+    gh.singleton<_i616.ClearFilterState>(
+      () => _i616.ClearFilterState(
+        filterRepository: gh<_i243.FilterRepository>(),
+      ),
+    );
     gh.singleton<_i751.GetFilterState>(
       () =>
           _i751.GetFilterState(filterRepository: gh<_i243.FilterRepository>()),
@@ -246,6 +253,13 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i372.SaveFilterState>(
       () =>
           _i372.SaveFilterState(filterRepository: gh<_i243.FilterRepository>()),
+    );
+    gh.lazySingleton<_i706.FilterCubit>(
+      () => _i706.FilterCubit(
+        getFilterState: gh<_i25.GetFilterState>(),
+        saveFilterState: gh<_i25.SaveFilterState>(),
+        clearFilterState: gh<_i25.ClearFilterState>(),
+      ),
     );
     gh.singleton<_i243.RegistrationFormRepository>(
       () => _i789.RegistrationFormRepositoryImpl(
@@ -255,12 +269,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i243.ProfileRepository>(
       () => _i473.ProfileRepositoryImpl(
         dataProvider: gh<_i443.ProfileDataProvider>(),
-      ),
-    );
-    gh.lazySingleton<_i706.FilterCubit>(
-      () => _i706.FilterCubit(
-        getFilterState: gh<_i25.GetFilterState>(),
-        saveFilterState: gh<_i25.SaveFilterState>(),
       ),
     );
     gh.singleton<_i194.GetProfile>(
@@ -302,6 +310,8 @@ extension GetItInjectableX on _i174.GetIt {
         loadRegistrationData: gh<_i25.LoadRegistrationFormData>(),
         clearRegistrationData: gh<_i25.ClearRegistrationFormData>(),
         registrationNewUserByGuest: gh<_i25.RegistrationNewUserByGuest>(),
+        saveFilterState: gh<_i25.SaveFilterState>(),
+        clearFilterState: gh<_i25.ClearFilterState>(),
       ),
     );
     gh.singleton<_i227.ProfileCubit>(

@@ -18,6 +18,8 @@ class RegistrationCubit extends Cubit<RegistrationState> {
   final LoadRegistrationFormData _loadRegistrationData;
   final ClearRegistrationFormData _clearRegistrationData;
   final RegistrationNewUserByGuest _registrationNewUserByGuest;
+  final SaveFilterState _saveFilterState;
+  final ClearFilterState _clearFilterState;
 
   RegistrationData currentData = RegistrationData.empty();
 
@@ -26,10 +28,14 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     required LoadRegistrationFormData loadRegistrationData,
     required ClearRegistrationFormData clearRegistrationData,
     required RegistrationNewUserByGuest registrationNewUserByGuest,
+    required SaveFilterState saveFilterState,
+    required ClearFilterState clearFilterState,
   }) : _saveRegistrationData = saveRegistrationData,
        _loadRegistrationData = loadRegistrationData,
        _clearRegistrationData = clearRegistrationData,
        _registrationNewUserByGuest = registrationNewUserByGuest,
+       _saveFilterState = saveFilterState,
+       _clearFilterState = clearFilterState,
        super(RegistrationState.init()) {
     getCurrentData();
   }
@@ -60,11 +66,17 @@ class RegistrationCubit extends Cubit<RegistrationState> {
         photo: '',
       ),
     );
+    await _saveFilterState(
+      FilterData.empty().copyWith(
+        interestedGender: currentData.interestedGender,
+      ),
+    );
     return result;
   }
 
   Future<void> clearCurrentData() async {
     await _clearRegistrationData();
+    await _clearFilterState();
     currentData = RegistrationData.empty();
     emit(RegistrationState.data(currentData));
   }

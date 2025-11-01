@@ -1,8 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flirta/common/di/init_di.dart';
 import 'package:flirta/common/ui/theme/theme.dart';
-import 'package:flirta/common/ui/widgets/buttons/main_button.dart';
 import 'package:flirta/featuries/home/pages/filter/state/filter_cubit.dart';
+import 'package:go_router/go_router.dart';
+import 'widgets/apply_filteres_button.dart';
 import 'widgets/filter_builder.dart';
 import 'widgets/filter_state/filter_state_data.dart';
 import 'widgets/filter_state/filter_state_loading.dart';
@@ -27,7 +28,9 @@ class _FilterPageState extends State<FilterPage> {
         centerTitle: true,
         actions: [
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              getIt<FilterCubit>().clearState();
+            },
             child: Text(
               LocaleKeys.filter_button_clear_all.tr(),
               style: AppTheme.of(context).textStyle.actionM.copyWith(
@@ -53,21 +56,15 @@ class _FilterPageState extends State<FilterPage> {
           Padding(
             padding: EdgeInsets.only(
               left: 16,
-              top: 16,
+              top: 2,
               right: 16,
               bottom: 16 + MediaQuery.of(context).padding.bottom,
             ),
-            child: MainButton(
-              title: LocaleKeys.filter_button_apply_filter.tr(),
-              isLoading: isLoading,
-              onPressed: () async {
-                setState(() {
-                  isLoading = true;
-                });
-                await getIt<FilterCubit>().saveState();
-                setState(() {
-                  isLoading = false;
-                });
+            child: ApplyFilteresButton(
+              onSaved: () {
+                if (context.mounted) {
+                  context.pop();
+                }
               },
             ),
           ),
