@@ -191,5 +191,26 @@
             "delete_profile_error": "Sorry, that didn't go as planned. Please try again later.",
             "update_profile_error": "Sorry, that didn't go as planned. Please try again later."
         }
+    },
+    "dating": {
+        "chat": {
+            "first_welcome_message": {
+                "0": "Hi there! What’s up?",
+                "1": "Ready to chat?",
+                "2": "Hey! Good to see you.",
+                "3": "Welcome aboard!",
+                "4": "Let's connect.",
+                "5": "How's your day going?",
+                "6": "Got any fun plans?",
+                "7": "Hello! What inspires you?",
+                "8": "Quick question: Coffee or tea?",
+                "9": "Your turn! Say hi.",
+                "10": "Hi! What are you reading?",
+                "11": "Found anything interesting?",
+                "12": "Tap here to start!",
+                "13": "What’s your vibe?",
+                "14": "Hello! Let's explore."
+            }
+        }
     }
 }

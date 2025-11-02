@@ -8,6 +8,7 @@ enum AnimationCommand { idle, show, disable, complete, completeAuto }
 // Controller class to manage the animation state from outside the widget
 class AnimationIconController {
   late final ValueNotifier<AnimationCommand> _commandNotifier;
+  late final ValueNotifier<Offset> _shiftNotifier;
 
   AnimationIconController() {
     _commandNotifier = ValueNotifier(AnimationCommand.idle);
@@ -15,6 +16,11 @@ class AnimationIconController {
 
   // Notifier to listen for command changes
   ValueNotifier<AnimationCommand> get commandNotifier => _commandNotifier;
+  ValueNotifier<Offset> get shiftNotifier => _shiftNotifier;
+
+  void setShift(Offset shift) {
+    _shiftNotifier.value = shift;
+  }
 
   // Command to trigger the "show" animation
   void show() {
@@ -89,7 +95,7 @@ class _ControlledAnimationIconState extends State<ControlledAnimationIcon>
 
     // --- Initialize Show/Disable Controller and Animations ---
     _showController = AnimationController(
-      duration: const Duration(milliseconds: 100),
+      duration: const Duration(milliseconds: 1),
       vsync: this,
     );
 
