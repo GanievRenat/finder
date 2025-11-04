@@ -13,6 +13,7 @@ class HeartWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return FlipAndGrowVerticalTransition(
       child: HeartbeatAnimation(
+        childWave: Assets.images.icons.matchIcon.svg(width: 130),
         child: SizedBox(
           width: 130,
           height: 118,

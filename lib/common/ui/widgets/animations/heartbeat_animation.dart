@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 class HeartbeatAnimation extends StatefulWidget {
   final Widget child;
+  final Widget childWave;
   final Duration duration; // длительность одного цикла (1 удар)
+  final Duration durationWave; // длительность одного цикла (1 удар)
   final Duration pause; // пауза между циклами
   final double minScale;
   final double maxScale;
@@ -12,7 +14,9 @@ class HeartbeatAnimation extends StatefulWidget {
   const HeartbeatAnimation({
     super.key,
     required this.child,
+    required this.childWave,
     this.duration = const Duration(milliseconds: 700),
+    this.durationWave = const Duration(milliseconds: 1400),
     this.pause = const Duration(milliseconds: 700),
     this.minScale = 0.8,
     this.maxScale = 1.3,
@@ -25,9 +29,14 @@ class HeartbeatAnimation extends StatefulWidget {
 }
 
 class _HeartbeatAnimationState extends State<HeartbeatAnimation>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   late final AnimationController _controller;
+  late final AnimationController _controller2;
+
   late final Animation<double> _scale;
+  late final Animation<double> _scale2;
+  late final Animation<double> _opacity;
+
   bool _disposed = false;
 
   @override
@@ -35,6 +44,14 @@ class _HeartbeatAnimationState extends State<HeartbeatAnimation>
     super.initState();
 
     _controller = AnimationController(vsync: this, duration: widget.duration);
+    _controller2 = AnimationController(
+      vsync: this,
+      duration: widget.durationWave,
+    );
+    final curved = CurvedAnimation(parent: _controller2, curve: widget.curve);
+
+    _scale2 = Tween<double>(begin: 1.0, end: 3.0).animate(curved);
+    _opacity = Tween<double>(begin: 1.0, end: 0.0).animate(curved);
 
     _scale = TweenSequence<double>([
       TweenSequenceItem(
@@ -59,6 +76,7 @@ class _HeartbeatAnimationState extends State<HeartbeatAnimation>
       await _controller.forward(from: 0);
       if (widget.repeat && !_disposed) {
         await Future.delayed(widget.pause);
+        _controller2.forward(from: 0);
       }
     } while (widget.repeat && !_disposed);
   }
@@ -72,18 +90,43 @@ class _HeartbeatAnimationState extends State<HeartbeatAnimation>
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _scale,
-      builder: (context, child) {
-        final matrix = Matrix4.identity()
-          ..multiply(Matrix4.diagonal3Values(_scale.value, _scale.value, 1));
-        return Transform(
-          alignment: Alignment.center,
-          transform: matrix,
-          child: child,
-        );
-      },
-      child: widget.child,
+    return Stack(
+      children: [
+        AnimatedBuilder(
+          animation: _scale2,
+          builder: (context, child) {
+            final matrix = Matrix4.identity()
+              ..setEntry(3, 2, 0.0015) // лёгкая перспектива
+              ..multiply(
+                Matrix4.diagonal3Values(_scale2.value, _scale2.value, 1),
+              );
+            return Opacity(
+              opacity: _opacity.value,
+              child: Transform(
+                alignment: Alignment.center,
+                transform: matrix,
+                child: widget.childWave,
+              ),
+            );
+          },
+          child: widget.child,
+        ),
+        AnimatedBuilder(
+          animation: _scale,
+          builder: (context, child) {
+            final matrix = Matrix4.identity()
+              ..multiply(
+                Matrix4.diagonal3Values(_scale.value, _scale.value, 1),
+              );
+            return Transform(
+              alignment: Alignment.center,
+              transform: matrix,
+              child: child,
+            );
+          },
+          child: widget.child,
+        ),
+      ],
     );
   }
 }
