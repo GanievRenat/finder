@@ -1,6 +1,6 @@
 import 'package:flirta/common/di/init_di.dart';
 import 'package:flirta/common/domain/entites/entities.dart';
-import 'package:flirta/featuries/home/pages/filter/state/filter_cubit.dart';
+import 'package:flirta/featuries/dating/pages/filter/state/filter_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

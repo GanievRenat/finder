@@ -5,7 +5,7 @@ class Tag extends StatefulWidget {
   const Tag({
     super.key,
     required this.name,
-    required this.onChange,
+    this.onChange,
     this.isSelect = false,
     this.selectIcon,
   });
@@ -13,7 +13,7 @@ class Tag extends StatefulWidget {
   final String name;
   final bool isSelect;
   final Widget? selectIcon;
-  final Function(bool select) onChange;
+  final Function(bool select)? onChange;
 
   @override
   State<Tag> createState() => _TagState();
@@ -32,9 +32,11 @@ class _TagState extends State<Tag> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        widget.onChange(!_select);
-      },
+      onTap: (widget.onChange != null)
+          ? () {
+              widget.onChange!(!_select);
+            }
+          : null,
       borderRadius: BorderRadius.circular(12),
       child: Container(
         decoration: BoxDecoration(

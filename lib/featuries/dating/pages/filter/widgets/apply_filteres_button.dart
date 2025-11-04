@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flirta/common/di/init_di.dart';
 import 'package:flirta/common/ui/widgets/widgets.dart';
-import 'package:flirta/featuries/home/pages/filter/state/filter_cubit.dart';
+import 'package:flirta/featuries/dating/pages/filter/state/filter_cubit.dart';
 import 'package:flirta/generated/locale_keys.g.dart';
 import 'package:flutter/material.dart';
 

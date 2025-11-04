@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 
-import 'home_widgets.dart';
+import 'dating_widgets.dart';
 
 class CardsSwiper extends StatefulWidget {
   const CardsSwiper({
@@ -16,6 +16,7 @@ class CardsSwiper extends StatefulWidget {
     required this.onSkip,
     required this.onEnd,
     required this.onUndo,
+    required this.onOpenDetail,
   });
 
   final List<Widget> cards;
@@ -23,6 +24,7 @@ class CardsSwiper extends StatefulWidget {
   final Function onSkip;
   final Function onLike;
   final Function onUndo;
+  final Function onOpenDetail;
 
   @override
   State<CardsSwiper> createState() => _CardsSwiperState();
@@ -77,9 +79,18 @@ class _CardsSwiperState extends State<CardsSwiper> {
             }
             return widget.cards[index];
           },
-
+          onSwipe: (previousIndex, currentIndex, direction) {
+            if (direction == CardSwiperDirection.top) {
+              //widget.onOpenDetail();
+              return false;
+            }
+            if (direction == CardSwiperDirection.right) {
+              widget.onLike();
+            }
+            return true;
+          },
           padding: EdgeInsetsGeometry.zero,
-          scale: 0.8,
+          scale: 1,
           isLoop: true,
           backCardOffset: Offset(0, 0),
           showBackCardOnUndo: false,
@@ -91,6 +102,10 @@ class _CardsSwiperState extends State<CardsSwiper> {
                 } else if (horizontalDirection == CardSwiperDirection.left) {
                   _skipAnimationController.show();
                   _likeAnimationController.disable();
+                } else if (verticalDirection == CardSwiperDirection.top) {
+                  if (shift.dy < -10) {
+                    widget.onOpenDetail();
+                  }
                 } else if (horizontalDirection == CardSwiperDirection.none) {
                   _likeAnimationController.disable();
                   _skipAnimationController.disable();
@@ -115,6 +130,7 @@ class _CardsSwiperState extends State<CardsSwiper> {
           allowedSwipeDirection: AllowedSwipeDirection.only(
             left: true,
             right: true,
+            up: true,
           ),
         ),
         LikeFlag(

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flirta/generated/assets.gen.dart';
 import 'package:flutter/material.dart';
 
-import 'home_widgets.dart';
+import 'dating_widgets.dart';
 
 class LikeFlag extends StatelessWidget {
   const LikeFlag({

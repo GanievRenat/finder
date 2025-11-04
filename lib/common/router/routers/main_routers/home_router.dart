@@ -11,7 +11,18 @@ class HomeRoute extends GoRouteData with $HomeRoute {
     return Transition.fade(
       pageKey: state.pageKey,
       name: name,
-      child: HomePage(onFilter: () => const FiltersRoute().go(context)),
+      child: DatingPage(
+        onFilter: () => const FiltersRoute().push(context),
+        onMatch: (imageUrl) => MatchRoute(imageUrl: imageUrl).push(context),
+        onDetailPerson:
+            ({required age, required imageUrl, required job, required name}) =>
+                DetailPersonRoute(
+                  namePerson: name,
+                  imageUrl: imageUrl,
+                  age: age,
+                  job: job,
+                ).push(context),
+      ),
     );
   }
 }
@@ -64,6 +75,53 @@ class FiltersRoute extends GoRouteData with $FiltersRoute {
       pageKey: state.pageKey,
       name: name,
       child: FilterPage(),
+    );
+  }
+}
+
+/*class MatchRoute extends GoRouteData with $MatchRoute {
+  const MatchRoute();
+
+  static const path = 'match';
+  static const name = 'match';
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return Transition.matching(
+      pageKey: state.pageKey,
+      name: name,
+      child: MatchPage(),
+    );
+  }
+}*/
+
+class DetailPersonRoute extends GoRouteData with $DetailPersonRoute {
+  const DetailPersonRoute({
+    required this.imageUrl,
+    required this.namePerson,
+    required this.age,
+    required this.job,
+  });
+
+  static const path = 'detail_person';
+  static const name = 'detail_person';
+
+  final String imageUrl;
+  final String namePerson;
+  final int age;
+  final String job;
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return Transition.slide(
+      pageKey: state.pageKey,
+      name: name,
+      child: DetailPersonPage(
+        imageUrl: imageUrl,
+        name: namePerson,
+        job: job,
+        age: age,
+      ),
     );
   }
 }

@@ -30,6 +30,10 @@ class ProfileBranchData extends StatefulShellBranchData {
               path: FiltersRoute.path,
               name: FiltersRoute.name,
             ),
+            TypedGoRoute<DetailPersonRoute>(
+              path: DetailPersonRoute.path,
+              name: DetailPersonRoute.name,
+            ),
           ],
         ),
       ],

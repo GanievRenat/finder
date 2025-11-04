@@ -81,8 +81,8 @@ import 'package:flirta/common/source/network/interceptors/token_interceptor.dart
     as _i970;
 import 'package:flirta/common/ui/widgets/photo/image_source_bottom_sheet.dart'
     as _i682;
-import 'package:flirta/featuries/home/pages/filter/state/filter_cubit.dart'
-    as _i706;
+import 'package:flirta/featuries/dating/pages/filter/state/filter_cubit.dart'
+    as _i103;
 import 'package:flirta/featuries/profile/pages/profile/state/profile_cubit.dart'
     as _i227;
 import 'package:flirta/featuries/registration/state/registration_cubit.dart'
@@ -254,8 +254,8 @@ extension GetItInjectableX on _i174.GetIt {
       () =>
           _i372.SaveFilterState(filterRepository: gh<_i243.FilterRepository>()),
     );
-    gh.lazySingleton<_i706.FilterCubit>(
-      () => _i706.FilterCubit(
+    gh.lazySingleton<_i103.FilterCubit>(
+      () => _i103.FilterCubit(
         getFilterState: gh<_i25.GetFilterState>(),
         saveFilterState: gh<_i25.SaveFilterState>(),
         clearFilterState: gh<_i25.ClearFilterState>(),

@@ -211,6 +211,11 @@
                 "13": "What’s your vibe?",
                 "14": "Hello! Let's explore."
             }
+        },
+        "match": {
+            "match": "Match",
+            "message": "'You and Jessica like each other.\nWhat’s your next move?'",
+            "button_title": "Chat now"
         }
     }
 }

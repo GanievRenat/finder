@@ -210,4 +210,54 @@ class Transition {
       return SlideTransition(position: offsetAnimation, child: child);
     },
   );
+
+  static CustomTransitionPage matching({
+    required ValueKey<String> pageKey,
+    required Widget child,
+    required String name,
+  }) => CustomTransitionPage<void>(
+    transitionDuration: const Duration(milliseconds: 600),
+    reverseTransitionDuration: const Duration(milliseconds: 400),
+    child: child,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      final curved = CurvedAnimation(
+        parent: animation,
+        curve: Curves.easeOutCubic,
+        reverseCurve: Curves.easeInCubic,
+      );
+
+      final offset = Tween<Offset>(
+        begin: const Offset(2, 0),
+        end: Offset.zero,
+      ).animate(curved);
+
+      final scale = Tween<double>(begin: 0.0, end: 1.0).animate(curved);
+
+      final opacity = Tween<double>(begin: 0.0, end: 1.0).animate(curved);
+
+      return AnimatedBuilder(
+        animation: curved,
+        builder: (context, child) {
+          final width = MediaQuery.of(context).size.width;
+
+          // Формируем матрицу вручную, без устаревших translate/scale
+          final matrix = Matrix4.identity()
+            ..setEntry(3, 2, 0.0015) // перспектива
+            ..multiply(Matrix4.translationValues(offset.value.dx * width, 0, 0))
+            ..multiply(Matrix4.diagonal3Values(scale.value, scale.value, 1))
+            ..multiply(Matrix4.rotationY((1 - scale.value) * 0.3));
+
+          return Opacity(
+            opacity: opacity.value,
+            child: Transform(
+              alignment: Alignment.center,
+              transform: matrix,
+              child: child,
+            ),
+          );
+        },
+        child: child,
+      );
+    },
+  );
 }

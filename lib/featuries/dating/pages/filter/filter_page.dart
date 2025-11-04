@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flirta/common/di/init_di.dart';
 import 'package:flirta/common/ui/theme/theme.dart';
-import 'package:flirta/featuries/home/pages/filter/state/filter_cubit.dart';
+import 'package:flirta/featuries/dating/pages/filter/state/filter_cubit.dart';
 import 'package:go_router/go_router.dart';
 import 'widgets/apply_filteres_button.dart';
 import 'widgets/filter_builder.dart';

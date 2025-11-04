@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 
-import 'home_widgets.dart';
+import 'dating_widgets.dart';
 
 class SkipButton extends StatelessWidget {
   const SkipButton({
@@ -24,6 +24,7 @@ class SkipButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
+      heroTag: 'skipButton',
       backgroundColor: AppTheme.of(context).color.neutralLightLightest,
       mini: false,
       onPressed: () {

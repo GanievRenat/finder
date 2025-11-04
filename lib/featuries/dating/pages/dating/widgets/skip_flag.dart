@@ -6,7 +6,7 @@ import 'package:flirta/generated/assets.gen.dart';
 import 'package:flirta/generated/locale_keys.g.dart';
 import 'package:flutter/material.dart';
 
-import 'home_widgets.dart';
+import 'dating_widgets.dart';
 
 class SkipFlag extends StatelessWidget {
   const SkipFlag({
