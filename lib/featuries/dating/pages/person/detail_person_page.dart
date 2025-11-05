@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flirta/common/ui/theme/theme.dart';
 import 'package:flirta/common/ui/widgets/widgets.dart';
@@ -33,15 +31,6 @@ class _DetailPersonPageState extends State<DetailPersonPage> {
   @override
   void initState() {
     super.initState();
-
-    scrollController.addListener(() {
-      log('${scrollController.offset}');
-      if (scrollController.offset < -50) {
-        if (context.canPop()) {
-          context.pop();
-        }
-      }
-    });
   }
 
   @override
@@ -58,14 +47,38 @@ class _DetailPersonPageState extends State<DetailPersonPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.8,
-              child: HeadPerson(
-                imageUrl: widget.imageUrl,
-                name: widget.name,
-                age: widget.age,
-                job: widget.job,
-              ),
+            Stack(
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.8,
+                  child: HeadPerson(
+                    imageUrl: widget.imageUrl,
+                    name: widget.name,
+                    age: widget.age,
+                    job: widget.job,
+                  ),
+                ),
+                Positioned(
+                  right: 16,
+                  top: MediaQuery.of(context).padding.top,
+                  child: IconButton(
+                    onPressed: () {
+                      context.pop();
+                    },
+                    icon: CircleAvatar(
+                      backgroundColor: AppTheme.of(
+                        context,
+                      ).color.neutralLightLightest.withAlpha(180),
+                      radius: 16,
+                      child: Icon(
+                        Icons.close_rounded,
+                        fontWeight: FontWeight.bold,
+                        color: AppTheme.of(context).color.neutralDarkDarkset,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
             Padding(
               padding: EdgeInsets.only(left: 16, right: 16, bottom: 16),

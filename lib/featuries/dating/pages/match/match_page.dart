@@ -42,7 +42,11 @@ class MatchPage extends StatelessWidget {
                   context,
                 ).color.neutralLightLightest,
                 radius: 16,
-                child: Icon(Icons.close_rounded, fontWeight: FontWeight.bold),
+                child: Icon(
+                  Icons.close_rounded,
+                  fontWeight: FontWeight.bold,
+                  color: AppTheme.of(context).color.neutralDarkDarkset,
+                ),
               ),
             ),
           ),

@@ -12,6 +12,8 @@
 import 'package:dio/dio.dart' as _i361;
 import 'package:flirta/common/config/app_config.dart' as _i67;
 import 'package:flirta/common/data/providers/data_providers.dart' as _i443;
+import 'package:flirta/common/data/providers/dating_data_provider.dart'
+    as _i666;
 import 'package:flirta/common/data/providers/filter_data_provider.dart'
     as _i713;
 import 'package:flirta/common/data/providers/profile_data_provider.dart'
@@ -20,6 +22,8 @@ import 'package:flirta/common/data/providers/registration_data_provider.dart'
     as _i566;
 import 'package:flirta/common/data/providers/registration_form_data_provider.dart'
     as _i207;
+import 'package:flirta/common/data/repository/dating_repository_impl.dart'
+    as _i625;
 import 'package:flirta/common/data/repository/filter_repository_impl.dart'
     as _i120;
 import 'package:flirta/common/data/repository/profile_repository_impl.dart'
@@ -67,6 +71,8 @@ import 'package:flirta/common/service/crashlytics_service.dart' as _i551;
 import 'package:flirta/common/service/language_service.dart' as _i39;
 import 'package:flirta/common/service/photo_picker_service.dart' as _i651;
 import 'package:flirta/common/service/services.dart' as _i697;
+import 'package:flirta/common/source/database/database_manager.dart' as _i366;
+import 'package:flirta/common/source/database/table/match_table.dart' as _i332;
 import 'package:flirta/common/source/network/http_client/http_client_module.dart'
     as _i1066;
 import 'package:flirta/common/source/network/interceptors/error_interceptor.dart'
@@ -116,6 +122,7 @@ extension GetItInjectableX on _i174.GetIt {
       preResolve: true,
     );
     gh.singleton<_i974.Logger>(() => thirdPartyModule.logger);
+    gh.singleton<_i366.AppDatabase>(() => thirdPartyModule.dataBase);
     gh.singleton<_i216.AppModalBottomSheet>(() => _i216.AppModalBottomSheet());
     gh.singleton<_i534.AppToast>(() => _i534.AppToast());
     gh.singleton<_i523.AppStateService>(() => _i523.AppStateService());
@@ -123,6 +130,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i651.PhotoPickerService>(() => _i651.PhotoPickerService());
     gh.singleton<_i682.ImageSourceBottomSheet>(
       () => _i682.ImageSourceBottomSheet(),
+    );
+    gh.singleton<_i332.MatchAndBlockTable>(
+      () => _i332.MatchAndBlockTable(gh<_i366.AppDatabase>()),
     );
     gh.singleton<_i1048.AppConfig>(
       () => _i67.TestAppConfig(),
@@ -151,6 +161,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i970.TokenInterceptor>(
       () =>
           _i970.TokenInterceptor(appStateService: gh<_i523.AppStateService>()),
+    );
+    gh.singleton<_i666.DatingDataProvider>(
+      () => _i666.DatingDataProviderLocal(
+        matchAndBlockTable: gh<_i332.MatchAndBlockTable>(),
+      ),
     );
     gh.singleton<_i1048.AppConfig>(
       () => _i67.ProdAppConfig(),
@@ -217,6 +232,11 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i207.RegistrationFormDataProviderLocal(
         sharedPreferences: gh<_i460.SharedPreferences>(),
         appConfig: gh<_i1048.AppConfig>(),
+      ),
+    );
+    gh.singleton<_i243.DatingRepository>(
+      () => _i625.DatingRepositoryImpl(
+        dataProvider: gh<_i443.DatingDataProvider>(),
       ),
     );
     gh.singleton<_i713.FilterDataProvider>(

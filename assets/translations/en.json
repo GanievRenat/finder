@@ -214,7 +214,7 @@
         },
         "match": {
             "match": "Match",
-            "message": "'You and Jessica like each other.\nWhat’s your next move?'",
+            "message": "You and Jessica like each other.\nWhat’s your next move?",
             "button_title": "Chat now"
         }
     }

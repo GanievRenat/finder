@@ -102,10 +102,6 @@ class _CardsSwiperState extends State<CardsSwiper> {
                 } else if (horizontalDirection == CardSwiperDirection.left) {
                   _skipAnimationController.show();
                   _likeAnimationController.disable();
-                } else if (verticalDirection == CardSwiperDirection.top) {
-                  if (shift.dy < -10) {
-                    widget.onOpenDetail();
-                  }
                 } else if (horizontalDirection == CardSwiperDirection.none) {
                   _likeAnimationController.disable();
                   _skipAnimationController.disable();
@@ -130,7 +126,6 @@ class _CardsSwiperState extends State<CardsSwiper> {
           allowedSwipeDirection: AllowedSwipeDirection.only(
             left: true,
             right: true,
-            up: true,
           ),
         ),
         LikeFlag(

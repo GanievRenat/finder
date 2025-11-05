@@ -2,3 +2,7 @@ export 'registration_by_guest_body.dart';
 export 'registration_data_body.dart';
 export 'update_user_body.dart';
 export 'save_filter_state_body.dart';
+export 'get_part_of_persons_for_dating_body.dart';
+export 'like_person_body.dart';
+export 'skip_person_body.dart';
+export 'undo_person_body.dart';

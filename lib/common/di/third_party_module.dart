@@ -12,6 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../router/app_router.dart';
 import '../router/observers/auth_analytics_observer.dart';
+import '../source/database/database_manager.dart';
 
 @module
 abstract class ThirdPartyModule {
@@ -31,6 +32,9 @@ abstract class ThirdPartyModule {
 
   @preResolve
   Future<SharedPreferences> get storage => SharedPreferences.getInstance();
+
+  @singleton
+  AppDatabase get dataBase => AppDatabase();
 
   /*FirebaseAuth get auth => FirebaseAuth.instance;
 
