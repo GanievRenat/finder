@@ -1,0 +1,16 @@
+export 'personal_data_fragment.dart';
+export 'identity_data_fragment.dart';
+export 'phenotype_data_fragment.dart';
+export 'expertise_data_fragment.dart';
+export 'traits_data_fragment.dart';
+export 'visual_data_fragment.dart';
+export 'style_data_fragment.dart';
+export 'dinamics_data_fragment.dart';
+export 'approach_data_fragment.dart';
+export 'memory_data_fragment.dart';
+export 'intellect_data_fragment.dart';
+export 'compliments_data_fragment.dart';
+export 'loyalty_data_fragment.dart';
+export 'axis_data_fragment.dart';
+export 'chat_data_fragment.dart';
+export 'sfw_options_data_fragment.dart';

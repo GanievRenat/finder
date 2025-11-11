@@ -20,18 +20,18 @@ import 'package:go_router/go_router.dart';
 
 import 'package:flirta/featuries/registration/auth.dart';
 
-part 'routers/auth_routers/auth_router.dart';
-part 'routers/main_routers/home_router.dart';
-part 'routers/main_routers/main_router.dart';
-part 'routers/match_routers/match_router.dart';
-part 'app_router.g.dart';
+part 'routers/client/auth_routers/auth_router.dart';
+part 'routers/client/main_routers/home_router.dart';
+part 'routers/client/main_routers/main_router.dart';
+part 'routers/client/match_routers/match_router.dart';
+part 'client_router.g.dart';
 
 final GlobalKey<NavigatorState> shellNavigatorKey = GlobalKey<NavigatorState>();
 final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
 
-@TypedGoRoute<RootRoute>(path: '/')
-class RootRoute extends GoRouteData with $RootRoute {
-  const RootRoute();
+@TypedGoRoute<ClientRootRoute>(path: '/')
+class ClientRootRoute extends GoRouteData with $ClientRootRoute {
+  const ClientRootRoute();
 
   @override
   String? redirect(BuildContext context, GoRouterState state) {

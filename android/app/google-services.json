@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "150185515407",
+    "project_id": "flirta-3e6b0",
+    "storage_bucket": "flirta-3e6b0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:150185515407:android:efdc28bea278f3e69153fa",
+        "android_client_info": {
+          "package_name": "com.applife.flirta"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCShw0rRjRQZCk93ltuoNUXWm10i0eGPns"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

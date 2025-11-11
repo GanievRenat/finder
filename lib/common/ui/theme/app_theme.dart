@@ -7,6 +7,7 @@ class AppTheme {
     required this.color,
     required this.textStyle,
     required this.themeData,
+    required this.themeDataAdmin,
     required this.shadow,
   });
 
@@ -36,6 +37,7 @@ class AppTheme {
   final AppThemeColorScheme color;
   final AppTextTheme textStyle;
   final ThemeData themeData;
+  final ThemeData themeDataAdmin;
   final AppShadow shadow;
 
   static ThemeData _createBaseThemeData(
@@ -161,15 +163,73 @@ class AppTheme {
     ),
   );
 
+  static ThemeData _createBaseThemeDataAdmin(
+    AppThemeColorScheme colorScheme,
+    AppTextTheme textTheme,
+    ThemeData baseThemeData,
+  ) => baseThemeData.copyWith(
+    inputDecorationTheme: InputDecorationTheme(
+      // Толщина нижней линии
+      border: OutlineInputBorder(
+        borderSide: BorderSide(width: 1.0, color: colorScheme.neutralLightDark),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(width: 1.0, color: colorScheme.neutralLightDark),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(width: 2.0, color: colorScheme.primaryDarkset),
+      ),
+      // Цвет выделенного состояния
+      focusColor: colorScheme.primaryDarkset,
+      // Цвет ошибки
+      errorBorder: OutlineInputBorder(
+        borderSide: BorderSide(width: 1.0, color: colorScheme.error),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderSide: BorderSide(width: 2.0, color: colorScheme.error),
+      ),
+      errorStyle: textTheme.bodyXL.copyWith(color: colorScheme.error),
+      hintStyle: textTheme.bodyXL,
+      labelStyle: textTheme.bodyXL,
+      filled: true,
+      isDense: true,
+      fillColor: colorScheme.neutralLightLightest,
+      // Размер текста
+      contentPadding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 8.0),
+    ),
+    appBarTheme: AppBarTheme(
+      backgroundColor: colorScheme.background,
+      foregroundColor: colorScheme.onBackground,
+      actionsPadding: EdgeInsets.all(0),
+      titleTextStyle: textTheme.header3,
+      elevation: 0,
+      scrolledUnderElevation: 0,
+      centerTitle: false,
+    ),
+  );
+
   factory AppTheme.initializeTheme({
     required AppThemeColorScheme colorScheme,
     required ThemeData baseThemeData,
   }) {
     final textTheme = AppTextTheme.byColorScheme(colorScheme);
 
+    final themeDataClient = _createBaseThemeData(
+      colorScheme,
+      textTheme,
+      baseThemeData,
+    );
+
+    final themeDataAdmin = _createBaseThemeDataAdmin(
+      colorScheme,
+      textTheme,
+      themeDataClient,
+    );
+
     return AppTheme(
       color: colorScheme,
-      themeData: _createBaseThemeData(colorScheme, textTheme, baseThemeData),
+      themeData: themeDataClient,
+      themeDataAdmin: themeDataAdmin,
       textStyle: textTheme,
       shadow: AppShadow.byColorScheme(colorScheme: colorScheme),
     );

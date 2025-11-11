@@ -8,7 +8,7 @@ extension PersonModelToEntites on PersonModel {
     return Person(
       modelId: modelId,
       name: name,
-      age: identity?.ageBand ?? 18,
+      age: identityAgeBand,
       gender: gender == 'woman'
           ? Gender.female
           : gender == 'man'
@@ -17,10 +17,10 @@ extension PersonModelToEntites on PersonModel {
           ? Gender.nonBinary
           : Gender.none,
       bio: bioApp,
-      job: identity?.occupation ?? '',
+      job: identityOccupation,
       requestToChat: _getRequestToChat(),
-      lifeStyle: identity?.lifestyle ?? '',
-      interests: [...(expertise?.hobbies ?? []), ...(expertise?.domains ?? [])],
+      lifeStyle: identityLifestyle,
+      interests: expertiseHobbies,
     );
   }
 
@@ -28,122 +28,152 @@ extension PersonModelToEntites on PersonModel {
     StringBuffer strBuff = StringBuffer();
 
     strBuff.writeln(
-      '$modelId $bioApp $artBio name - $name identity.age_band - ${identity?.ageBand ?? 18} gender - $gender',
+      '$modelId $bioApp $artBio name - $name identity.age_band - $identityAgeBand gender - $gender',
     );
-    strBuff.writeln(_getProperty(identity?.ethnicity, 'identity.ethnicity'));
-    strBuff.writeln(_getProperty(identity?.occupation, 'identity.occupation'));
-    strBuff.writeln(_getProperty(identity?.city, 'identity.city'));
-    strBuff.writeln(_getProperty(identity?.lifestyle, 'identity.lifestyle'));
-    strBuff.writeln(_getProperty(identity?.goal, 'identity.goal'));
-    strBuff.writeln(_getProperty(phenotype?.bodyType, 'phenotype.body_type'));
+    strBuff.writeln(_getProperty(identityEthnicity, 'identity.ethnicity'));
+    strBuff.writeln(_getProperty(identityOccupation, 'identity.occupation'));
+    strBuff.writeln(_getProperty(identityCity, 'identity.city'));
+    strBuff.writeln(_getProperty(identityLifestyle, 'identity.lifestyle'));
+    strBuff.writeln(_getProperty(identityGoal, 'identity.goal'));
+    strBuff.writeln(_getProperty(phenotypeBodyType, 'phenotype.body_type'));
+    strBuff.writeln(_getProperty(phenotypeSomatotype, 'phenotype.somatotype'));
+    strBuff.writeln(_getProperty(phenotypeFaceType, 'phenotype.face_type'));
     strBuff.writeln(
-      _getProperty(phenotype?.somatotype, 'phenotype.somatotype'),
+      _getProperty(phenotypeHairTexture, 'phenotype.hair.texture'),
     );
-    strBuff.writeln(_getProperty(phenotype?.faceType, 'phenotype.face_type'));
+    strBuff.writeln(_getProperty(phenotypeHairColor, 'phenotype.hair.color'));
+    strBuff.writeln(_getProperty(phenotypeEyesColor, 'phenotype.eyes.color'));
+    strBuff.writeln(_getProperty(phenotypeBmi, 'phenotype.bmi'));
+    strBuff.writeln(_getProperty(visualSignature, 'visual.signature'));
+    strBuff.writeln(_getProperty(visualPalette, 'visual.palette'));
     strBuff.writeln(
-      _getProperty(phenotype?.hair?.texture, 'phenotype.hair.texture'),
-    );
-    strBuff.writeln(
-      _getProperty(phenotype?.hair?.color, 'phenotype.hair.color'),
-    );
-    strBuff.writeln(
-      _getProperty(phenotype?.eyes?.color, 'phenotype.eyes.color'),
-    );
-    strBuff.writeln(_getProperty(phenotype?.bmi, 'phenotype.bmi'));
-    strBuff.writeln(_getProperty(visual?.signature, 'visual.signature'));
-    strBuff.writeln(_getProperty(visual?.palette, 'visual.palette'));
-    strBuff.writeln(
-      _getProperty(visual?.wardrobeCapsule, 'visual.wardrobe_capsule'),
+      _getProperty(visualWardrobeCapsule, 'visual.wardrobe_capsule'),
     );
     strBuff.writeln(
-      _getProperty(visual?.distinctiveFeatures, 'visual.distinctive_features'),
+      _getProperty(visualDistinctiveFeatures, 'visual.distinctive_features'),
     );
-    strBuff.writeln(_getProperty(clothing?.styles, 'clothing.styles'));
+    strBuff.writeln(_getProperty(clothingStyles, 'clothing.styles'));
+    strBuff.writeln(_getProperty(expertiseHobbies, 'expertise.hobbies'));
+    strBuff.writeln(_getProperty(traitsEmpathy, 'traits.empathy'));
+    strBuff.writeln(_getProperty(traitsPlayfulness, 'traits.playfulness'));
+    strBuff.writeln(_getProperty(traitsDirectness, 'traits.directness'));
     strBuff.writeln(
-      _getProperty(expertise?.musicStyles, 'expertise.music_styles'),
-    );
-    strBuff.writeln(_getProperty(expertise?.domains, 'expertise.domains'));
-    strBuff.writeln(_getProperty(expertise?.hobbies, 'expertise.hobbies'));
-    strBuff.writeln(_getProperty(traits?.empathy, 'traits.empathy'));
-    strBuff.writeln(_getProperty(traits?.playfulness, 'traits.playfulness'));
-    strBuff.writeln(_getProperty(traits?.directness, 'traits.directness'));
-    strBuff.writeln(
-      _getProperty(traits?.intellectSupport, 'traits.intellect_support'),
+      _getProperty(traitsIntellectSupport, 'traits.intellect_support'),
     );
     strBuff.writeln(
-      _getProperty(traits?.nurtureChallenge, 'traits.nurture_challenge'),
+      _getProperty(traitsNurtureChallenge, 'traits.nurture_challenge'),
     );
-    strBuff.writeln(_getProperty(traits?.novelty, 'traits.novelty'));
-    strBuff.writeln(_getProperty(traits?.romance, 'traits.romance'));
-    strBuff.writeln(_getProperty(style?.pace, 'style.pace'));
+    strBuff.writeln(_getProperty(traitsNovelty, 'traits.novelty'));
+    strBuff.writeln(_getProperty(traitsRomance, 'traits.romance'));
+    strBuff.writeln(_getProperty(stylePace, 'style.pace'));
+    strBuff.writeln(_getProperty(styleQuestionsRatio, 'style.questions_ratio'));
+    strBuff.writeln(_getProperty(styleFlirtLevelMax, 'style.flirt_level_max'));
+    strBuff.writeln(_getProperty(styleHumor, 'style.humor'));
+    strBuff.writeln(_getProperty(styleEmoji, 'style.emoji'));
+    strBuff.writeln(_getProperty(styleFormality, 'style.formality'));
+    strBuff.writeln(_getProperty(styleSlang, 'style.slang'));
     strBuff.writeln(
-      _getProperty(style?.questionsRatio, 'style.questions_ratio'),
-    );
-    strBuff.writeln(
-      _getProperty(style?.flirtLevelMax, 'style.flirt_level_max'),
-    );
-    strBuff.writeln(_getProperty(style?.humor, 'style.humor'));
-    strBuff.writeln(_getProperty(style?.emoji, 'style.emoji'));
-    strBuff.writeln(_getProperty(style?.formality, 'style.formality'));
-    strBuff.writeln(_getProperty(style?.slang, 'style.slang'));
-    strBuff.writeln(
-      _getProperty(
-        dynamics?.escalationTriggers,
-        'dynamics.escalation_triggers',
-      ),
+      _getProperty(dynamicsEscalationTriggers, 'dynamics.escalation_triggers'),
     );
     strBuff.writeln(
-      _getProperty(dynamics?.antiTriggers, 'dynamics.anti_triggers'),
+      _getProperty(dynamicsAntiTriggers, 'dynamics.anti_triggers'),
     );
-    strBuff.writeln(_getProperty(approach?.speed, 'approach.speed'));
-    strBuff.writeln(_getProperty(memory?.slots, 'memory.slots'));
-    strBuff.writeln(_getProperty(intellect?.depth, 'intellect.depth'));
+    strBuff.writeln(_getProperty(approachSpeed, 'approach.speed'));
+    strBuff.writeln(_getProperty(memorySlots, 'memory.slots'));
+    strBuff.writeln(_getProperty(intellectDepth, 'intellect.depth'));
     strBuff.writeln(
-      _getProperty(compliments?.toIntellect, 'compliments.to_intellect'),
-    );
-    strBuff.writeln(
-      _getProperty(compliments?.toPhysique, 'compliments.to_physique'),
+      _getProperty(complimentsToIntellect, 'compliments.to_intellect'),
     );
     strBuff.writeln(
-      _getProperty(compliments?.intensity, 'compliments.intensity'),
+      _getProperty(complimentsToPhysique, 'compliments.to_physique'),
     );
     strBuff.writeln(
-      _getProperty(compliments?.cooldownMsgs, 'compliments.cooldown_msgs'),
+      _getProperty(complimentsIntensity, 'compliments.intensity'),
     );
     strBuff.writeln(
-      _getProperty(compliments?.triggers, 'compliments.triggers'),
+      _getProperty(complimentsCooldownMsgs, 'compliments.cooldown_msgs'),
     );
+    strBuff.writeln(_getProperty(complimentsTriggers, 'compliments.triggers'));
     strBuff.writeln(
       _getProperty(
-        loyalty?.exclusivityPreference,
+        loyaltyExclusivityPreference,
         'loyalty.exclusivity_preference',
       ),
     );
     strBuff.writeln(
-      _getProperty(axis?.sensingIntuition, 'axis.sensing_intuition'),
+      _getProperty(axisSensingIntuition, 'axis.sensing_intuition'),
     );
-    strBuff.writeln(
-      _getProperty(axis?.thinkingFeeling, 'axis.thinking_feeling'),
-    );
+    strBuff.writeln(_getProperty(axisThinkingFeeling, 'axis.thinking_feeling'));
     strBuff.writeln(
       _getProperty(
-        axis?.extraversionIntroversion,
+        axisExtraversionIntroversion,
         'axis.extraversion_introversion',
       ),
     );
-    strBuff.writeln(_getProperty(safety?.nsfwPolicy, 'safety.nsfw_policy'));
-    strBuff.writeln(_getProperty(safety?.blocked, 'safety.blocked'));
-    strBuff.writeln(
-      _getProperty(safety?.toxicityHandler, 'safety.toxicity_handler'),
-    );
-    strBuff.writeln(_getProperty(safety?.desiresSfw, 'safety.desires_sfw'));
-    strBuff.writeln(_getProperty(boundaries?.storeSfw, 'boundaries.store_sfw'));
-    strBuff.writeln(_getProperty(chat?.behavior, 'chat.behavior'));
+
+    strBuff.writeln(_getProperty(safetyNsfwPolicy, 'safety.nsfw_policy'));
+    strBuff.writeln(_getProperty(safetyBlocked, 'safety.blocked'));
+
+    if (boundariesStoreSfw) {
+      // SFW
+      strBuff.writeln(
+        _getProperty(safetyToxicityHandler, 'safety.toxicity_handler'),
+      );
+      strBuff.writeln(_getProperty(safetyDesiresSfw, 'safety.desires_sfw'));
+      strBuff.writeln(_getProperty(boundariesStoreSfw, 'boundaries.store_sfw'));
+    } else {
+      // NO SFW
+      strBuff.writeln(_getProperty(approachHeatRamp, 'approach.heat_ramp'));
+    }
+
+    strBuff.writeln(_getProperty(chatBehavior, 'chat.behavior'));
 
     return strBuff.toString();
   }
 
+  String getArtBio() {
+    String artBio =
+        'identity.age_band - $identityAgeBand / gender - $gender / identity.ethnicity - $identityEthnicity / identity.occupation - $identityEthnicity / identity.city - $identityCity / identity.lifestyle - $identityLifestyle / identity.goal - $identityGoal / phenotype.body_type - $phenotypeBodyType / phenotype.somatotype - $phenotypeSomatotype / phenotype.face_type - $phenotypeFaceType / phenotype.hair.texture - $phenotypeHairTexture / phenotype.hair.color - $phenotypeHairColor / phenotype.eyes.color - $phenotypeEyesColor / phenotype.bmi - $phenotypeBmi / visual.signature - $visualSignature / visual.palette - $visualPalette / visual.wardrobe_capsule - $visualWardrobeCapsule / visual.distinctive_features - $visualDistinctiveFeatures / clothing.styles - $clothingStyles / expertise.hobbies - $expertiseHobbies';
+    return artBio;
+  }
+
   String _getProperty(Object? obj, String name) {
     return obj != null ? '$name - $obj' : '';
+  }
+
+  bool validate() {
+    bool mainField =
+        identityEthnicity.isNotEmpty &&
+        identityOccupation.isNotEmpty &&
+        identityLifestyle.isNotEmpty &&
+        identityGoal.isNotEmpty &&
+        phenotypeBodyType.isNotEmpty &&
+        phenotypeSomatotype.isNotEmpty &&
+        phenotypeFaceType.isNotEmpty &&
+        phenotypeHairColor.isNotEmpty &&
+        phenotypeHairTexture.isNotEmpty &&
+        phenotypeEyesColor.isNotEmpty &&
+        visualSignature.isNotEmpty &&
+        visualPalette.isNotEmpty &&
+        visualWardrobeCapsule.isNotEmpty &&
+        visualDistinctiveFeatures.isNotEmpty &&
+        clothingStyles.isNotEmpty &&
+        expertiseHobbies.isNotEmpty &&
+        dynamicsEscalationTriggers.isNotEmpty &&
+        dynamicsAntiTriggers.isNotEmpty &&
+        dynamicsEscalationTriggers.isNotEmpty &&
+        complimentsTriggers.isNotEmpty &&
+        chatBehavior.isNotEmpty &&
+        modelId.isNotEmpty &&
+        name.isNotEmpty &&
+        bioApp.isNotEmpty &&
+        identityCity.isNotEmpty &&
+        phenotypeBmi.isNotEmpty &&
+        visualDistinctiveFeatures.isNotEmpty &&
+        ((boundariesStoreSfw)
+            ? safetyDesiresSfw.isNotEmpty
+            : approachHeatRamp.isNotEmpty);
+
+    return mainField;
   }
 }

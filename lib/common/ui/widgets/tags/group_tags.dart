@@ -58,4 +58,15 @@ class _GroupTagsState extends State<GroupTags> {
       ),
     );
   }
+
+  @override
+  void didUpdateWidget(GroupTags oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.initTags != widget.initTags) {
+      setState(() {
+        selectTags = widget.initTags;
+      });
+    }
+  }
 }

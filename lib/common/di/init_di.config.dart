@@ -9,8 +9,16 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:cloud_firestore/cloud_firestore.dart' as _i974;
 import 'package:dio/dio.dart' as _i361;
+import 'package:firebase_auth/firebase_auth.dart' as _i59;
+import 'package:firebase_remote_config/firebase_remote_config.dart' as _i627;
+import 'package:firebase_storage/firebase_storage.dart' as _i457;
 import 'package:flirta/common/config/app_config.dart' as _i67;
+import 'package:flirta/common/data/providers/admin/auth_admin_data_provider.dart'
+    as _i752;
+import 'package:flirta/common/data/providers/admin/person_data_provider.dart'
+    as _i2;
 import 'package:flirta/common/data/providers/data_providers.dart' as _i443;
 import 'package:flirta/common/data/providers/dating_data_provider.dart'
     as _i666;
@@ -22,10 +30,14 @@ import 'package:flirta/common/data/providers/registration_data_provider.dart'
     as _i566;
 import 'package:flirta/common/data/providers/registration_form_data_provider.dart'
     as _i207;
+import 'package:flirta/common/data/repository/admin/auth_admin_repository_impl.dart'
+    as _i956;
 import 'package:flirta/common/data/repository/dating_repository_impl.dart'
     as _i625;
 import 'package:flirta/common/data/repository/filter_repository_impl.dart'
     as _i120;
+import 'package:flirta/common/data/repository/person_repository_impl.dart'
+    as _i1071;
 import 'package:flirta/common/data/repository/profile_repository_impl.dart'
     as _i473;
 import 'package:flirta/common/data/repository/registration_form_repository_impl.dart'
@@ -37,6 +49,20 @@ import 'package:flirta/common/data/repository/settings_repository_impl.dart'
 import 'package:flirta/common/di/third_party_module.dart' as _i362;
 import 'package:flirta/common/domain/app_config.dart' as _i1048;
 import 'package:flirta/common/domain/repository/repositories.dart' as _i243;
+import 'package:flirta/common/domain/usecase/admin/auth/auth_by_admin_usecase.dart'
+    as _i799;
+import 'package:flirta/common/domain/usecase/admin/auth/forgot_password_usecase.dart'
+    as _i666;
+import 'package:flirta/common/domain/usecase/admin/auth/init_admin_usecase.dart'
+    as _i398;
+import 'package:flirta/common/domain/usecase/admin/auth/logout_usecase.dart'
+    as _i182;
+import 'package:flirta/common/domain/usecase/admin/person/create_new_person_usecase.dart'
+    as _i145;
+import 'package:flirta/common/domain/usecase/admin/person/get_person_list_usecase.dart'
+    as _i134;
+import 'package:flirta/common/domain/usecase/admin/person/update_person_usecase.dart'
+    as _i1062;
 import 'package:flirta/common/domain/usecase/filter/clear_filter_state_usecase.dart'
     as _i616;
 import 'package:flirta/common/domain/usecase/filter/get_filter_state_usecase.dart'
@@ -71,6 +97,7 @@ import 'package:flirta/common/service/crashlytics_service.dart' as _i551;
 import 'package:flirta/common/service/language_service.dart' as _i39;
 import 'package:flirta/common/service/photo_picker_service.dart' as _i651;
 import 'package:flirta/common/service/services.dart' as _i697;
+import 'package:flirta/common/service/storage_services.dart' as _i726;
 import 'package:flirta/common/source/database/database_manager.dart' as _i366;
 import 'package:flirta/common/source/database/table/match_table.dart' as _i332;
 import 'package:flirta/common/source/network/http_client/http_client_module.dart'
@@ -87,6 +114,8 @@ import 'package:flirta/common/source/network/interceptors/token_interceptor.dart
     as _i970;
 import 'package:flirta/common/ui/widgets/photo/image_source_bottom_sheet.dart'
     as _i682;
+import 'package:flirta/featuries/admin/persons/pages/list/state/person_list_cubit.dart'
+    as _i76;
 import 'package:flirta/featuries/dating/pages/filter/state/filter_cubit.dart'
     as _i103;
 import 'package:flirta/featuries/profile/pages/profile/state/profile_cubit.dart'
@@ -121,8 +150,14 @@ extension GetItInjectableX on _i174.GetIt {
       () => thirdPartyModule.storage,
       preResolve: true,
     );
+    gh.factory<_i59.FirebaseAuth>(() => thirdPartyModule.auth);
     gh.singleton<_i974.Logger>(() => thirdPartyModule.logger);
     gh.singleton<_i366.AppDatabase>(() => thirdPartyModule.dataBase);
+    gh.singleton<_i974.FirebaseFirestore>(() => thirdPartyModule.firestore);
+    gh.singleton<_i627.FirebaseRemoteConfig>(
+      () => thirdPartyModule.remoteConfig,
+    );
+    gh.singleton<_i457.FirebaseStorage>(() => thirdPartyModule.firestorage);
     gh.singleton<_i216.AppModalBottomSheet>(() => _i216.AppModalBottomSheet());
     gh.singleton<_i534.AppToast>(() => _i534.AppToast());
     gh.singleton<_i523.AppStateService>(() => _i523.AppStateService());
@@ -133,6 +168,11 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.singleton<_i332.MatchAndBlockTable>(
       () => _i332.MatchAndBlockTable(gh<_i366.AppDatabase>()),
+    );
+    gh.singleton<_i2.PersonDataProvider>(
+      () => _i2.PersonDataProviderFireBase(
+        fireStore: gh<_i974.FirebaseFirestore>(),
+      ),
     );
     gh.singleton<_i1048.AppConfig>(
       () => _i67.TestAppConfig(),
@@ -151,6 +191,14 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i534.ErrorInterceptor>(
       () => _i534.ErrorInterceptor(
         connectionChecker: gh<_i973.InternetConnectionChecker>(),
+      ),
+    );
+    gh.singleton<_i726.StorageServices>(
+      () => _i726.StorageServices(gh<_i457.FirebaseStorage>()),
+    );
+    gh.singleton<_i243.PersonRepository>(
+      () => _i1071.PersonRepositoryImpl(
+        dataProvider: gh<_i2.PersonDataProvider>(),
       ),
     );
     gh.singleton<_i864.LanguageInterceptor>(
@@ -202,6 +250,12 @@ extension GetItInjectableX on _i174.GetIt {
         config: gh<_i1048.AppConfig>(),
       ),
     );
+    gh.singleton<_i752.AuthAdminDataProvider>(
+      () => _i752.AuthAdminDataProviderLocal(
+        auth: gh<_i59.FirebaseAuth>(),
+        appConfig: gh<_i1048.AppConfig>(),
+      ),
+    );
     gh.factory<_i845.AuthAnalyticsObserver>(
       () => _i845.AuthAnalyticsObserver(
         analyticsService: gh<_i957.AnalyticsService>(),
@@ -239,6 +293,16 @@ extension GetItInjectableX on _i174.GetIt {
         dataProvider: gh<_i443.DatingDataProvider>(),
       ),
     );
+    gh.singleton<_i145.CreateNewPerson>(
+      () =>
+          _i145.CreateNewPerson(personRepository: gh<_i243.PersonRepository>()),
+    );
+    gh.singleton<_i134.GetPersonList>(
+      () => _i134.GetPersonList(personRepository: gh<_i243.PersonRepository>()),
+    );
+    gh.singleton<_i1062.UpdatePerson>(
+      () => _i1062.UpdatePerson(personRepository: gh<_i243.PersonRepository>()),
+    );
     gh.singleton<_i713.FilterDataProvider>(
       () => _i713.FilterDataProviderLocal(
         sharedPreferences: gh<_i460.SharedPreferences>(),
@@ -274,6 +338,12 @@ extension GetItInjectableX on _i174.GetIt {
       () =>
           _i372.SaveFilterState(filterRepository: gh<_i243.FilterRepository>()),
     );
+    gh.singleton<_i243.AuthAdminRepository>(
+      () => _i956.AuthAdminRepositoryImpl(
+        dataProvider: gh<_i752.AuthAdminDataProvider>(),
+        appStateService: gh<_i523.AppStateService>(),
+      ),
+    );
     gh.lazySingleton<_i103.FilterCubit>(
       () => _i103.FilterCubit(
         getFilterState: gh<_i25.GetFilterState>(),
@@ -290,6 +360,9 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i473.ProfileRepositoryImpl(
         dataProvider: gh<_i443.ProfileDataProvider>(),
       ),
+    );
+    gh.lazySingleton<_i76.PersonListCubit>(
+      () => _i76.PersonListCubit(getPersonList: gh<_i25.GetPersonList>()),
     );
     gh.singleton<_i194.GetProfile>(
       () => _i194.GetProfile(
@@ -316,6 +389,29 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i220.SaveRegistrationFormData>(
       () => _i220.SaveRegistrationFormData(
         registrationFormRepository: gh<_i243.RegistrationFormRepository>(),
+      ),
+    );
+    gh.singleton<_i799.AuthByAdmin>(
+      () => _i799.AuthByAdmin(
+        authAdminRepository: gh<_i243.AuthAdminRepository>(),
+        appStateService: gh<_i523.AppStateService>(),
+      ),
+    );
+    gh.singleton<_i398.InitAdmin>(
+      () => _i398.InitAdmin(
+        authAdminRepository: gh<_i243.AuthAdminRepository>(),
+        appStateService: gh<_i523.AppStateService>(),
+      ),
+    );
+    gh.singleton<_i182.LogoutAdmin>(
+      () => _i182.LogoutAdmin(
+        authAdminRepository: gh<_i243.AuthAdminRepository>(),
+        appStateService: gh<_i523.AppStateService>(),
+      ),
+    );
+    gh.singleton<_i666.ForgotAdminPassword>(
+      () => _i666.ForgotAdminPassword(
+        authAdminRepository: gh<_i243.AuthAdminRepository>(),
       ),
     );
     gh.singleton<_i942.UpdateProfile>(

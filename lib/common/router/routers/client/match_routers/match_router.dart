@@ -1,4 +1,4 @@
-part of '../../app_router.dart';
+part of '../../../client_router.dart';
 
 @TypedGoRoute<MatchRoute>(path: MatchRoute.path, name: MatchRoute.name)
 class MatchRoute extends GoRouteData with $MatchRoute {

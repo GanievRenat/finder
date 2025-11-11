@@ -33,6 +33,10 @@
             "continue": "Continue",
             "save": "Save",
             "back": "Back"
+        },
+        "labels": {
+            "email": "Email",
+            "password": "Password"
         }
     },
     "auth": {
@@ -216,6 +220,32 @@
             "match": "Match",
             "message": "You and Jessica like each other.\nWhat’s your next move?",
             "button_title": "Chat now"
+        }
+    },
+    "admin" : {
+        "auth": {
+            "title": "Please enter your\nemail and password to log in.",
+            "login_button_title": "Login",
+            "error": {
+                "enter_your_email": "Please enter your Email",
+                "enter_correct_email": "Please enter correct Email",
+                "enter_your_password": "Please enter your Password",
+                "enter_correct_password": "The password must be longer than 6 characters.",
+                "main_error_text": "Sorry, that didn't go as planned. Please try again later."
+            }
+        },
+        "home": {
+            "menu": {
+                "models": "Models",
+                "settings": "Settings",
+                "logout": "Logout"
+            }
+        },
+        "persons": {
+            "title": "Models"
+        },
+        "settings": {
+            "title": "Settings"
         }
     }
 }

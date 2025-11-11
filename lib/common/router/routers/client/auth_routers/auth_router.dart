@@ -1,4 +1,4 @@
-part of '../../app_router.dart';
+part of '../../../client_router.dart';
 
 @TypedGoRoute<AuthRoute>(
   path: AuthRoute.path,

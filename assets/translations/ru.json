@@ -33,6 +33,10 @@
             "continue": "Continue",
             "save": "Save",
             "back": "Back"
+        },
+        "labels": {
+            "email": "Email",
+            "password": "Password"
         }
     },
     "auth": {
@@ -42,8 +46,8 @@
             "2": "Comfortable conversations fully under your control"
         },
         "whats_your_name_title": "What’s your name?",
-        "please_enter_you_name": "Please enter your name",
         "your_name_hint": "Name",
+        "please_enter_you_name": "Please enter your name",
         "welcome": "Welcome, {}!",
         "how_old_are_you_title": "How old are you?",
         "how_old_are_you_subtitle": "We need this information to make sure you’re old enough to safety use Flirta",
@@ -55,7 +59,7 @@
         },
         "you_identify_title": "How do you identify?",
         "you_identify_tip": "Choose the opton",
-        "interested_title": "Who are you interested in?",
+        "interested_title": "Who are you\ninterested in?",
         "interested_gender": {
             "male1": "Men",
             "female1": "Women",
@@ -217,6 +221,31 @@
             "message": "You and Jessica like each other.\nWhat’s your next move?",
             "button_title": "Chat now"
         }
+    },
+    "admin" : {
+        "auth": {
+            "title": "Please enter your\nemail and password to log in.",
+            "login_button_title": "Login",
+            "error": {
+                "enter_your_email": "Please enter your Email",
+                "enter_correct_email": "Please enter correct Email",
+                "enter_your_password": "Please enter your Password",
+                "enter_correct_password": "The password must be longer than 6 characters.",
+                "main_error_text": "Sorry, that didn't go as planned. Please try again later."
+            }
+        },
+        "home": {
+            "menu": {
+                "models": "Models",
+                "settings": "Settings",
+                "logout": "Logout"
+            }
+        },
+        "persons": {
+            "title": "Models"
+        },
+        "settings": {
+            "title": "Settings"
+        }
     }
-    
 }

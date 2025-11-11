@@ -1,4 +1,4 @@
-part of '../../app_router.dart';
+part of '../../../client_router.dart';
 
 class HomeRoute extends GoRouteData with $HomeRoute {
   const HomeRoute();
@@ -78,22 +78,6 @@ class FiltersRoute extends GoRouteData with $FiltersRoute {
     );
   }
 }
-
-/*class MatchRoute extends GoRouteData with $MatchRoute {
-  const MatchRoute();
-
-  static const path = 'match';
-  static const name = 'match';
-
-  @override
-  Page<void> buildPage(BuildContext context, GoRouterState state) {
-    return Transition.matching(
-      pageKey: state.pageKey,
-      name: name,
-      child: MatchPage(),
-    );
-  }
-}*/
 
 class DetailPersonRoute extends GoRouteData with $DetailPersonRoute {
   const DetailPersonRoute({

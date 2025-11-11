@@ -1,4 +1,5 @@
 import 'package:flirta/common/ui/theme/theme.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 extension ThemeExtension on BuildContext {
@@ -6,7 +7,8 @@ extension ThemeExtension on BuildContext {
 
   AppThemeColorScheme get color => AppTheme.of(this).color;
 
-  ThemeData get themeData => AppTheme.of(this).themeData;
+  ThemeData get themeData =>
+      kIsWeb ? AppTheme.of(this).themeDataAdmin : AppTheme.of(this).themeData;
 
   AppShadow get shadow => AppTheme.of(this).shadow;
 }

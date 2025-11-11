@@ -1,4 +1,4 @@
-part of '../../app_router.dart';
+part of '../../../client_router.dart';
 
 class HomeBranchData extends StatefulShellBranchData {
   static List<NavigatorObserver> $observers = [getIt<MainAnalyticsObserver>()];
