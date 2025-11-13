@@ -32,7 +32,7 @@ abstract class PersonModel with _$PersonModel {
     @Default('') @JsonKey(name: 'art_bio') String artBio,
     @Default('') @JsonKey(name: 'name') String name,
     @Default('') @JsonKey(name: 'gender') String gender,
-    @Default(0) @JsonKey(name: 'approach.speed') int approachSpeed,
+    @Default(1) @JsonKey(name: 'approach.speed') int approachSpeed,
     @Default('') @JsonKey(name: 'approach.heat_ramp') String approachHeatRamp,
     @Default(1)
     @JsonKey(name: 'axis.sensing_intuition')
@@ -44,10 +44,11 @@ abstract class PersonModel with _$PersonModel {
     @Default(1)
     @JsonKey(name: 'axis.judging_perceiving')
     int axisJudgingPerceiving,
-    @Default(false)
+    @Default(true)
     @JsonKey(name: 'boundaries.store_sfw')
     bool boundariesStoreSfw,
     @Default('') @JsonKey(name: 'chat.behavior') String chatBehavior,
+    @Default('') @JsonKey(name: 'chat.filters') String chatFilter,
     @Default([]) @JsonKey(name: 'clothing.styles') List<String> clothingStyles,
     @Default(1)
     @JsonKey(name: 'compliments.to_intellect')
@@ -58,7 +59,7 @@ abstract class PersonModel with _$PersonModel {
     @Default(1)
     @JsonKey(name: 'compliments.intensity')
     int complimentsIntensity,
-    @Default(0)
+    @Default(1)
     @JsonKey(name: 'compliments.cooldown_msgs')
     int complimentsCooldownMsgs,
     @Default('')

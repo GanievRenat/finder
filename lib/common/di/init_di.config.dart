@@ -61,6 +61,8 @@ import 'package:flirta/common/domain/usecase/admin/person/create_new_person_usec
     as _i145;
 import 'package:flirta/common/domain/usecase/admin/person/get_person_list_usecase.dart'
     as _i134;
+import 'package:flirta/common/domain/usecase/admin/person/remove_person_usecase.dart'
+    as _i5;
 import 'package:flirta/common/domain/usecase/admin/person/update_person_usecase.dart'
     as _i1062;
 import 'package:flirta/common/domain/usecase/filter/clear_filter_state_usecase.dart'
@@ -299,6 +301,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.singleton<_i134.GetPersonList>(
       () => _i134.GetPersonList(personRepository: gh<_i243.PersonRepository>()),
+    );
+    gh.singleton<_i5.RemovePerson>(
+      () => _i5.RemovePerson(personRepository: gh<_i243.PersonRepository>()),
     );
     gh.singleton<_i1062.UpdatePerson>(
       () => _i1062.UpdatePerson(personRepository: gh<_i243.PersonRepository>()),

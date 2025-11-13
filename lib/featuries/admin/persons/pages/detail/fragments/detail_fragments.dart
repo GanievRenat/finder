@@ -13,4 +13,5 @@ export 'compliments_data_fragment.dart';
 export 'loyalty_data_fragment.dart';
 export 'axis_data_fragment.dart';
 export 'chat_data_fragment.dart';
+//export 'chat_filters_fragment.dart';
 export 'sfw_options_data_fragment.dart';

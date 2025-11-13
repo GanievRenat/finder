@@ -127,6 +127,7 @@ extension PersonModelToEntites on PersonModel {
     }
 
     strBuff.writeln(_getProperty(chatBehavior, 'chat.behavior'));
+    strBuff.writeln(_getProperty(chatFilter, 'chat.filter'));
 
     return strBuff.toString();
   }
@@ -164,6 +165,7 @@ extension PersonModelToEntites on PersonModel {
         dynamicsEscalationTriggers.isNotEmpty &&
         complimentsTriggers.isNotEmpty &&
         chatBehavior.isNotEmpty &&
+        chatFilter.isNotEmpty &&
         modelId.isNotEmpty &&
         name.isNotEmpty &&
         bioApp.isNotEmpty &&
