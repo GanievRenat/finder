@@ -13,15 +13,11 @@ class HomeRoute extends GoRouteData with $HomeRoute {
       name: name,
       child: DatingPage(
         onFilter: () => const FiltersRoute().push(context),
-        onMatch: (imageUrl) => MatchRoute(imageUrl: imageUrl).push(context),
-        onDetailPerson:
-            ({required age, required imageUrl, required job, required name}) =>
-                DetailPersonRoute(
-                  namePerson: name,
-                  imageUrl: imageUrl,
-                  age: age,
-                  job: job,
-                ).push(context),
+        onMatch: ({required Person person}) =>
+            MatchRoute(personJson: person.toJson()).push(context),
+        onDetailPerson: ({required Person person}) =>
+            DetailPersonRoute(personJson: person.toJson()).push(context),
+        onPayWall: () => PawWallRoute().push(context),
       ),
     );
   }
@@ -80,20 +76,14 @@ class FiltersRoute extends GoRouteData with $FiltersRoute {
 }
 
 class DetailPersonRoute extends GoRouteData with $DetailPersonRoute {
-  const DetailPersonRoute({
-    required this.imageUrl,
-    required this.namePerson,
-    required this.age,
-    required this.job,
-  });
+  const DetailPersonRoute({required this.personJson});
 
   static const path = 'detail_person';
   static const name = 'detail_person';
 
-  final String imageUrl;
-  final String namePerson;
-  final int age;
-  final String job;
+  final String personJson;
+
+  // TODO: Форма должна возвращать действие пользователя - лайк, скип, null
 
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
@@ -101,10 +91,8 @@ class DetailPersonRoute extends GoRouteData with $DetailPersonRoute {
       pageKey: state.pageKey,
       name: name,
       child: DetailPersonPage(
-        imageUrl: imageUrl,
-        name: namePerson,
-        job: job,
-        age: age,
+        person: Person.fromJson(json.decode(personJson)),
+        onPayWall: () => PawWallRoute().push(context),
       ),
     );
   }

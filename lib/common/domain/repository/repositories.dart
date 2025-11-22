@@ -6,4 +6,4 @@ export 'registration_repository.dart';
 export 'filter_repository.dart';
 export 'dating_repository.dart';
 export 'admin/auth_admin_repository.dart';
-export 'person_repository.dart';
+export 'admin/person_admin_repository.dart';

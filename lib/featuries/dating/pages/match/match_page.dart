@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flirta/common/domain/entites/person/person.dart';
 import 'package:flirta/common/ui/theme/app_spacing.dart';
 import 'package:flirta/common/ui/theme/app_theme.dart';
 import 'package:flirta/common/ui/widgets/widgets.dart';
@@ -10,9 +11,9 @@ import 'package:go_router/go_router.dart';
 import 'widgets/heart_widget.dart';
 
 class MatchPage extends StatelessWidget {
-  const MatchPage({super.key, required this.imageUrl});
+  const MatchPage({super.key, required this.person});
 
-  final String imageUrl;
+  final Person person;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,7 @@ class MatchPage extends StatelessWidget {
               fit: BoxFit.fitHeight,
               //width: MediaQuery.of(context).size.width,
               height: double.infinity,
-              imageUrl: imageUrl,
+              imageUrl: person.photos.isNotEmpty ? person.photos.first : '',
               placeholder: (context, url) =>
                   Center(child: CircularProgressIndicator()),
               errorWidget: (context, url, error) => SizedBox(),

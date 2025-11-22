@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flirta/common/ui/theme/app_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,9 +9,15 @@ class UndoButton extends StatelessWidget {
     super.key,
     required CardSwiperController swipeController,
     required StreamController<bool> undoStreamController,
+    required this.onUndo,
+    required this.canUndo,
+    required this.onPayWall,
   }) : _swipeController = swipeController,
        _undoStreamController = undoStreamController;
 
+  final bool Function() canUndo;
+  final Future<void> Function() onUndo;
+  final Function onPayWall;
   final CardSwiperController _swipeController;
   final StreamController<bool> _undoStreamController;
 
@@ -21,18 +26,23 @@ class UndoButton extends StatelessWidget {
     return StreamBuilder(
       stream: _undoStreamController.stream,
       builder: (context, asyncSnapshot) {
-        bool canUndo = asyncSnapshot.data ?? false;
+        bool thereIsUndo = asyncSnapshot.data ?? false;
         return FloatingActionButton.small(
           backgroundColor: Colors.white,
-          onPressed: canUndo
-              ? () {
-                  _swipeController.undo();
+          onPressed: (thereIsUndo)
+              ? () async {
+                  if (canUndo()) {
+                    await onUndo();
+                    _swipeController.undo();
+                  } else {
+                    onPayWall();
+                  }
                 }
               : null,
           shape: CircleBorder(),
           child: Icon(
             CupertinoIcons.arrow_turn_up_left,
-            color: canUndo
+            color: thereIsUndo
                 ? AppTheme.of(context).color.green
                 : AppTheme.of(context).color.neutralLightDark,
             size: 25,

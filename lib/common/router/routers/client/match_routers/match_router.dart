@@ -2,9 +2,9 @@ part of '../../../client_router.dart';
 
 @TypedGoRoute<MatchRoute>(path: MatchRoute.path, name: MatchRoute.name)
 class MatchRoute extends GoRouteData with $MatchRoute {
-  const MatchRoute({required this.imageUrl});
+  const MatchRoute({required this.personJson});
 
-  final String imageUrl;
+  final String personJson;
 
   static const path = '/match';
   static const name = '/match';
@@ -14,7 +14,7 @@ class MatchRoute extends GoRouteData with $MatchRoute {
     return Transition.matching(
       pageKey: state.pageKey,
       name: name,
-      child: MatchPage(imageUrl: imageUrl),
+      child: MatchPage(person: Person.fromJson(json.decode(personJson) ?? {})),
     );
   }
 }

@@ -17,4 +17,10 @@ extension DateExtension on DateTime {
 
   DateTime combineWithTime(DateTime time) =>
       DateTime(year, month, day, time.hour, time.minute);
+
+  bool toDay() {
+    return (day == DateTime.now().day &&
+        month == DateTime.now().month &&
+        year == DateTime.now().year);
+  }
 }

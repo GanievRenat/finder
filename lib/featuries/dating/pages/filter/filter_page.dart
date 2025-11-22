@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flirta/common/di/init_di.dart';
 import 'package:flirta/common/ui/theme/theme.dart';
+import 'package:flirta/featuries/dating/pages/dating/state/dating_cubit.dart';
 import 'package:flirta/featuries/dating/pages/filter/state/filter_cubit.dart';
 import 'package:go_router/go_router.dart';
 import 'widgets/apply_filteres_button.dart';
@@ -62,6 +63,7 @@ class _FilterPageState extends State<FilterPage> {
             ),
             child: ApplyFilteresButton(
               onSaved: () {
+                getIt<DatingCubit>().getListDatingPerson();
                 if (context.mounted) {
                   context.pop();
                 }

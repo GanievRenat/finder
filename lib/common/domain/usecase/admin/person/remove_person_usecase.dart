@@ -4,9 +4,9 @@ import 'package:injectable/injectable.dart';
 
 @singleton
 class RemovePerson {
-  final PersonRepository _personRepository;
+  final PersonAdminRepository _personRepository;
 
-  RemovePerson({required PersonRepository personRepository})
+  RemovePerson({required PersonAdminRepository personRepository})
     : _personRepository = personRepository;
 
   Future<Either<PersonRepositoryError, bool>> call(String modelId) async {

@@ -5,11 +5,11 @@ import 'package:flirta/common/domain/repository/repositories.dart';
 import 'package:injectable/injectable.dart';
 import 'package:either_dart/either.dart';
 
-@Singleton(as: PersonRepository)
-class PersonRepositoryImpl implements PersonRepository {
+@Singleton(as: PersonAdminRepository)
+class PersonAdminRepositoryImpl implements PersonAdminRepository {
   final PersonDataProvider _dataProvider;
 
-  PersonRepositoryImpl({required PersonDataProvider dataProvider})
+  PersonAdminRepositoryImpl({required PersonDataProvider dataProvider})
     : _dataProvider = dataProvider;
 
   @override

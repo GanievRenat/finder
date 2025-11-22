@@ -217,9 +217,12 @@
             }
         },
         "match": {
-            "match": "Match",
+            "match": "MATCH",
             "message": "You and Jessica like each other.\nWhat’s your next move?",
             "button_title": "Chat now"
+        },
+        "text": {
+            "empty_result_search": "Unfortunately, we were unable to\nfind suitable partners"
         }
     },
     "admin" : {

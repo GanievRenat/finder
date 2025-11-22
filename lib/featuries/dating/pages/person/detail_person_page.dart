@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flirta/common/domain/entites/entities.dart';
 import 'package:flirta/common/ui/theme/theme.dart';
 import 'package:flirta/common/ui/widgets/widgets.dart';
 import 'package:flirta/generated/locale_keys.g.dart';
@@ -10,16 +11,12 @@ import 'widgets/head_person.dart';
 class DetailPersonPage extends StatefulWidget {
   const DetailPersonPage({
     super.key,
-    required this.imageUrl,
-    required this.name,
-    required this.job,
-    required this.age,
+    required this.person,
+    required this.onPayWall,
   });
 
-  final String imageUrl;
-  final String name;
-  final int age;
-  final String job;
+  final Person person;
+  final Function onPayWall;
 
   @override
   State<DetailPersonPage> createState() => _DetailPersonPageState();
@@ -52,10 +49,12 @@ class _DetailPersonPageState extends State<DetailPersonPage> {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.8,
                   child: HeadPerson(
-                    imageUrl: widget.imageUrl,
-                    name: widget.name,
-                    age: widget.age,
-                    job: widget.job,
+                    imageUrl: (widget.person.photos.isNotEmpty)
+                        ? widget.person.photos.first
+                        : '',
+                    name: widget.person.name,
+                    age: widget.person.age,
+                    job: widget.person.job,
                   ),
                 ),
                 Positioned(
@@ -90,7 +89,7 @@ class _DetailPersonPageState extends State<DetailPersonPage> {
                     style: AppTheme.of(context).textStyle.header4,
                   ),
                   Text(
-                    'My name is Jessica Parker and I enjoy meeting new people and finding ways to help them have an uplifting experience.',
+                    widget.person.bio,
                     softWrap: true,
                     style: AppTheme.of(context).textStyle.bodyM,
                   ),
@@ -107,16 +106,7 @@ class _DetailPersonPageState extends State<DetailPersonPage> {
                     style: AppTheme.of(context).textStyle.header4,
                   ),
                   AppSpacing.vertical.s4,
-                  GroupPersonTags(
-                    tags: {
-                      'Fitness',
-                      'Cooking',
-                      'Gamer',
-                      'Travelling',
-                      'Photo',
-                      'Music',
-                    },
-                  ),
+                  GroupPersonTags(tags: widget.person.interests.toSet()),
                 ],
               ),
             ),
@@ -130,7 +120,7 @@ class _DetailPersonPageState extends State<DetailPersonPage> {
                     style: AppTheme.of(context).textStyle.header4,
                   ),
                   Text(
-                    'Description. Lorem ipsum dolor sit amet consectetur adipiscing elit, sed do',
+                    widget.person.lifeStyle,
                     softWrap: true,
                     style: AppTheme.of(context).textStyle.bodyM,
                   ),

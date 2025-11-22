@@ -1,11 +1,13 @@
 import 'dart:async';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flirta/common/di/init_di.dart';
 import 'package:flirta/common/domain/usecase/usecases.dart';
 import 'package:flirta/common/service/analytics/events.dart';
 import 'package:flirta/common/service/services.dart';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flirta/featuries/dating/pages/dating/state/dating_cubit.dart';
 import 'package:flirta/featuries/dating/pages/filter/state/filter_cubit.dart';
 
 import 'package:flutter/material.dart';
@@ -27,7 +29,8 @@ class MainAppRunner implements AppRunner {
     WidgetsFlutterBinding.ensureInitialized();
 
     await EasyLocalization.ensureInitialized();
-    // await Firebase.initializeApp();
+
+    await Firebase.initializeApp();
 
     // init di
     await initDi(env);
@@ -42,6 +45,7 @@ class MainAppRunner implements AppRunner {
         // Добавить все что надо проинициализировать если пользователь авторизован
         getIt<CrashlyticsService>().setUserId(user.uid, properties: null);
         await getIt<FilterCubit>().init();
+        await getIt<DatingCubit>().init();
       },
       noAuth: () async {
         // Добавить все что надо проинициализировать если пользователь НЕ авторизован

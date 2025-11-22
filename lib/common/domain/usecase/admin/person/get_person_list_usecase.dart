@@ -6,9 +6,9 @@ import 'package:injectable/injectable.dart';
 
 @singleton
 class GetPersonList {
-  final PersonRepository _personRepository;
+  final PersonAdminRepository _personRepository;
 
-  GetPersonList({required PersonRepository personRepository})
+  GetPersonList({required PersonAdminRepository personRepository})
     : _personRepository = personRepository;
 
   Future<Either<PersonRepositoryError, List<PersonModel>>> call(

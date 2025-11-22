@@ -1,26 +1,23 @@
-// Удаляем персонаж из таблицы block
-import 'package:flirta/common/domain/repository/bodies/bodies.dart';
+// Получить детали персонажа
 import 'package:flirta/common/domain/repository/repositories.dart';
 import 'package:flirta/common/service/app_state_service.dart';
 import 'package:injectable/injectable.dart';
 
 @singleton
-class UndoLast {
+class GetSwipeCountToDay {
   final AppStateService _appStateService;
   final DatingRepository _datingRepository;
 
-  UndoLast({
+  GetSwipeCountToDay({
     required AppStateService appStateService,
     required DatingRepository datingRepository,
   }) : _appStateService = appStateService,
        _datingRepository = datingRepository;
 
-  Future<bool> call() async {
-    // Удаляем пользователя из таблицы заблокированных
-
-    await _datingRepository.undoLast(
-      UndoLastBody(userUid: _appStateService.currentUser.uid),
+  Future<int> call() async {
+    var result = await _datingRepository.getSwipeCount(
+      _appStateService.currentUser.uid,
     );
-    return true;
+    return result;
   }
 }

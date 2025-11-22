@@ -5,9 +5,9 @@ import 'package:injectable/injectable.dart';
 
 @singleton
 class UpdatePerson {
-  final PersonRepository _personRepository;
+  final PersonAdminRepository _personRepository;
 
-  UpdatePerson({required PersonRepository personRepository})
+  UpdatePerson({required PersonAdminRepository personRepository})
     : _personRepository = personRepository;
 
   Future<Either<PersonRepositoryError, bool>> call(

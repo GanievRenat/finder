@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flirta/common/domain/entites/person/person.dart';
 import 'package:flirta/common/ui/theme/app_spacing.dart';
 
 import 'package:flutter/cupertino.dart';
@@ -11,20 +12,26 @@ import 'dating_widgets.dart';
 class CardsSwiper extends StatefulWidget {
   const CardsSwiper({
     super.key,
-    required this.cards,
+    required this.persons,
     required this.onLike,
     required this.onSkip,
-    required this.onEnd,
     required this.onUndo,
-    required this.onOpenDetail,
+    required this.onEnd,
+    required this.onTapToPerson,
+    required this.canSwipe,
+    required this.canUndo,
+    required this.onPayWall,
   });
 
-  final List<Widget> cards;
+  final List<Person> persons;
   final Function onEnd;
-  final Function onSkip;
-  final Function onLike;
-  final Function onUndo;
-  final Function onOpenDetail;
+  final Future<void> Function(Person) onLike;
+  final Future<void> Function(Person) onSkip;
+  final Future<void> Function() onUndo;
+  final Function(Person) onTapToPerson;
+  final bool Function() canSwipe;
+  final bool Function() canUndo;
+  final Function onPayWall;
 
   @override
   State<CardsSwiper> createState() => _CardsSwiperState();
@@ -64,70 +71,81 @@ class _CardsSwiperState extends State<CardsSwiper> {
       clipBehavior: Clip.none,
       fit: StackFit.expand,
       children: [
-        CardSwiper(
-          controller: _swiperController,
-          cardsCount: widget.cards.length,
-          maxAngle: 90,
-          cardBuilder: (context, index, percentThresholdX, percentThresholdY) {
-            if (percentThresholdX != 0) {
-              _shiftStreamController.add(
-                Offset(
-                  percentThresholdX.toDouble() * 0.7,
-                  percentThresholdY.toDouble(),
-                ),
-              );
-            }
-            return widget.cards[index];
-          },
-          onSwipe: (previousIndex, currentIndex, direction) {
-            if (direction == CardSwiperDirection.top) {
-              //widget.onOpenDetail();
-              return false;
-            }
-            if (direction == CardSwiperDirection.right) {
-              widget.onLike();
-            }
-            return true;
-          },
-          padding: EdgeInsetsGeometry.zero,
-          scale: 1,
-          isLoop: true,
-          backCardOffset: Offset(0, 0),
-          showBackCardOnUndo: false,
-          onSwipeDirectionChange:
-              (horizontalDirection, verticalDirection, shift) {
-                if (horizontalDirection == CardSwiperDirection.right) {
-                  _likeAnimationController.show();
-                  _skipAnimationController.disable();
-                } else if (horizontalDirection == CardSwiperDirection.left) {
-                  _skipAnimationController.show();
-                  _likeAnimationController.disable();
-                } else if (horizontalDirection == CardSwiperDirection.none) {
-                  _likeAnimationController.disable();
-                  _skipAnimationController.disable();
-                }
-              },
-          onEnd: () => widget.onEnd(),
-          onAddUndo: (direction) {
-            if (direction == CardSwiperDirection.left) {
+        if (widget.persons.isNotEmpty)
+          CardSwiper(
+            controller: _swiperController,
+            cardsCount: widget.persons.length,
+            numberOfCardsDisplayed: (widget.persons.isNotEmpty) ? 1 : 0,
+            maxAngle: 90,
+            cardBuilder:
+                (context, index, percentThresholdX, percentThresholdY) {
+                  if (percentThresholdX != 0) {
+                    _shiftStreamController.add(
+                      Offset(
+                        percentThresholdX.toDouble() * 0.7,
+                        percentThresholdY.toDouble(),
+                      ),
+                    );
+                  }
+                  return CardSwipe(
+                    key: ValueKey(widget.persons[index].modelId),
+                    person: widget.persons[index],
+                    onTap: () => widget.onTapToPerson(widget.persons[index]),
+                  );
+                },
+            onSwipe: (previousIndex, currentIndex, direction) async {
+              if (!widget.canSwipe()) {
+                widget.onPayWall();
+                return false;
+              }
+              if (direction == CardSwiperDirection.right) {
+                await widget.onLike(widget.persons[previousIndex]);
+              } else if (direction == CardSwiperDirection.left) {
+                await widget.onSkip(widget.persons[previousIndex]);
+              }
               return true;
-            } else {
-              return false;
-            }
-          },
-          onUndo: (previousIndex, currentIndex, direction) => true,
-          onUndoCallBack: (countHistoryElement) {
-            if (countHistoryElement > 0) {
-              _undoStreamController.add(true);
-            } else {
-              _undoStreamController.add(false);
-            }
-          },
-          allowedSwipeDirection: AllowedSwipeDirection.only(
-            left: true,
-            right: true,
+            },
+            padding: EdgeInsetsGeometry.zero,
+            scale: 1,
+            isLoop: false,
+            backCardOffset: Offset(0, 0),
+            showBackCardOnUndo: false,
+            onSwipeDirectionChange:
+                (horizontalDirection, verticalDirection, shift) {
+                  if (horizontalDirection == CardSwiperDirection.right) {
+                    _likeAnimationController.show();
+                    _skipAnimationController.disable();
+                  } else if (horizontalDirection == CardSwiperDirection.left) {
+                    _skipAnimationController.show();
+                    _likeAnimationController.disable();
+                  } else if (horizontalDirection == CardSwiperDirection.none) {
+                    _likeAnimationController.disable();
+                    _skipAnimationController.disable();
+                  }
+                },
+            onEnd: () => widget.onEnd(),
+            onAddUndo: (direction) {
+              if (direction == CardSwiperDirection.left) {
+                return true;
+              } else {
+                return false;
+              }
+            },
+            onUndo: (previousIndex, currentIndex, direction) {
+              return true;
+            },
+            onUndoCallBack: (countHistoryElement) {
+              if (countHistoryElement > 0) {
+                _undoStreamController.add(true);
+              } else {
+                _undoStreamController.add(false);
+              }
+            },
+            allowedSwipeDirection: AllowedSwipeDirection.only(
+              left: true,
+              right: true,
+            ),
           ),
-        ),
         LikeFlag(
           likeAnimationController: _likeAnimationController,
           shiftStreamController: _shiftStreamController,
@@ -146,18 +164,25 @@ class _CardsSwiperState extends State<CardsSwiper> {
                 UndoButton(
                   swipeController: _swiperController,
                   undoStreamController: _undoStreamController,
+                  canUndo: widget.canUndo,
+                  onPayWall: widget.onPayWall,
+                  onUndo: widget.onUndo,
                 ),
                 AppSpacing.horizontal.s3,
                 SkipButton(
                   shiftStreamController: _shiftStreamController,
                   animationIconController: _skipAnimationController,
                   swipeController: _swiperController,
+                  canSwipe: widget.canSwipe,
+                  onPayWall: widget.onPayWall,
                 ),
                 AppSpacing.horizontal.s3,
                 LikeButton(
                   shiftStreamController: _shiftStreamController,
                   animationIconController: _likeAnimationController,
                   swipeController: _swiperController,
+                  canSwipe: widget.canSwipe,
+                  onPayWall: widget.onPayWall,
                 ),
               ],
             ),
@@ -167,15 +192,3 @@ class _CardsSwiperState extends State<CardsSwiper> {
     );
   }
 }
-
-
-      /*onSwipe: (previousIndex, currentIndex, direction) {
-          /*if (direction == CardSwiperDirection.right) {
-                _skipAnimationController.disable();
-                _likeAnimationController.complete();
-              } else if (direction == CardSwiperDirection.left) {
-                _skipAnimationController.complete();
-                _likeAnimationController.disable();
-              }*/
-        return true;
-      },*/

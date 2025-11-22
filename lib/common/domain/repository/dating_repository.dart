@@ -15,7 +15,10 @@ abstract class DatingRepository {
   // добавляем в список block
   Future<Either<DatingError, bool>> skipPerson(SkipPersonBody body);
   // удаляем из списка block
-  Future<Either<DatingError, bool>> undoPerson(UndoPersonBody body);
+  Future<Either<DatingError, bool>> undoLast(UndoLastBody body);
+  // Кол-во свайпов за сегодня
+  Future<int> getSwipeCount(String userUid);
+  Future<int> deleteOlderBlockData(String userUid);
 }
 
 sealed class DatingError {

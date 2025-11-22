@@ -9,6 +9,16 @@ export 'filter/get_filter_state_usecase.dart';
 export 'filter/save_filter_state_usecase.dart';
 export 'filter/clear_filter_state_usecase.dart';
 
+export 'dating/get_detail_of_person_usecase.dart';
+export 'dating/get_list_dating_person_usecase.dart';
+export 'dating/like_person_usecase.dart';
+export 'dating/skip_person_usecase.dart';
+export 'dating/undo_person_usecase.dart';
+export 'dating/get_swipe_count_to_day_usecase.dart';
+export 'dating/delete_older_data_usecase.dart';
+
+export 'chat/create_new_chat_usecase.dart';
+
 export 'admin/auth/auth_by_admin_usecase.dart';
 export 'admin/auth/forgot_password_usecase.dart';
 export 'admin/auth/logout_usecase.dart';

@@ -13,6 +13,8 @@ class SkipButton extends StatelessWidget {
     required StreamController shiftStreamController,
     required AnimationIconController animationIconController,
     required CardSwiperController swipeController,
+    required this.canSwipe,
+    required this.onPayWall,
   }) : _shiftStreamController = shiftStreamController,
        _animationIconController = animationIconController,
        _swipeController = swipeController;
@@ -20,6 +22,8 @@ class SkipButton extends StatelessWidget {
   final StreamController _shiftStreamController;
   final AnimationIconController _animationIconController;
   final CardSwiperController _swipeController;
+  final bool Function() canSwipe;
+  final Function onPayWall;
 
   @override
   Widget build(BuildContext context) {
@@ -28,12 +32,16 @@ class SkipButton extends StatelessWidget {
       backgroundColor: AppTheme.of(context).color.neutralLightLightest,
       mini: false,
       onPressed: () {
-        _shiftStreamController.add(Offset(0, 0));
-        _animationIconController.completeAuto();
-        Future.delayed(
-          Duration(milliseconds: 300),
-          () => _swipeController.swipe(CardSwiperDirection.left),
-        );
+        if (canSwipe()) {
+          _shiftStreamController.add(Offset(0, 0));
+          _animationIconController.completeAuto();
+          Future.delayed(
+            Duration(milliseconds: 300),
+            () => _swipeController.swipe(CardSwiperDirection.left),
+          );
+        } else {
+          onPayWall();
+        }
       },
       shape: CircleBorder(),
       child: Icon(

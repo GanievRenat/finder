@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flirta/common/di/init_di.dart';
+import 'package:flirta/common/domain/entites/person/person.dart';
 import 'package:flirta/common/enums/enums.dart';
 import 'package:flirta/common/router/router.dart';
 import 'package:flirta/common/service/app_state_service.dart';
@@ -10,6 +13,7 @@ import 'package:flirta/featuries/dating/pages/dating/dating_page.dart';
 import 'package:flirta/featuries/dating/pages/match/match_page.dart';
 import 'package:flirta/featuries/dating/pages/person/detail_person_page.dart';
 import 'package:flirta/featuries/main/main_page.dart';
+import 'package:flirta/featuries/paywall/pages/paywall_page.dart';
 import 'package:flirta/featuries/profile/pages/profile/edit_profile_page.dart';
 import 'package:flirta/featuries/profile/pages/settings/notification_settings_page.dart';
 import 'package:flirta/featuries/profile/profile.dart';
@@ -24,6 +28,7 @@ part 'routers/client/auth_routers/auth_router.dart';
 part 'routers/client/main_routers/home_router.dart';
 part 'routers/client/main_routers/main_router.dart';
 part 'routers/client/match_routers/match_router.dart';
+part 'routers/client/paywall_routers/paywall_router.dart';
 part 'client_router.g.dart';
 
 final GlobalKey<NavigatorState> shellNavigatorKey = GlobalKey<NavigatorState>();

@@ -3,9 +3,9 @@ import 'package:flirta/common/data/models/models.dart';
 import 'package:either_dart/either.dart';
 import 'package:flirta/generated/locale_keys.g.dart';
 
-import 'bodies/bodies.dart';
+import '../bodies/bodies.dart';
 
-abstract class PersonRepository {
+abstract class PersonAdminRepository {
   Future<Either<PersonRepositoryError, List<PersonModel>>> getPersonByFilter(
     GetPersonByFilterBody body,
   );

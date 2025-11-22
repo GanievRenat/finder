@@ -110,12 +110,19 @@ class FilterDataProviderLocal extends FilterDataProvider {
   }
 
   @override
-  Future<Either<FilterError, bool>> saveFilterState(SaveFilterStateBody body) {
+  Future<Either<FilterError, bool>> saveFilterState(
+    SaveFilterStateBody body,
+  ) async {
     try {
       var bodyStr = json.encode(body.toMap());
       _sharedPreferences.setString(
         _appConfig.localKeies[LocalKeies.localFilterStateKey]!,
         bodyStr,
+      );
+      // после того как мы обновили фильтры, нам надо удалить локальные данные,
+      // так как фильтры могли поменяться.
+      await _sharedPreferences.remove(
+        _appConfig.localKeies[LocalKeies.localPersonsPerDay]!,
       );
       return Future.value(Right(true));
     } catch (e) {

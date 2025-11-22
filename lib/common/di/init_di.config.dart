@@ -32,12 +32,12 @@ import 'package:flirta/common/data/providers/registration_form_data_provider.dar
     as _i207;
 import 'package:flirta/common/data/repository/admin/auth_admin_repository_impl.dart'
     as _i956;
+import 'package:flirta/common/data/repository/admin/person_admin_repository_impl.dart'
+    as _i208;
 import 'package:flirta/common/data/repository/dating_repository_impl.dart'
     as _i625;
 import 'package:flirta/common/data/repository/filter_repository_impl.dart'
     as _i120;
-import 'package:flirta/common/data/repository/person_repository_impl.dart'
-    as _i1071;
 import 'package:flirta/common/data/repository/profile_repository_impl.dart'
     as _i473;
 import 'package:flirta/common/data/repository/registration_form_repository_impl.dart'
@@ -65,6 +65,22 @@ import 'package:flirta/common/domain/usecase/admin/person/remove_person_usecase.
     as _i5;
 import 'package:flirta/common/domain/usecase/admin/person/update_person_usecase.dart'
     as _i1062;
+import 'package:flirta/common/domain/usecase/chat/create_new_chat_usecase.dart'
+    as _i2;
+import 'package:flirta/common/domain/usecase/dating/delete_older_data_usecase.dart'
+    as _i325;
+import 'package:flirta/common/domain/usecase/dating/get_detail_of_person_usecase.dart'
+    as _i344;
+import 'package:flirta/common/domain/usecase/dating/get_list_dating_person_usecase.dart'
+    as _i91;
+import 'package:flirta/common/domain/usecase/dating/get_swipe_count_to_day_usecase.dart'
+    as _i110;
+import 'package:flirta/common/domain/usecase/dating/like_person_usecase.dart'
+    as _i866;
+import 'package:flirta/common/domain/usecase/dating/skip_person_usecase.dart'
+    as _i981;
+import 'package:flirta/common/domain/usecase/dating/undo_person_usecase.dart'
+    as _i926;
 import 'package:flirta/common/domain/usecase/filter/clear_filter_state_usecase.dart'
     as _i616;
 import 'package:flirta/common/domain/usecase/filter/get_filter_state_usecase.dart'
@@ -118,6 +134,8 @@ import 'package:flirta/common/ui/widgets/photo/image_source_bottom_sheet.dart'
     as _i682;
 import 'package:flirta/featuries/admin/persons/pages/list/state/person_list_cubit.dart'
     as _i76;
+import 'package:flirta/featuries/dating/pages/dating/state/dating_cubit.dart'
+    as _i367;
 import 'package:flirta/featuries/dating/pages/filter/state/filter_cubit.dart'
     as _i103;
 import 'package:flirta/featuries/profile/pages/profile/state/profile_cubit.dart'
@@ -160,6 +178,8 @@ extension GetItInjectableX on _i174.GetIt {
       () => thirdPartyModule.remoteConfig,
     );
     gh.singleton<_i457.FirebaseStorage>(() => thirdPartyModule.firestorage);
+    gh.singleton<_i2.CreateNewChat>(() => _i2.CreateNewChat());
+    gh.singleton<_i344.GetDetailOfPerson>(() => _i344.GetDetailOfPerson());
     gh.singleton<_i216.AppModalBottomSheet>(() => _i216.AppModalBottomSheet());
     gh.singleton<_i534.AppToast>(() => _i534.AppToast());
     gh.singleton<_i523.AppStateService>(() => _i523.AppStateService());
@@ -198,11 +218,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i726.StorageServices>(
       () => _i726.StorageServices(gh<_i457.FirebaseStorage>()),
     );
-    gh.singleton<_i243.PersonRepository>(
-      () => _i1071.PersonRepositoryImpl(
-        dataProvider: gh<_i2.PersonDataProvider>(),
-      ),
-    );
     gh.singleton<_i864.LanguageInterceptor>(
       () => _i864.LanguageInterceptor(
         appStateService: gh<_i523.AppStateService>(),
@@ -211,11 +226,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i970.TokenInterceptor>(
       () =>
           _i970.TokenInterceptor(appStateService: gh<_i523.AppStateService>()),
-    );
-    gh.singleton<_i666.DatingDataProvider>(
-      () => _i666.DatingDataProviderLocal(
-        matchAndBlockTable: gh<_i332.MatchAndBlockTable>(),
-      ),
     );
     gh.singleton<_i1048.AppConfig>(
       () => _i67.ProdAppConfig(),
@@ -229,6 +239,11 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i97.LanguageInterceptor>(),
       ),
       instanceName: 'dioWithNoAuth',
+    );
+    gh.singleton<_i243.PersonAdminRepository>(
+      () => _i208.PersonAdminRepositoryImpl(
+        dataProvider: gh<_i2.PersonDataProvider>(),
+      ),
     );
     gh.singleton<_i566.RegistrationDataProvider>(
       () => _i566.RegistrationDataProviderLocal(
@@ -252,10 +267,24 @@ extension GetItInjectableX on _i174.GetIt {
         config: gh<_i1048.AppConfig>(),
       ),
     );
+    gh.singleton<_i666.DatingDataProvider>(
+      () => _i666.DatingDataProviderLocal(
+        matchAndBlockTable: gh<_i332.MatchAndBlockTable>(),
+        firestore: gh<_i974.FirebaseFirestore>(),
+        sharedPreferences: gh<_i460.SharedPreferences>(),
+        appConfig: gh<_i1048.AppConfig>(),
+      ),
+    );
     gh.singleton<_i752.AuthAdminDataProvider>(
       () => _i752.AuthAdminDataProviderLocal(
         auth: gh<_i59.FirebaseAuth>(),
         appConfig: gh<_i1048.AppConfig>(),
+      ),
+    );
+    gh.singleton<_i243.DatingRepository>(
+      () => _i625.DatingRepositoryImpl(
+        dataProvider: gh<_i443.DatingDataProvider>(),
+        storageServices: gh<_i726.StorageServices>(),
       ),
     );
     gh.factory<_i845.AuthAnalyticsObserver>(
@@ -276,6 +305,28 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i1048.AppConfig>(),
       ),
     );
+    gh.singleton<_i145.CreateNewPerson>(
+      () => _i145.CreateNewPerson(
+        personRepository: gh<_i243.PersonAdminRepository>(),
+      ),
+    );
+    gh.singleton<_i134.GetPersonList>(
+      () => _i134.GetPersonList(
+        personRepository: gh<_i243.PersonAdminRepository>(),
+      ),
+    );
+    gh.singleton<_i5.RemovePerson>(
+      () =>
+          _i5.RemovePerson(personRepository: gh<_i243.PersonAdminRepository>()),
+    );
+    gh.singleton<_i1062.UpdatePerson>(
+      () => _i1062.UpdatePerson(
+        personRepository: gh<_i243.PersonAdminRepository>(),
+      ),
+    );
+    gh.lazySingleton<_i76.PersonListCubit>(
+      () => _i76.PersonListCubit(getPersonList: gh<_i25.GetPersonList>()),
+    );
     gh.singleton<_i243.RegistrationRepository>(
       () => _i558.RegistrationRepositoryImpl(
         dataProvider: gh<_i443.RegistrationDataProvider>(),
@@ -289,24 +340,6 @@ extension GetItInjectableX on _i174.GetIt {
         sharedPreferences: gh<_i460.SharedPreferences>(),
         appConfig: gh<_i1048.AppConfig>(),
       ),
-    );
-    gh.singleton<_i243.DatingRepository>(
-      () => _i625.DatingRepositoryImpl(
-        dataProvider: gh<_i443.DatingDataProvider>(),
-      ),
-    );
-    gh.singleton<_i145.CreateNewPerson>(
-      () =>
-          _i145.CreateNewPerson(personRepository: gh<_i243.PersonRepository>()),
-    );
-    gh.singleton<_i134.GetPersonList>(
-      () => _i134.GetPersonList(personRepository: gh<_i243.PersonRepository>()),
-    );
-    gh.singleton<_i5.RemovePerson>(
-      () => _i5.RemovePerson(personRepository: gh<_i243.PersonRepository>()),
-    );
-    gh.singleton<_i1062.UpdatePerson>(
-      () => _i1062.UpdatePerson(personRepository: gh<_i243.PersonRepository>()),
     );
     gh.singleton<_i713.FilterDataProvider>(
       () => _i713.FilterDataProviderLocal(
@@ -330,6 +363,12 @@ extension GetItInjectableX on _i174.GetIt {
         dataProvider: gh<_i443.FilterDataProvider>(),
       ),
     );
+    gh.singleton<_i91.GetListDatingPerson>(
+      () => _i91.GetListDatingPerson(
+        datingRepository: gh<_i243.DatingRepository>(),
+        appStateService: gh<_i523.AppStateService>(),
+      ),
+    );
     gh.singleton<_i616.ClearFilterState>(
       () => _i616.ClearFilterState(
         filterRepository: gh<_i243.FilterRepository>(),
@@ -342,6 +381,36 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i372.SaveFilterState>(
       () =>
           _i372.SaveFilterState(filterRepository: gh<_i243.FilterRepository>()),
+    );
+    gh.singleton<_i325.DeleteOlderData>(
+      () => _i325.DeleteOlderData(
+        appStateService: gh<_i523.AppStateService>(),
+        datingRepository: gh<_i243.DatingRepository>(),
+      ),
+    );
+    gh.singleton<_i110.GetSwipeCountToDay>(
+      () => _i110.GetSwipeCountToDay(
+        appStateService: gh<_i523.AppStateService>(),
+        datingRepository: gh<_i243.DatingRepository>(),
+      ),
+    );
+    gh.singleton<_i866.LikePerson>(
+      () => _i866.LikePerson(
+        appStateService: gh<_i523.AppStateService>(),
+        datingRepository: gh<_i243.DatingRepository>(),
+      ),
+    );
+    gh.singleton<_i981.SkipPerson>(
+      () => _i981.SkipPerson(
+        appStateService: gh<_i523.AppStateService>(),
+        datingRepository: gh<_i243.DatingRepository>(),
+      ),
+    );
+    gh.singleton<_i926.UndoLast>(
+      () => _i926.UndoLast(
+        appStateService: gh<_i523.AppStateService>(),
+        datingRepository: gh<_i243.DatingRepository>(),
+      ),
     );
     gh.singleton<_i243.AuthAdminRepository>(
       () => _i956.AuthAdminRepositoryImpl(
@@ -361,13 +430,22 @@ extension GetItInjectableX on _i174.GetIt {
         dataProvider: gh<_i443.RegistrationFormDataProvider>(),
       ),
     );
+    gh.singleton<_i367.DatingCubit>(
+      () => _i367.DatingCubit(
+        getListDatingPerson: gh<_i25.GetListDatingPerson>(),
+        getDetailOfPerson: gh<_i25.GetDetailOfPerson>(),
+        likePerson: gh<_i25.LikePerson>(),
+        skipPerson: gh<_i25.SkipPerson>(),
+        undoLast: gh<_i25.UndoLast>(),
+        countToDay: gh<_i25.GetSwipeCountToDay>(),
+        deleteOlderData: gh<_i25.DeleteOlderData>(),
+        appStateService: gh<_i523.AppStateService>(),
+      ),
+    );
     gh.singleton<_i243.ProfileRepository>(
       () => _i473.ProfileRepositoryImpl(
         dataProvider: gh<_i443.ProfileDataProvider>(),
       ),
-    );
-    gh.lazySingleton<_i76.PersonListCubit>(
-      () => _i76.PersonListCubit(getPersonList: gh<_i25.GetPersonList>()),
     );
     gh.singleton<_i194.GetProfile>(
       () => _i194.GetProfile(
