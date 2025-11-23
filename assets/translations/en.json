@@ -225,6 +225,22 @@
             "empty_result_search": "Unfortunately, we were unable to\nfind suitable partners"
         }
     },
+    "paywall": {
+        "title": "Choose your subscription plan",
+        "subtitle": "You'll get:",
+        "benefits": {
+            "0": "<b>10 swipes</b> per day",
+            "1": "Cancel your <b>last skip</b>",
+            "2": "<b>Unlimited</b> photo access"
+        },
+        "button_subscribe": "Subscribe",
+        "text_bottom": {
+            "0": "By continuing, you agree to our ",
+            "1": "Terms and Conditions ",
+            "2": "and the ", 
+            "3": "Privacy Policy."
+        }
+    },
     "admin" : {
         "auth": {
             "title": "Please enter your\nemail and password to log in.",
