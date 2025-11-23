@@ -215,3 +215,117 @@ class _UpdateButtonState extends State<UpdateButton> {
     );
   }
 }
+
+/*class CopyButton extends StatefulWidget {
+  const CopyButton({super.key});
+
+  @override
+  State<CopyButton> createState() => _CopyButtonState();
+}
+
+class _CopyButtonState extends State<CopyButton> {
+  bool isLoading = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 16.0),
+      child: MainButton(
+        isLoading: isLoading,
+        title: 'Copy',
+        onPressed: () async {
+          setState(() {
+            isLoading = true;
+          });
+          try {
+            final state = context.read<PersonDetailState>().personModel;
+
+            if (state != null) {
+              if (state.validate()) {
+                context.read<PersonDetailState>().setNewState(
+                  state.copyWith(artBio: state.getArtBio()),
+                );
+                await getIt<CreateNewPerson>().call(
+                  context.read<PersonDetailState>().personModel!.copyWith(
+                    modelId: 'girl_05',
+                  ),
+                );
+                await getIt<CreateNewPerson>().call(
+                  context.read<PersonDetailState>().personModel!.copyWith(
+                    modelId: 'girl_06',
+                  ),
+                );
+                await getIt<CreateNewPerson>().call(
+                  context.read<PersonDetailState>().personModel!.copyWith(
+                    modelId: 'girl_07',
+                  ),
+                );
+                await getIt<CreateNewPerson>().call(
+                  context.read<PersonDetailState>().personModel!.copyWith(
+                    modelId: 'girl_08',
+                  ),
+                );
+                await getIt<CreateNewPerson>().call(
+                  context.read<PersonDetailState>().personModel!.copyWith(
+                    modelId: 'girl_09',
+                  ),
+                );
+                await getIt<CreateNewPerson>().call(
+                  context.read<PersonDetailState>().personModel!.copyWith(
+                    modelId: 'girl_10',
+                  ),
+                );
+                await getIt<CreateNewPerson>().call(
+                  context.read<PersonDetailState>().personModel!.copyWith(
+                    modelId: 'girl_11',
+                  ),
+                );
+                await getIt<CreateNewPerson>().call(
+                  context.read<PersonDetailState>().personModel!.copyWith(
+                    modelId: 'girl_12',
+                  ),
+                );
+                await getIt<CreateNewPerson>().call(
+                  context.read<PersonDetailState>().personModel!.copyWith(
+                    modelId: 'girl_13',
+                  ),
+                );
+                await getIt<CreateNewPerson>().call(
+                  context.read<PersonDetailState>().personModel!.copyWith(
+                    modelId: 'girl_14',
+                  ),
+                );
+              } else {
+                ScaffoldMessenger.of(context).showMaterialBanner(
+                  MaterialBanner(
+                    backgroundColor: AppTheme.of(context).color.error,
+                    content: Text(
+                      'Заполните все данные анкеты',
+                      style: TextStyle(
+                        color: AppTheme.of(context).color.neutralLightLightest,
+                      ),
+                    ),
+                    actions: [
+                      MainButton.inversionSmall(
+                        title: LocaleKeys.properties_buttons_ok.tr(),
+                        onPressed: () => ScaffoldMessenger.of(
+                          context,
+                        ).clearMaterialBanners(),
+                      ),
+                    ],
+                  ),
+                );
+              }
+            }
+          } catch (e) {
+            log(e.toString());
+          }
+          setState(() {
+            isLoading = false;
+          });
+          context.pop();
+        },
+      ),
+    );
+  }
+}*/

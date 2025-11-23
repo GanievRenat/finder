@@ -1,21 +1,27 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flirta/common/enums/enums.dart';
 import 'package:flirta/common/ui/theme/theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'slider_photos.dart';
+
 class HeadPerson extends StatefulWidget {
   const HeadPerson({
     super.key,
-    required this.imageUrl,
+    required this.imageUrls,
     required this.name,
     required this.age,
+    required this.onPayWall,
+    required this.onCallBack,
     this.job = '',
   });
 
-  final String imageUrl;
+  final List<String> imageUrls;
   final String name;
   final int age;
   final String job;
+  final Function() onPayWall;
+  final Function(ActionCallBackPersonDetailEnums action) onCallBack;
 
   @override
   State<HeadPerson> createState() => _HeadPersonState();
@@ -29,15 +35,10 @@ class _HeadPersonState extends State<HeadPerson> {
         Padding(
           padding: const EdgeInsets.only(bottom: 32.0, top: 0),
           child: Hero(
-            tag: widget.imageUrl,
-            child: CachedNetworkImage(
-              fit: BoxFit.fitHeight,
-              //width: MediaQuery.of(context).size.width,
-              height: double.infinity,
-              imageUrl: widget.imageUrl,
-              placeholder: (context, url) =>
-                  Center(child: CircularProgressIndicator()),
-              errorWidget: (context, url, error) => SizedBox(),
+            tag: widget.imageUrls.first,
+            child: SliderPhotos(
+              photos: widget.imageUrls,
+              onPayWall: widget.onPayWall,
             ),
           ),
         ),
@@ -79,7 +80,9 @@ class _HeadPersonState extends State<HeadPerson> {
                     context,
                   ).color.neutralLightLightest,
                   mini: false,
-                  onPressed: () {},
+                  onPressed: () {
+                    widget.onCallBack(ActionCallBackPersonDetailEnums.skip);
+                  },
                   shape: CircleBorder(),
                   child: Icon(
                     CupertinoIcons.clear,
@@ -92,7 +95,9 @@ class _HeadPersonState extends State<HeadPerson> {
                   heroTag: 'likeButton',
                   backgroundColor: Colors.white,
                   mini: false,
-                  onPressed: () {},
+                  onPressed: () {
+                    widget.onCallBack(ActionCallBackPersonDetailEnums.like);
+                  },
                   shape: CircleBorder(),
                   child: Icon(
                     CupertinoIcons.heart_solid,

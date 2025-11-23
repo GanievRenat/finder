@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flirta/common/domain/entites/person/person.dart';
+import 'package:flirta/common/enums/enums.dart';
 import 'package:flirta/common/ui/theme/app_spacing.dart';
 
 import 'package:flutter/cupertino.dart';
@@ -28,7 +29,10 @@ class CardsSwiper extends StatefulWidget {
   final Future<void> Function(Person) onLike;
   final Future<void> Function(Person) onSkip;
   final Future<void> Function() onUndo;
-  final Function(Person) onTapToPerson;
+  final Future<ActionCallBackPersonDetailEnums> Function({
+    required Person person,
+  })
+  onTapToPerson;
   final bool Function() canSwipe;
   final bool Function() canUndo;
   final Function onPayWall;
@@ -38,7 +42,7 @@ class CardsSwiper extends StatefulWidget {
 }
 
 class _CardsSwiperState extends State<CardsSwiper> {
-  late CardSwiperController _swiperController;
+  late CardSwiperController _swipeController;
   late final AnimationIconController _likeAnimationController;
   late final AnimationIconController _skipAnimationController;
 
@@ -53,14 +57,14 @@ class _CardsSwiperState extends State<CardsSwiper> {
     super.initState();
     _likeAnimationController = AnimationIconController();
     _skipAnimationController = AnimationIconController();
-    _swiperController = CardSwiperController();
+    _swipeController = CardSwiperController();
   }
 
   @override
   void dispose() {
     _likeAnimationController.dispose();
     _skipAnimationController.disable();
-    _swiperController.dispose();
+    _swipeController.dispose();
     _shiftStreamController.close();
     super.dispose();
   }
@@ -73,9 +77,13 @@ class _CardsSwiperState extends State<CardsSwiper> {
       children: [
         if (widget.persons.isNotEmpty)
           CardSwiper(
-            controller: _swiperController,
+            controller: _swipeController,
             cardsCount: widget.persons.length,
-            numberOfCardsDisplayed: (widget.persons.isNotEmpty) ? 1 : 0,
+            numberOfCardsDisplayed: (widget.persons.isNotEmpty)
+                ? (widget.persons.length >= 4)
+                      ? 4
+                      : widget.persons.length
+                : 0,
             maxAngle: 90,
             cardBuilder:
                 (context, index, percentThresholdX, percentThresholdY) {
@@ -90,7 +98,23 @@ class _CardsSwiperState extends State<CardsSwiper> {
                   return CardSwipe(
                     key: ValueKey(widget.persons[index].modelId),
                     person: widget.persons[index],
-                    onTap: () => widget.onTapToPerson(widget.persons[index]),
+                    onTap: () async {
+                      var action = await widget.onTapToPerson(
+                        person: widget.persons[index],
+                      );
+                      if (action == ActionCallBackPersonDetailEnums.like) {
+                        Future.delayed(
+                          Duration(milliseconds: 200),
+                          () => _likeAnimation(),
+                        );
+                      } else if (action ==
+                          ActionCallBackPersonDetailEnums.skip) {
+                        Future.delayed(
+                          Duration(milliseconds: 200),
+                          () => _skipAnimation(),
+                        );
+                      }
+                    },
                   );
                 },
             onSwipe: (previousIndex, currentIndex, direction) async {
@@ -162,33 +186,47 @@ class _CardsSwiperState extends State<CardsSwiper> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 UndoButton(
-                  swipeController: _swiperController,
+                  swipeController: _swipeController,
                   undoStreamController: _undoStreamController,
                   canUndo: widget.canUndo,
                   onPayWall: widget.onPayWall,
                   onUndo: widget.onUndo,
                 ),
                 AppSpacing.horizontal.s3,
-                SkipButton(
-                  shiftStreamController: _shiftStreamController,
-                  animationIconController: _skipAnimationController,
-                  swipeController: _swiperController,
-                  canSwipe: widget.canSwipe,
-                  onPayWall: widget.onPayWall,
-                ),
+                SkipButton(onTap: () => _skipAnimation()),
                 AppSpacing.horizontal.s3,
-                LikeButton(
-                  shiftStreamController: _shiftStreamController,
-                  animationIconController: _likeAnimationController,
-                  swipeController: _swiperController,
-                  canSwipe: widget.canSwipe,
-                  onPayWall: widget.onPayWall,
-                ),
+                LikeButton(onTap: () => _likeAnimation()),
               ],
             ),
           ),
         ),
       ],
     );
+  }
+
+  void _likeAnimation() {
+    if (widget.canSwipe()) {
+      _shiftStreamController.add(Offset(0, 0));
+      _likeAnimationController.completeAuto();
+      Future.delayed(
+        Duration(milliseconds: 300),
+        () => _swipeController.swipe(CardSwiperDirection.right),
+      );
+    } else {
+      widget.onPayWall();
+    }
+  }
+
+  void _skipAnimation() {
+    if (widget.canSwipe()) {
+      _shiftStreamController.add(Offset(0, 0));
+      _skipAnimationController.completeAuto();
+      Future.delayed(
+        Duration(milliseconds: 300),
+        () => _swipeController.swipe(CardSwiperDirection.left),
+      );
+    } else {
+      widget.onPayWall();
+    }
   }
 }

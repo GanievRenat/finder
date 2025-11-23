@@ -17,6 +17,9 @@ abstract class DatingDataProvider {
   Future<Either<DatingError, List<PersonModel>>> getPartOfPersonsForDating(
     GetPartOfPersonsForDatingBody body,
   );
+  Future<Either<DatingError, PersonModel>> getDetailOfPersons(
+    GetDetailOfPersonBody body,
+  );
   Future<Either<DatingError, bool>> likePerson(LikePersonBody body);
   Future<Either<DatingError, bool>> skipPerson(SkipPersonBody body);
   Future<Either<DatingError, bool>> undoLast(UndoLastBody body);
@@ -233,5 +236,24 @@ class DatingDataProviderLocal extends DatingDataProvider {
       userUid: userUid,
     );
     return count;
+  }
+
+  @override
+  Future<Either<DatingError, PersonModel>> getDetailOfPersons(
+    GetDetailOfPersonBody body,
+  ) async {
+    try {
+      var doc = await _firestore.collection('models').doc(body.modelId).get();
+      if (doc.exists) {
+        var personModel = PersonModel.fromJson(
+          doc.data() as Map<String, dynamic>,
+        );
+        return Future.value(Right(personModel));
+      } else {
+        return Future.value(Left(MainDatingError()));
+      }
+    } catch (e) {
+      return Future.value(Left(MainDatingError()));
+    }
   }
 }

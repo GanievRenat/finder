@@ -13,7 +13,6 @@ part 'dating_cubit.freezed.dart';
 class DatingCubit extends Cubit<DatingState> {
   DatingCubit({
     required GetListDatingPerson getListDatingPerson,
-    required GetDetailOfPerson getDetailOfPerson,
     required LikePerson likePerson,
     required SkipPerson skipPerson,
     required UndoLast undoLast,
@@ -21,7 +20,6 @@ class DatingCubit extends Cubit<DatingState> {
     required DeleteOlderData deleteOlderData,
     required AppStateService appStateService,
   }) : _getListDatingPerson = getListDatingPerson,
-       _getDetailOfPerson = getDetailOfPerson,
        _likePerson = likePerson,
        _skipPerson = skipPerson,
        _undoLast = undoLast,
@@ -31,7 +29,7 @@ class DatingCubit extends Cubit<DatingState> {
        super(DatingState.init());
 
   final GetListDatingPerson _getListDatingPerson;
-  final GetDetailOfPerson _getDetailOfPerson;
+
   final LikePerson _likePerson;
   final SkipPerson _skipPerson;
   final UndoLast _undoLast;

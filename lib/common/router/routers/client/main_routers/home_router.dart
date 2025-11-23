@@ -15,8 +15,11 @@ class HomeRoute extends GoRouteData with $HomeRoute {
         onFilter: () => const FiltersRoute().push(context),
         onMatch: ({required Person person}) =>
             MatchRoute(personJson: person.toJson()).push(context),
-        onDetailPerson: ({required Person person}) =>
-            DetailPersonRoute(personJson: person.toJson()).push(context),
+        onDetailPerson: ({required Person person}) async =>
+            await DetailPersonRoute(
+              personJson: person.toJson(),
+            ).push<ActionCallBackPersonDetailEnums>(context) ??
+            ActionCallBackPersonDetailEnums.none,
         onPayWall: () => PawWallRoute().push(context),
       ),
     );

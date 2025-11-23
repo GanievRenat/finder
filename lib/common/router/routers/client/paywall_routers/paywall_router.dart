@@ -9,7 +9,7 @@ class PawWallRoute extends GoRouteData with $PawWallRoute {
 
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
-    return Transition.matching(
+    return Transition.slide(
       pageKey: state.pageKey,
       name: name,
       child: PaywallPage(),

@@ -130,4 +130,19 @@ class DatingRepositoryImpl implements DatingRepository {
     var result = await _dataProvider.deleteOlderData(userUid);
     return result;
   }
+
+  @override
+  Future<Either<DatingError, Person>> getDetailOfPerson(
+    GetDetailOfPersonBody body,
+  ) async {
+    var result = await _dataProvider.getDetailOfPersons(body);
+    if (result.isRight) {
+      var ent = result.right.toEntites();
+      var photos = await _storageServices.getPhotoList(ent.modelId);
+      ent = ent.copyWith(photos: photos);
+      return Right(ent);
+    } else {
+      return Left(result.left);
+    }
+  }
 }

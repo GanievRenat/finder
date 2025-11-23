@@ -179,7 +179,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.singleton<_i457.FirebaseStorage>(() => thirdPartyModule.firestorage);
     gh.singleton<_i2.CreateNewChat>(() => _i2.CreateNewChat());
-    gh.singleton<_i344.GetDetailOfPerson>(() => _i344.GetDetailOfPerson());
     gh.singleton<_i216.AppModalBottomSheet>(() => _i216.AppModalBottomSheet());
     gh.singleton<_i534.AppToast>(() => _i534.AppToast());
     gh.singleton<_i523.AppStateService>(() => _i523.AppStateService());
@@ -303,6 +302,11 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i39.LanguageService(
         gh<_i460.SharedPreferences>(),
         gh<_i1048.AppConfig>(),
+      ),
+    );
+    gh.singleton<_i344.GetDetailOfPerson>(
+      () => _i344.GetDetailOfPerson(
+        datingRepository: gh<_i243.DatingRepository>(),
       ),
     );
     gh.singleton<_i145.CreateNewPerson>(
@@ -430,21 +434,20 @@ extension GetItInjectableX on _i174.GetIt {
         dataProvider: gh<_i443.RegistrationFormDataProvider>(),
       ),
     );
+    gh.singleton<_i243.ProfileRepository>(
+      () => _i473.ProfileRepositoryImpl(
+        dataProvider: gh<_i443.ProfileDataProvider>(),
+      ),
+    );
     gh.singleton<_i367.DatingCubit>(
       () => _i367.DatingCubit(
         getListDatingPerson: gh<_i25.GetListDatingPerson>(),
-        getDetailOfPerson: gh<_i25.GetDetailOfPerson>(),
         likePerson: gh<_i25.LikePerson>(),
         skipPerson: gh<_i25.SkipPerson>(),
         undoLast: gh<_i25.UndoLast>(),
         countToDay: gh<_i25.GetSwipeCountToDay>(),
         deleteOlderData: gh<_i25.DeleteOlderData>(),
         appStateService: gh<_i523.AppStateService>(),
-      ),
-    );
-    gh.singleton<_i243.ProfileRepository>(
-      () => _i473.ProfileRepositoryImpl(
-        dataProvider: gh<_i443.ProfileDataProvider>(),
       ),
     );
     gh.singleton<_i194.GetProfile>(

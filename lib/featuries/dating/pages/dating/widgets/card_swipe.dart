@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flirta/common/domain/entites/person/person.dart';
 import 'package:flirta/common/ui/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class CardSwipe extends StatefulWidget {
   const CardSwipe({super.key, required this.person, required this.onTap});
@@ -30,8 +31,17 @@ class _CardSwipeState extends State<CardSwipe> {
                 imageUrl: widget.person.photos.isNotEmpty
                     ? widget.person.photos.first
                     : '',
-                placeholder: (context, url) =>
-                    Center(child: CircularProgressIndicator()),
+                placeholder: (context, url) => Skeletonizer(
+                  enabled: true,
+                  ignoreContainers: false,
+                  child: SizedBox(
+                    height: double.infinity,
+                    width: MediaQuery.of(context).size.width,
+                    child: Container(
+                      color: AppTheme.of(context).color.neutralLightLight,
+                    ),
+                  ),
+                ),
                 errorWidget: (context, url, error) => SizedBox(),
               ),
             ),

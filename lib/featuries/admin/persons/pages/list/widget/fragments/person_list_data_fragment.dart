@@ -25,6 +25,7 @@ class PersonListDataFragment extends StatelessWidget {
             : null,
         title: Text(persons[index].name),
         subtitle: Text(persons[index].modelId),
+        trailing: IconButton(onPressed: () {}, icon: const Icon(Icons.copy)),
         onTap: () => onTap(persons[index]),
       ),
       separatorBuilder: (BuildContext context, int index) => Divider(),

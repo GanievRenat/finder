@@ -7,3 +7,4 @@ export 'like_person_body.dart';
 export 'skip_person_body.dart';
 export 'undo_person_body.dart';
 export 'get_person_by_filter_body.dart';
+export 'get_detail_of_person_body.dart';

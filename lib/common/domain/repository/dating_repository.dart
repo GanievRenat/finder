@@ -10,6 +10,9 @@ abstract class DatingRepository {
   Future<Either<DatingError, List<Person>>> getPartOfPersonsForDating(
     GetPartOfPersonsForDatingBody body,
   );
+  Future<Either<DatingError, Person>> getDetailOfPerson(
+    GetDetailOfPersonBody body,
+  );
   // Должен вернуть ид чата или полноценный чат, добавить в список - match
   Future<Either<DatingError, bool>> likePerson(LikePersonBody body);
   // добавляем в список block

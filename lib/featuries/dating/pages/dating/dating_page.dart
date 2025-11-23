@@ -1,5 +1,6 @@
 import 'package:flirta/common/di/init_di.dart';
 import 'package:flirta/common/domain/entites/entities.dart';
+import 'package:flirta/common/enums/enums.dart';
 import 'package:flirta/common/ui/widgets/logo/logo.dart';
 import 'package:flirta/featuries/dating/pages/dating/state/dating_cubit.dart';
 import 'package:flirta/featuries/dating/pages/dating/widgets/dating_widgets.dart';
@@ -18,7 +19,10 @@ class DatingPage extends StatefulWidget {
   final VoidCallback onFilter;
   final Function() onPayWall;
   final Function({required Person person}) onMatch;
-  final Function({required Person person}) onDetailPerson;
+  final Future<ActionCallBackPersonDetailEnums> Function({
+    required Person person,
+  })
+  onDetailPerson;
 
   @override
   State<DatingPage> createState() => _DatingPageState();
@@ -56,7 +60,7 @@ class _DatingPageState extends State<DatingPage> {
             DatingListEmptyFragment(onRefresh: () {}),
         success: (context, value, child) => DatingListDataFragment(
           persons: value,
-          onDetailPerson: (person) => widget.onDetailPerson(person: person),
+          onDetailPerson: widget.onDetailPerson,
           onMatch: (person) => widget.onMatch(person: person),
           onPayWall: widget.onPayWall,
         ),
