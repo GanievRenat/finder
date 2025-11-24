@@ -19,6 +19,8 @@ import 'package:flirta/common/data/providers/admin/auth_admin_data_provider.dart
     as _i752;
 import 'package:flirta/common/data/providers/admin/person_data_provider.dart'
     as _i2;
+import 'package:flirta/common/data/providers/chat_local_data_provider.dart'
+    as _i800;
 import 'package:flirta/common/data/providers/data_providers.dart' as _i443;
 import 'package:flirta/common/data/providers/dating_data_provider.dart'
     as _i666;
@@ -67,6 +69,12 @@ import 'package:flirta/common/domain/usecase/admin/person/update_person_usecase.
     as _i1062;
 import 'package:flirta/common/domain/usecase/chat/create_new_chat_usecase.dart'
     as _i2;
+import 'package:flirta/common/domain/usecase/chat/get_chat_list_usecase.dart'
+    as _i984;
+import 'package:flirta/common/domain/usecase/chat/get_detail_chat_usecase.dart'
+    as _i830;
+import 'package:flirta/common/domain/usecase/chat/send_message_to_chat_usecase.dart'
+    as _i775;
 import 'package:flirta/common/domain/usecase/dating/delete_older_data_usecase.dart'
     as _i325;
 import 'package:flirta/common/domain/usecase/dating/get_detail_of_person_usecase.dart'
@@ -117,6 +125,9 @@ import 'package:flirta/common/service/photo_picker_service.dart' as _i651;
 import 'package:flirta/common/service/services.dart' as _i697;
 import 'package:flirta/common/service/storage_services.dart' as _i726;
 import 'package:flirta/common/source/database/database_manager.dart' as _i366;
+import 'package:flirta/common/source/database/table/chat_messages_table.dart'
+    as _i320;
+import 'package:flirta/common/source/database/table/chat_table.dart' as _i1041;
 import 'package:flirta/common/source/database/table/match_table.dart' as _i332;
 import 'package:flirta/common/source/network/http_client/http_client_module.dart'
     as _i1066;
@@ -130,6 +141,7 @@ import 'package:flirta/common/source/network/interceptors/logger_interceptors.da
     as _i1072;
 import 'package:flirta/common/source/network/interceptors/token_interceptor.dart'
     as _i970;
+import 'package:flirta/common/state/chat/chat_cubit.dart' as _i6;
 import 'package:flirta/common/ui/widgets/photo/image_source_bottom_sheet.dart'
     as _i682;
 import 'package:flirta/featuries/admin/persons/pages/list/state/person_list_cubit.dart'
@@ -178,7 +190,6 @@ extension GetItInjectableX on _i174.GetIt {
       () => thirdPartyModule.remoteConfig,
     );
     gh.singleton<_i457.FirebaseStorage>(() => thirdPartyModule.firestorage);
-    gh.singleton<_i2.CreateNewChat>(() => _i2.CreateNewChat());
     gh.singleton<_i216.AppModalBottomSheet>(() => _i216.AppModalBottomSheet());
     gh.singleton<_i534.AppToast>(() => _i534.AppToast());
     gh.singleton<_i523.AppStateService>(() => _i523.AppStateService());
@@ -186,6 +197,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i651.PhotoPickerService>(() => _i651.PhotoPickerService());
     gh.singleton<_i682.ImageSourceBottomSheet>(
       () => _i682.ImageSourceBottomSheet(),
+    );
+    gh.singleton<_i320.ChatMessagesTable>(
+      () => _i320.ChatMessagesTable(gh<_i366.AppDatabase>()),
+    );
+    gh.singleton<_i1041.ChatTable>(
+      () => _i1041.ChatTable(gh<_i366.AppDatabase>()),
     );
     gh.singleton<_i332.MatchAndBlockTable>(
       () => _i332.MatchAndBlockTable(gh<_i366.AppDatabase>()),
@@ -202,6 +219,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i243.SettingsRepository>(
       () => _i131.SettingsRepositoryImpl(),
     );
+    gh.singleton<_i2.CreateNewChat>(
+      () => _i2.CreateNewChat(
+        chatRepository: gh<_i243.ChatRepository>(),
+        appStateService: gh<_i523.AppStateService>(),
+      ),
+    );
     gh.singleton<_i1048.AppConfig>(
       () => _i67.DevAppConfig(),
       registerFor: {_dev},
@@ -216,6 +239,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.singleton<_i726.StorageServices>(
       () => _i726.StorageServices(gh<_i457.FirebaseStorage>()),
+    );
+    gh.singleton<_i800.ChatLocalDataProvider>(
+      () => _i800.ChatLocalDataProviderImpl(
+        chatTable: gh<_i1041.ChatTable>(),
+        messageTable: gh<_i320.ChatMessagesTable>(),
+      ),
     );
     gh.singleton<_i864.LanguageInterceptor>(
       () => _i864.LanguageInterceptor(
@@ -238,6 +267,24 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i97.LanguageInterceptor>(),
       ),
       instanceName: 'dioWithNoAuth',
+    );
+    gh.singleton<_i984.GetChatList>(
+      () => _i984.GetChatList(
+        chatRepository: gh<_i243.ChatRepository>(),
+        appStateService: gh<_i697.AppStateService>(),
+      ),
+    );
+    gh.singleton<_i830.GetDetailChat>(
+      () => _i830.GetDetailChat(
+        chatRepository: gh<_i243.ChatRepository>(),
+        appStateService: gh<_i697.AppStateService>(),
+      ),
+    );
+    gh.singleton<_i775.SendMessageToChat>(
+      () => _i775.SendMessageToChat(
+        chatRepository: gh<_i243.ChatRepository>(),
+        appStateService: gh<_i697.AppStateService>(),
+      ),
     );
     gh.singleton<_i243.PersonAdminRepository>(
       () => _i208.PersonAdminRepositoryImpl(
@@ -437,6 +484,17 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i243.ProfileRepository>(
       () => _i473.ProfileRepositoryImpl(
         dataProvider: gh<_i443.ProfileDataProvider>(),
+      ),
+    );
+    gh.singleton<_i6.ChatCubit>(
+      () => _i6.ChatCubit(
+        getListDatingPerson: gh<_i25.GetListDatingPerson>(),
+        likePerson: gh<_i25.LikePerson>(),
+        skipPerson: gh<_i25.SkipPerson>(),
+        undoLast: gh<_i25.UndoLast>(),
+        countToDay: gh<_i25.GetSwipeCountToDay>(),
+        deleteOlderData: gh<_i25.DeleteOlderData>(),
+        appStateService: gh<_i523.AppStateService>(),
       ),
     );
     gh.singleton<_i367.DatingCubit>(

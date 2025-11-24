@@ -14,7 +14,25 @@ class MatchAndBlock extends Table {
   IntColumn get block => integer()();
 }
 
-@DriftDatabase(tables: [MatchAndBlock])
+class Chat extends Table {
+  IntColumn get atCreated => integer()();
+  TextColumn get userUid => text()();
+  TextColumn get modelId => text()();
+  TextColumn get modelName => text()();
+  TextColumn get modelAvatar => text()();
+}
+
+class Messages extends Table {
+  IntColumn get atCreated => integer()();
+  TextColumn get modelId => text()();
+  TextColumn get userUid => text()();
+  TextColumn get owner => text()();
+  TextColumn get message => text()();
+  TextColumn get images => text()();
+  BoolColumn get isRead => boolean()();
+}
+
+@DriftDatabase(tables: [MatchAndBlock, Chat, Messages])
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
@@ -31,6 +49,10 @@ class AppDatabase extends _$AppDatabase {
     onUpgrade: (Migrator m, int from, int to) async {
       await m.deleteTable(matchAndBlock.actualTableName);
       await m.createTable(matchAndBlock);
+      await m.deleteTable(chat.actualTableName);
+      await m.createTable(chat);
+      await m.deleteTable(messages.actualTableName);
+      await m.createTable(messages);
     },
     // Что делать при сбросе базы данных
     beforeOpen: (details) async {

@@ -18,6 +18,9 @@ export 'dating/get_swipe_count_to_day_usecase.dart';
 export 'dating/delete_older_data_usecase.dart';
 
 export 'chat/create_new_chat_usecase.dart';
+export 'chat/get_chat_list_usecase.dart';
+export 'chat/send_message_to_chat_usecase.dart';
+export 'chat/get_detail_chat_usecase.dart';
 
 export 'admin/auth/auth_by_admin_usecase.dart';
 export 'admin/auth/forgot_password_usecase.dart';

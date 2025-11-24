@@ -4,3 +4,5 @@ export 'user/user.dart';
 export 'registration/registration_data.dart';
 export 'filter/filter_data.dart';
 export 'person/person.dart';
+export 'chat/chat.dart';
+export 'chat/message.dart';

@@ -5,5 +5,6 @@ export 'settings_repository.dart';
 export 'registration_repository.dart';
 export 'filter_repository.dart';
 export 'dating_repository.dart';
+export 'chat_repository.dart';
 export 'admin/auth_admin_repository.dart';
 export 'admin/person_admin_repository.dart';
