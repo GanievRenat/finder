@@ -40,7 +40,16 @@ class ProfileBranchData extends StatefulShellBranchData {
     ),
     TypedStatefulShellBranch<ChatBranchData>(
       routes: <TypedRoute<RouteData>>[
-        TypedGoRoute<ChatsRoute>(path: ChatsRoute.path, name: ChatsRoute.name),
+        TypedGoRoute<ChatsRoute>(
+          path: ChatsRoute.path,
+          name: ChatsRoute.name,
+          routes: [
+            TypedGoRoute<DetailChatRoute>(
+              path: DetailChatRoute.path,
+              name: DetailChatRoute.name,
+            ),
+          ],
+        ),
       ],
     ),
     TypedStatefulShellBranch<ProfileBranchData>(

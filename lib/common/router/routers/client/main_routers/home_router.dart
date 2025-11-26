@@ -57,7 +57,32 @@ class ChatsRoute extends GoRouteData with $ChatsRoute {
     return Transition.fade(
       pageKey: state.pageKey,
       name: name,
-      child: ListChatPage(),
+      child: ListChatPage(
+        onDetailChat: ({required String modelId}) =>
+            DetailChatRoute(modelId: modelId).push(context),
+      ),
+    );
+  }
+}
+
+class DetailChatRoute extends GoRouteData with $DetailChatRoute {
+  const DetailChatRoute({required this.modelId});
+
+  static const path = 'detail_chats';
+  static const name = 'detail_chats';
+
+  final String modelId;
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return Transition.fade(
+      pageKey: state.pageKey,
+      name: name,
+      child: DetailChatPage(
+        modelId: modelId,
+        onDetailPerson: ({required person}) {},
+        onPhotoGallery: ({required modelId}) {},
+      ),
     );
   }
 }

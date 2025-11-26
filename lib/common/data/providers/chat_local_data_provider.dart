@@ -14,6 +14,7 @@ abstract class ChatLocalDataProvider {
     String userUid,
     AddNewMessageBody body,
   );
+  Future<int> setReadStatus({required SetReadStatusBody body});
 }
 
 //**
@@ -55,12 +56,6 @@ class ChatLocalDataProviderImpl extends ChatLocalDataProvider {
       var resultMessageModels = result
           .map((e) => MessagesModel.fromJson(e))
           .toList();
-
-      // Отмечаем все сообщения как прочитанные
-      /*await _messageTable.setReadStatus(
-        userUid: body.userUid,
-        modelId: body.modelId,
-      );*/
 
       return resultMessageModels;
     } catch (e) {
@@ -118,5 +113,15 @@ class ChatLocalDataProviderImpl extends ChatLocalDataProvider {
     } catch (e) {
       throw Exception('No messages found');
     }
+  }
+
+  @override
+  Future<int> setReadStatus({required SetReadStatusBody body}) async {
+    // Отмечаем все сообщения как прочитанные
+    var result = await _messageTable.setReadStatus(
+      userUid: body.userUid,
+      modelId: body.modelId,
+    );
+    return result;
   }
 }

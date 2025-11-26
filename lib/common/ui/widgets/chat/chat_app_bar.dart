@@ -1,6 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flirta/common/ui/theme/app_theme.dart';
 import 'package:flirta/generated/locale_keys.g.dart';
 import 'package:flutter/material.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 import 'title_chat_app_bar.dart';
 
@@ -44,4 +46,18 @@ class ChatAppBar extends AppBar {
            ),
          ],
        );
+
+  ChatAppBar.loading({super.key, required BuildContext context})
+    : super(
+        title: Skeletonizer(
+          effect: ShimmerEffect(
+            baseColor: AppTheme.of(context).color.neutralLightMedium,
+            highlightColor: AppTheme.of(context).color.neutralLightLightest,
+            duration: Duration(seconds: 2),
+          ),
+          enabled: true,
+          ignoreContainers: false,
+          child: TitleChatAppBar(imageURL: '', modelName: 'Eleanor Pena'),
+        ),
+      );
 }

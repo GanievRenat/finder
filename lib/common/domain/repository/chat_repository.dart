@@ -17,6 +17,7 @@ abstract class ChatRepository {
     String userUid,
     AddNewMessageBody body,
   );
+  Future<void> setReadStatus(SetReadStatusBody body);
   // Подготовить промт для отправки нового сообщения
 }
 

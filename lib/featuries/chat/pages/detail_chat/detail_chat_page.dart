@@ -1,0 +1,63 @@
+import 'package:flirta/common/di/init_di.dart';
+import 'package:flirta/common/domain/entites/entities.dart';
+import 'package:flirta/common/domain/usecase/usecases.dart';
+import 'package:flirta/featuries/chat/state/chat_cubit.dart';
+import 'package:flirta/generated/assets.gen.dart';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'state/detail_chat_cubit.dart';
+import 'widget/app_bar_chat.dart';
+import 'widget/detail_chat_builder.dart';
+import 'widget/fragments/chat_detail_data_fragment.dart';
+import 'widget/fragments/chat_detail_error_fragment.dart';
+import 'widget/fragments/chat_detail_loader_fragment.dart';
+
+class DetailChatPage extends StatelessWidget {
+  const DetailChatPage({
+    super.key,
+    required this.modelId,
+    required this.onDetailPerson,
+    required this.onPhotoGallery,
+  });
+
+  final String modelId;
+  final Function({required Person person}) onDetailPerson;
+  final Function({required String modelId}) onPhotoGallery;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => DetailChatCubit(
+        modelId: modelId,
+        getDetailChat: getIt<GetDetailChat>(),
+        sendMessageToChat: getIt<SendMessageToChat>(),
+        getDetailOfPerson: getIt<GetDetailOfPerson>(),
+        chatCubit: getIt<ChatCubit>(),
+      ),
+      child: Scaffold(
+        appBar: AppBarChat(
+          onPersonDetail: onDetailPerson,
+          onPhotoGallery: onPhotoGallery,
+        ),
+        body: DecoratedBox(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: Assets.images.bgChat.provider(),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: DetailChatBuilder(
+            init: (context) => ChatDetailLoaderFragment(),
+            loading: (context) => ChatDetailLoaderFragment(),
+            error: (context, value, child) =>
+                ChatDetailErrorFragment(error: value.toString()),
+            success: (context, value, child) =>
+                ChatDetailDataFragment(messages: value.chatList),
+          ),
+        ),
+      ),
+    );
+  }
+}

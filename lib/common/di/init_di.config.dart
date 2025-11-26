@@ -147,8 +147,6 @@ import 'package:flirta/common/ui/widgets/photo/image_source_bottom_sheet.dart'
     as _i682;
 import 'package:flirta/featuries/admin/persons/pages/list/state/person_list_cubit.dart'
     as _i76;
-import 'package:flirta/featuries/chat/pages/detail_chat/state/detail_chat_cubit.dart'
-    as _i1010;
 import 'package:flirta/featuries/chat/state/chat_cubit.dart' as _i310;
 import 'package:flirta/featuries/dating/pages/dating/state/dating_cubit.dart'
     as _i367;
@@ -421,12 +419,6 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i775.SendMessageToChat(
         chatRepository: gh<_i243.ChatRepository>(),
         appStateService: gh<_i697.AppStateService>(),
-      ),
-    );
-    gh.singleton<_i1010.DetailChatCubit>(
-      () => _i1010.DetailChatCubit(
-        getDetailChat: gh<_i25.GetDetailChat>(),
-        sendMessageToChat: gh<_i25.SendMessageToChat>(),
       ),
     );
     gh.singleton<_i91.GetListDatingPerson>(

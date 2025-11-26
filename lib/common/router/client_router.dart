@@ -6,6 +6,7 @@ import 'package:flirta/common/domain/entites/person/person.dart';
 import 'package:flirta/common/enums/enums.dart';
 import 'package:flirta/common/router/router.dart';
 import 'package:flirta/common/service/app_state_service.dart';
+import 'package:flirta/featuries/chat/pages/detail_chat/detail_chat_page.dart';
 import 'package:flirta/featuries/chat/pages/list_chat/list_chat_page.dart';
 import 'package:flirta/featuries/dating/pages/filter/filter_page.dart';
 

@@ -11,7 +11,9 @@ import 'fragments/chat_list_empty_fragment.dart';
 import 'fragments/chat_list_loader_fragment.dart';
 
 class ListChatPage extends StatelessWidget {
-  const ListChatPage({super.key});
+  const ListChatPage({super.key, required this.onDetailChat});
+
+  final Function({required String modelId}) onDetailChat;
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +31,11 @@ class ListChatPage extends StatelessWidget {
         empty: (context) => ChatListEmptyFragment(),
         error: (context, value, child) =>
             ChatListErrorFragment(error: value.toString()),
-        success: (context, value, countNew, child) =>
-            ChatListDataFragment(chat: value, onDetailChat: (chat) {}),
+        // TODO: Сортировать сообщения по дате последнего обновления
+        success: (context, value, countNew, child) => ChatListDataFragment(
+          chat: value,
+          onDetailChat: (chat) => onDetailChat(modelId: chat.modelId),
+        ),
       ),
     );
   }

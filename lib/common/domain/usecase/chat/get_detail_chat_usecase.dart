@@ -23,6 +23,14 @@ class GetDetailChat {
         modelId: modelId,
       ),
     );
+    if (result.isRight) {
+      _chatRepository.setReadStatus(
+        SetReadStatusBody(
+          modelId: modelId,
+          userUid: _appStateService.currentUser.uid,
+        ),
+      );
+    }
     return result;
   }
 }

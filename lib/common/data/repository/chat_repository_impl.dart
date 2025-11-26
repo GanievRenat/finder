@@ -5,6 +5,7 @@ import 'package:flirta/common/domain/entites/chat/message.dart';
 import 'package:flirta/common/domain/repository/bodies/add_new_message_body.dart';
 import 'package:flirta/common/domain/repository/bodies/create_new_chat_body.dart';
 import 'package:flirta/common/domain/repository/bodies/get_message_of_chat_body.dart';
+import 'package:flirta/common/domain/repository/bodies/set_read_status_body.dart';
 import 'package:flirta/common/domain/repository/repositories.dart';
 import 'package:injectable/injectable.dart';
 
@@ -77,5 +78,11 @@ class ChatRepositoryImpl implements ChatRepository {
     } catch (e) {
       return Future.value(Left(MainChatError()));
     }
+  }
+
+  @override
+  Future<void> setReadStatus(SetReadStatusBody body) async {
+    await _localDataProvider.setReadStatus(body: body);
+    return;
   }
 }

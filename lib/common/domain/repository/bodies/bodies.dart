@@ -11,3 +11,4 @@ export 'get_detail_of_person_body.dart';
 export 'get_message_of_chat_body.dart';
 export 'add_new_message_body.dart';
 export 'create_new_chat_body.dart';
+export 'set_read_status_body.dart';
