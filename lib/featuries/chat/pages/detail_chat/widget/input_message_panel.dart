@@ -1,8 +1,5 @@
-import 'dart:math' as math;
-
 import 'package:flirta/common/ui/theme/theme.dart';
 import 'package:flirta/featuries/chat/pages/detail_chat/state/detail_chat_cubit.dart';
-import 'package:flirta/generated/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -28,7 +25,18 @@ class InputMessagePanel extends StatelessWidget {
                 children: [
                   Expanded(
                     child: TextFormField(
-                      decoration: InputDecoration(border: InputBorder.none),
+                      decoration: InputDecoration(
+                        isDense: true,
+                        border: UnderlineInputBorder(
+                          borderSide: BorderSide.none,
+                        ),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide.none,
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide.none,
+                        ),
+                      ),
                     ),
                   ),
                   IconButton(
