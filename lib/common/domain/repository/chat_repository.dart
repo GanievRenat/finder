@@ -5,7 +5,7 @@ import 'package:flirta/common/domain/repository/bodies/bodies.dart';
 import 'package:flirta/generated/locale_keys.g.dart';
 
 abstract class ChatRepository {
-  Future<Either<ChatError, List<Chat>>> createNewChat(CreateNewChatBody body);
+  Future<Either<ChatError, int>> createNewChat(CreateNewChatBody body);
   // Получить чаты пользователя
   Future<Either<ChatError, List<Chat>>> getChats(String userId);
   // Получить все сообщения конкретного чата

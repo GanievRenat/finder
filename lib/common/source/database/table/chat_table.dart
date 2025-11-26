@@ -43,7 +43,7 @@ class ChatTable {
 
       var resultMap = result
           .map(
-            (row) => row.toColumns(false) /* {
+            (row) => row.toJson() /* {
               'atCreated': row.atCreated,
               'userUid': row.userUid,
               'modelId': row.modelId,

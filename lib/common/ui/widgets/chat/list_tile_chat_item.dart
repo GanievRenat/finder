@@ -8,24 +8,37 @@ class ListTileChatItem extends StatelessWidget {
     required this.imageURL,
     required this.modelName,
     required this.lastMessage,
+    required this.onTap,
     this.countNewMessage = 0,
-  });
+  }) : _isLoading = false;
+
+  const ListTileChatItem.loading({super.key})
+    : imageURL = '',
+      modelName = 'Eleanor Pena',
+      lastMessage = 'One day you’re seventeen One day you’re seventeen',
+      countNewMessage = 0,
+      onTap = null,
+      _isLoading = true;
 
   final String imageURL;
   final String modelName;
   final String lastMessage;
   final int countNewMessage;
 
+  final bool _isLoading;
+
+  final Function()? onTap;
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: onTap,
       child: Padding(
         padding: EdgeInsets.only(left: 8, top: 12, right: 16, bottom: 12),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            AvatarModel(imageURL: imageURL),
+            AvatarModel(imageURL: _isLoading ? '' : imageURL),
             SizedBox(width: 16),
             Expanded(
               child: Column(

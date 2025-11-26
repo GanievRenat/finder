@@ -6,7 +6,7 @@ import 'package:flirta/common/source/database/table/chat_table.dart';
 import 'package:injectable/injectable.dart';
 
 abstract class ChatLocalDataProvider {
-  Future<List<ChatModel>> createNewChat({required CreateNewChatBody body});
+  Future<int> createNewChat({required CreateNewChatBody body});
   Future<List<ChatModel>> getChats({required String userUid});
   Future<List<MessagesModel>> getMessageOfChat(GetMessageOfChatBody body);
   Future<List<MessagesModel>> getAllMessageByUserId(String userUid);
@@ -32,11 +32,12 @@ class ChatLocalDataProviderImpl extends ChatLocalDataProvider {
 
   @override
   Future<List<ChatModel>> getChats({required String userUid}) async {
-    var result = await _chatTable.get(userUid: userUid);
-    if (result.isNotEmpty) {
+    try {
+      var result = await _chatTable.get(userUid: userUid);
+
       var resultChatModels = result.map((e) => ChatModel.fromJson(e)).toList();
       return resultChatModels;
-    } else {
+    } catch (e) {
       throw Exception('No chat found');
     }
   }
@@ -45,36 +46,38 @@ class ChatLocalDataProviderImpl extends ChatLocalDataProvider {
   Future<List<MessagesModel>> getMessageOfChat(
     GetMessageOfChatBody body,
   ) async {
-    var result = await _messageTable.getByModelId(
-      userUid: body.userUid,
-      modelId: body.modelId,
-    );
-    if (result.isNotEmpty) {
+    try {
+      var result = await _messageTable.getByModelId(
+        userUid: body.userUid,
+        modelId: body.modelId,
+      );
+
       var resultMessageModels = result
           .map((e) => MessagesModel.fromJson(e))
           .toList();
 
       // Отмечаем все сообщения как прочитанные
-      await _messageTable.setReadStatus(
+      /*await _messageTable.setReadStatus(
         userUid: body.userUid,
         modelId: body.modelId,
-      );
+      );*/
 
       return resultMessageModels;
-    } else {
+    } catch (e) {
       throw Exception('No messages found');
     }
   }
 
   @override
   Future<List<MessagesModel>> getAllMessageByUserId(String userUid) async {
-    var result = await _messageTable.get(userUid: userUid);
-    if (result.isNotEmpty) {
+    try {
+      var result = await _messageTable.get(userUid: userUid);
+
       var resultMessageModels = result
           .map((e) => MessagesModel.fromJson(e))
           .toList();
       return resultMessageModels;
-    } else {
+    } catch (e) {
       throw Exception('No messages found');
     }
   }
@@ -103,17 +106,14 @@ class ChatLocalDataProviderImpl extends ChatLocalDataProvider {
   }
 
   @override
-  Future<List<ChatModel>> createNewChat({
-    required CreateNewChatBody body,
-  }) async {
+  Future<int> createNewChat({required CreateNewChatBody body}) async {
     try {
-      await _chatTable.createNewChat(
+      var result = await _chatTable.createNewChat(
         modelId: body.modelId,
         userUid: body.userUid,
         modelName: body.modelName,
         modelAvatar: body.modelAvatar,
       );
-      var result = getChats(userUid: body.userUid);
       return result;
     } catch (e) {
       throw Exception('No messages found');

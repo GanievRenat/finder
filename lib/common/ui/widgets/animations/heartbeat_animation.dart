@@ -73,10 +73,12 @@ class _HeartbeatAnimationState extends State<HeartbeatAnimation>
 
   Future<void> _startAnimationLoop() async {
     do {
-      await _controller.forward(from: 0);
-      if (widget.repeat && !_disposed) {
-        await Future.delayed(widget.pause);
-        _controller2.forward(from: 0);
+      if (!_disposed) {
+        await _controller.forward(from: 0);
+        if (widget.repeat) {
+          await Future.delayed(widget.pause);
+          _controller2.forward(from: 0);
+        }
       }
     } while (widget.repeat && !_disposed);
   }
@@ -84,7 +86,9 @@ class _HeartbeatAnimationState extends State<HeartbeatAnimation>
   @override
   void dispose() {
     _disposed = true;
+
     _controller.dispose();
+    _controller2.dispose();
     super.dispose();
   }
 

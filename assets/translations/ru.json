@@ -149,6 +149,15 @@
         "menu": {
             "0": "Profile",
             "1": "Photos"
+        },
+        "errors": {
+            "main": "Sorry, that didn't go as planned. Please try again later."
+        },
+        "messages": {
+            "empty": {
+                "title": "Nothing here yet",
+                "subtitle": "Start swiping to get\nnew matches"
+            }
         }
     },
     "user_profile": {

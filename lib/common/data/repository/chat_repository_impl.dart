@@ -6,9 +6,11 @@ import 'package:flirta/common/domain/repository/bodies/add_new_message_body.dart
 import 'package:flirta/common/domain/repository/bodies/create_new_chat_body.dart';
 import 'package:flirta/common/domain/repository/bodies/get_message_of_chat_body.dart';
 import 'package:flirta/common/domain/repository/repositories.dart';
+import 'package:injectable/injectable.dart';
 
 import '../providers/chat_local_data_provider.dart';
 
+@Singleton(as: ChatRepository)
 class ChatRepositoryImpl implements ChatRepository {
   final ChatLocalDataProvider _localDataProvider;
 
@@ -68,13 +70,10 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   @override
-  Future<Either<ChatError, List<Chat>>> createNewChat(
-    CreateNewChatBody body,
-  ) async {
+  Future<Either<ChatError, int>> createNewChat(CreateNewChatBody body) async {
     try {
-      await _localDataProvider.createNewChat(body: body);
-      var result = await getChats(body.userUid);
-      return result;
+      var result = await _localDataProvider.createNewChat(body: body);
+      return Right(result);
     } catch (e) {
       return Future.value(Left(MainChatError()));
     }

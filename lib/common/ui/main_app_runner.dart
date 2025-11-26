@@ -7,6 +7,7 @@ import 'package:flirta/common/service/analytics/events.dart';
 import 'package:flirta/common/service/services.dart';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flirta/featuries/chat/state/chat_cubit.dart';
 import 'package:flirta/featuries/dating/pages/dating/state/dating_cubit.dart';
 import 'package:flirta/featuries/dating/pages/filter/state/filter_cubit.dart';
 
@@ -46,6 +47,7 @@ class MainAppRunner implements AppRunner {
         getIt<CrashlyticsService>().setUserId(user.uid, properties: null);
         await getIt<FilterCubit>().init();
         await getIt<DatingCubit>().init();
+        await getIt<ChatCubit>().init();
       },
       noAuth: () async {
         // Добавить все что надо проинициализировать если пользователь НЕ авторизован

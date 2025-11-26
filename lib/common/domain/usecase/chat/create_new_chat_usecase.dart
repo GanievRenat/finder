@@ -16,7 +16,7 @@ class CreateNewChat {
   }) : _chatRepository = chatRepository,
        _appStateService = appStateService;
 
-  Future<Either<ChatError, List<Chat>>> call(Person person) async {
+  Future<Either<ChatError, int>> call(Person person) async {
     var result = await _chatRepository.createNewChat(
       CreateNewChatBody(
         modelId: person.modelId,

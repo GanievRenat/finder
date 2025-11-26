@@ -57,7 +57,7 @@ class ChatMessagesTable {
               ))
               .get();
 
-      var resultMap = result.map((row) => row.toColumns(false)).toList();
+      var resultMap = result.map((row) => row.toJson()).toList();
       return resultMap;
     } catch (e) {
       rethrow;
@@ -71,7 +71,7 @@ class ChatMessagesTable {
         appDatabase.messages,
       )..where((t) => t.userUid.equals(userUid))).get();
 
-      var resultMap = result.map((row) => row.toColumns(false)).toList();
+      var resultMap = result.map((row) => row.toJson()).toList();
       return resultMap;
     } catch (e) {
       rethrow;

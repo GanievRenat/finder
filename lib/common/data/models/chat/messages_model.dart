@@ -8,13 +8,13 @@ part 'messages_model.g.dart';
 @freezed
 abstract class MessagesModel with _$MessagesModel {
   const factory MessagesModel({
-    @Default(0) int atCreated,
-    @Default('') String userUid,
-    @Default('') String modelId,
-    @Default('') String owner,
-    @Default('') String message,
-    @Default('') String images,
-    @Default(false) bool isRead,
+    @Default(0) @JsonKey(name: 'atCreated') int atCreated,
+    @Default('') @JsonKey(name: 'userUid') String userUid,
+    @Default('') @JsonKey(name: 'modelId') String modelId,
+    @Default('') @JsonKey(name: 'owner') String owner,
+    @Default('') @JsonKey(name: 'message') String message,
+    @Default('') @JsonKey(name: 'images') String images,
+    @Default(false) @JsonKey(name: 'isRead') bool isRead,
   }) = _MessagesModel;
 
   factory MessagesModel.fromJson(Map<String, Object?> json) =>
@@ -24,7 +24,7 @@ abstract class MessagesModel with _$MessagesModel {
 extension MessagesModelToEntites on MessagesModel {
   Messages toEntites() {
     return Messages(
-      atCreated: DateTime.fromMillisecondsSinceEpoch(millisecondsSinceEpoch),
+      atCreated: DateTime.fromMillisecondsSinceEpoch(atCreated),
       owner: owner == 'you' ? Owner.you : Owner.person,
       message: message,
       imageUrls: images.isNotEmpty ? images.split(';') : [],

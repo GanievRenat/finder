@@ -1,6 +1,7 @@
 import 'package:flirta/common/domain/entites/entities.dart';
 import 'package:flirta/common/domain/usecase/usecases.dart';
 import 'package:flirta/common/service/app_state_service.dart';
+import 'package:flirta/featuries/chat/state/chat_cubit.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -19,6 +20,7 @@ class DatingCubit extends Cubit<DatingState> {
     required GetSwipeCountToDay countToDay,
     required DeleteOlderData deleteOlderData,
     required AppStateService appStateService,
+    required ChatCubit chatCubit,
   }) : _getListDatingPerson = getListDatingPerson,
        _likePerson = likePerson,
        _skipPerson = skipPerson,
@@ -26,6 +28,7 @@ class DatingCubit extends Cubit<DatingState> {
        _countToDay = countToDay,
        _deleteOlderData = deleteOlderData,
        _appStateService = appStateService,
+       _chatCubit = chatCubit,
        super(DatingState.init());
 
   final GetListDatingPerson _getListDatingPerson;
@@ -36,6 +39,7 @@ class DatingCubit extends Cubit<DatingState> {
   final GetSwipeCountToDay _countToDay;
   final AppStateService _appStateService;
   final DeleteOlderData _deleteOlderData;
+  final ChatCubit _chatCubit;
 
   int _swipeCountToday = 0;
 
@@ -78,6 +82,7 @@ class DatingCubit extends Cubit<DatingState> {
   Future<void> like(Person person) async {
     if (canSwipe()) {
       var result = await _likePerson(person);
+      _chatCubit.newChat(person: person);
       if (result) {
         _swipeCountToday++;
       }

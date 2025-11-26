@@ -7,11 +7,11 @@ part 'chat_model.g.dart';
 @freezed
 abstract class ChatModel with _$ChatModel {
   const factory ChatModel({
-    @Default(0) int atCreated,
-    @Default('') String userUid,
-    @Default('') String modelId,
-    @Default('') String modelName,
-    @Default('') String modelAvatar,
+    @Default(0) @JsonKey(name: 'atCreated') int atCreated,
+    @Default('') @JsonKey(name: 'userUid') String userUid,
+    @Default('') @JsonKey(name: 'modelId') String modelId,
+    @Default('') @JsonKey(name: 'modelName') modelName,
+    @Default('') @JsonKey(name: 'modelAvatar') modelAvatar,
   }) = _ChatModel;
 
   factory ChatModel.fromJson(Map<String, Object?> json) =>
@@ -21,12 +21,12 @@ abstract class ChatModel with _$ChatModel {
 extension ChatModelToEntites on ChatModel {
   Chat toEntites(List<Messages> messages) {
     return Chat(
-      atCreated: DateTime.fromMillisecondsSinceEpoch(millisecondsSinceEpoch),
+      atCreated: DateTime.fromMillisecondsSinceEpoch(atCreated),
       modelAvatar: modelAvatar,
       modelId: modelId,
       modelName: modelName,
       messages: messages,
-      lastMessage: messages.last,
+      lastMessage: (messages.isNotEmpty) ? messages.last.message : '',
       countNewMessage: messages.where((msg) => !msg.isRead).length,
     );
   }

@@ -36,6 +36,8 @@ import 'package:flirta/common/data/repository/admin/auth_admin_repository_impl.d
     as _i956;
 import 'package:flirta/common/data/repository/admin/person_admin_repository_impl.dart'
     as _i208;
+import 'package:flirta/common/data/repository/chat_repository_impl.dart'
+    as _i190;
 import 'package:flirta/common/data/repository/dating_repository_impl.dart'
     as _i625;
 import 'package:flirta/common/data/repository/filter_repository_impl.dart'
@@ -141,11 +143,13 @@ import 'package:flirta/common/source/network/interceptors/logger_interceptors.da
     as _i1072;
 import 'package:flirta/common/source/network/interceptors/token_interceptor.dart'
     as _i970;
-import 'package:flirta/common/state/chat/chat_cubit.dart' as _i6;
 import 'package:flirta/common/ui/widgets/photo/image_source_bottom_sheet.dart'
     as _i682;
 import 'package:flirta/featuries/admin/persons/pages/list/state/person_list_cubit.dart'
     as _i76;
+import 'package:flirta/featuries/chat/pages/detail_chat/state/detail_chat_cubit.dart'
+    as _i1010;
+import 'package:flirta/featuries/chat/state/chat_cubit.dart' as _i310;
 import 'package:flirta/featuries/dating/pages/dating/state/dating_cubit.dart'
     as _i367;
 import 'package:flirta/featuries/dating/pages/filter/state/filter_cubit.dart'
@@ -219,12 +223,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i243.SettingsRepository>(
       () => _i131.SettingsRepositoryImpl(),
     );
-    gh.singleton<_i2.CreateNewChat>(
-      () => _i2.CreateNewChat(
-        chatRepository: gh<_i243.ChatRepository>(),
-        appStateService: gh<_i523.AppStateService>(),
-      ),
-    );
     gh.singleton<_i1048.AppConfig>(
       () => _i67.DevAppConfig(),
       registerFor: {_dev},
@@ -268,24 +266,6 @@ extension GetItInjectableX on _i174.GetIt {
       ),
       instanceName: 'dioWithNoAuth',
     );
-    gh.singleton<_i984.GetChatList>(
-      () => _i984.GetChatList(
-        chatRepository: gh<_i243.ChatRepository>(),
-        appStateService: gh<_i697.AppStateService>(),
-      ),
-    );
-    gh.singleton<_i830.GetDetailChat>(
-      () => _i830.GetDetailChat(
-        chatRepository: gh<_i243.ChatRepository>(),
-        appStateService: gh<_i697.AppStateService>(),
-      ),
-    );
-    gh.singleton<_i775.SendMessageToChat>(
-      () => _i775.SendMessageToChat(
-        chatRepository: gh<_i243.ChatRepository>(),
-        appStateService: gh<_i697.AppStateService>(),
-      ),
-    );
     gh.singleton<_i243.PersonAdminRepository>(
       () => _i208.PersonAdminRepositoryImpl(
         dataProvider: gh<_i2.PersonDataProvider>(),
@@ -321,6 +301,11 @@ extension GetItInjectableX on _i174.GetIt {
         appConfig: gh<_i1048.AppConfig>(),
       ),
     );
+    gh.singleton<_i243.ChatRepository>(
+      () => _i190.ChatRepositoryImpl(
+        localDataProvider: gh<_i800.ChatLocalDataProvider>(),
+      ),
+    );
     gh.singleton<_i752.AuthAdminDataProvider>(
       () => _i752.AuthAdminDataProviderLocal(
         auth: gh<_i59.FirebaseAuth>(),
@@ -349,6 +334,12 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i39.LanguageService(
         gh<_i460.SharedPreferences>(),
         gh<_i1048.AppConfig>(),
+      ),
+    );
+    gh.singleton<_i2.CreateNewChat>(
+      () => _i2.CreateNewChat(
+        chatRepository: gh<_i243.ChatRepository>(),
+        appStateService: gh<_i523.AppStateService>(),
       ),
     );
     gh.singleton<_i344.GetDetailOfPerson>(
@@ -412,6 +403,30 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i243.FilterRepository>(
       () => _i120.FilterRepositoryImpl(
         dataProvider: gh<_i443.FilterDataProvider>(),
+      ),
+    );
+    gh.singleton<_i984.GetChatList>(
+      () => _i984.GetChatList(
+        chatRepository: gh<_i243.ChatRepository>(),
+        appStateService: gh<_i697.AppStateService>(),
+      ),
+    );
+    gh.singleton<_i830.GetDetailChat>(
+      () => _i830.GetDetailChat(
+        chatRepository: gh<_i243.ChatRepository>(),
+        appStateService: gh<_i697.AppStateService>(),
+      ),
+    );
+    gh.singleton<_i775.SendMessageToChat>(
+      () => _i775.SendMessageToChat(
+        chatRepository: gh<_i243.ChatRepository>(),
+        appStateService: gh<_i697.AppStateService>(),
+      ),
+    );
+    gh.singleton<_i1010.DetailChatCubit>(
+      () => _i1010.DetailChatCubit(
+        getDetailChat: gh<_i25.GetDetailChat>(),
+        sendMessageToChat: gh<_i25.SendMessageToChat>(),
       ),
     );
     gh.singleton<_i91.GetListDatingPerson>(
@@ -486,15 +501,11 @@ extension GetItInjectableX on _i174.GetIt {
         dataProvider: gh<_i443.ProfileDataProvider>(),
       ),
     );
-    gh.singleton<_i6.ChatCubit>(
-      () => _i6.ChatCubit(
-        getListDatingPerson: gh<_i25.GetListDatingPerson>(),
-        likePerson: gh<_i25.LikePerson>(),
-        skipPerson: gh<_i25.SkipPerson>(),
-        undoLast: gh<_i25.UndoLast>(),
-        countToDay: gh<_i25.GetSwipeCountToDay>(),
-        deleteOlderData: gh<_i25.DeleteOlderData>(),
-        appStateService: gh<_i523.AppStateService>(),
+    gh.singleton<_i310.ChatCubit>(
+      () => _i310.ChatCubit(
+        cretaeNewChat: gh<_i25.CreateNewChat>(),
+        getChatList: gh<_i25.GetChatList>(),
+        sendMessageToChat: gh<_i25.SendMessageToChat>(),
       ),
     );
     gh.singleton<_i367.DatingCubit>(
@@ -506,6 +517,7 @@ extension GetItInjectableX on _i174.GetIt {
         countToDay: gh<_i25.GetSwipeCountToDay>(),
         deleteOlderData: gh<_i25.DeleteOlderData>(),
         appStateService: gh<_i523.AppStateService>(),
+        chatCubit: gh<_i310.ChatCubit>(),
       ),
     );
     gh.singleton<_i194.GetProfile>(
