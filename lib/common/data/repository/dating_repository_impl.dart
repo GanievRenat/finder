@@ -13,6 +13,8 @@ class DatingRepositoryImpl implements DatingRepository {
   final DatingDataProvider _dataProvider;
   final StorageServices _storageServices;
 
+  Map<String, Person> personsCash = {};
+
   DatingRepositoryImpl({
     required DatingDataProvider dataProvider,
     required StorageServices storageServices,
@@ -135,11 +137,15 @@ class DatingRepositoryImpl implements DatingRepository {
   Future<Either<DatingError, Person>> getDetailOfPerson(
     GetDetailOfPersonBody body,
   ) async {
+    if (personsCash[body.modelId] != null) {
+      return Right(personsCash[body.modelId]!);
+    }
     var result = await _dataProvider.getDetailOfPersons(body);
     if (result.isRight) {
       var ent = result.right.toEntites();
       var photos = await _storageServices.getPhotoList(ent.modelId);
       ent = ent.copyWith(photos: photos);
+      personsCash[body.modelId] = ent;
       return Right(ent);
     } else {
       return Left(result.left);

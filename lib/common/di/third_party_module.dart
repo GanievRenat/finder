@@ -21,6 +21,7 @@ import '../router/client_router.dart' as client;
 import '../router/admin_router.dart' as admin;
 import '../router/observers/auth_analytics_observer.dart';
 import '../source/database/database_manager.dart';
+import 'package:deepseek_client/deepseek_client.dart';
 
 @module
 abstract class ThirdPartyModule {
@@ -63,4 +64,7 @@ abstract class ThirdPartyModule {
 
   @singleton
   FirebaseStorage get firestorage => FirebaseStorage.instance;
+
+  @singleton
+  DeepseekClient get deepseekClient => DeepseekClient();
 }

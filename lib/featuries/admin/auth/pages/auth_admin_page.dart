@@ -29,6 +29,7 @@ class _AuthAdminPageState extends State<AuthAdminPage> {
     return Scaffold(
       body: Center(
         child: Card(
+          color: AppTheme.of(context).color.neutralLightLight,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 32),
             child: Column(

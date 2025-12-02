@@ -19,14 +19,14 @@ class ChatRepositoryImpl implements ChatRepository {
     : _localDataProvider = localDataProvider;
 
   @override
-  Future<Either<ChatError, List<Messages>>> addNewMessage(
+  Future<Either<ChatError, int>> addNewMessage(
     String userUid,
     AddNewMessageBody body,
   ) async {
     try {
       var result = await _localDataProvider.addNewMessage(userUid, body);
-      var resultMessages = result.map((e) => e.toEntites()).toList();
-      return Future.value(Right(resultMessages));
+      //var resultMessages = result.map((e) => e.toEntites()).toList();
+      return Future.value(Right(result));
     } catch (e) {
       return Future.value(Left(MainChatError()));
     }
@@ -81,8 +81,8 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   @override
-  Future<void> setReadStatus(SetReadStatusBody body) async {
-    await _localDataProvider.setReadStatus(body: body);
-    return;
+  Future<int> setReadStatus(SetReadStatusBody body) async {
+    var result = await _localDataProvider.setReadStatus(body: body);
+    return result;
   }
 }

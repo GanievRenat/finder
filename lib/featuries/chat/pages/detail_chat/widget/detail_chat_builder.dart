@@ -1,3 +1,4 @@
+import 'package:flirta/common/domain/entites/person/person.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,7 +16,7 @@ class DetailChatBuilder extends StatelessWidget {
   final WidgetBuilder init;
   final WidgetBuilder loading;
   final ValueWidgetBuilder error;
-  final ValueWidgetBuilder<SuccessDataState> success;
+  final ValueWidgetBuilder<Person> success;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,7 @@ class DetailChatBuilder extends StatelessWidget {
           init: () => init(context),
           loading: () => loading(context),
           error: (errorText) => error(context, errorText, this),
-          data: (SuccessDataState data) => success(context, data, this),
+          data: (Person data) => success(context, data, this),
         );
       },
     );

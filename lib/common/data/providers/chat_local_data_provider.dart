@@ -10,10 +10,7 @@ abstract class ChatLocalDataProvider {
   Future<List<ChatModel>> getChats({required String userUid});
   Future<List<MessagesModel>> getMessageOfChat(GetMessageOfChatBody body);
   Future<List<MessagesModel>> getAllMessageByUserId(String userUid);
-  Future<List<MessagesModel>> addNewMessage(
-    String userUid,
-    AddNewMessageBody body,
-  );
+  Future<int> addNewMessage(String userUid, AddNewMessageBody body);
   Future<int> setReadStatus({required SetReadStatusBody body});
 }
 
@@ -78,12 +75,9 @@ class ChatLocalDataProviderImpl extends ChatLocalDataProvider {
   }
 
   @override
-  Future<List<MessagesModel>> addNewMessage(
-    String userUid,
-    AddNewMessageBody body,
-  ) async {
+  Future<int> addNewMessage(String userUid, AddNewMessageBody body) async {
     try {
-      await _messageTable.createNewMessage(
+      var result = await _messageTable.createNewMessage(
         modelId: body.modelId,
         userUid: userUid,
         owner: body.owner.displayName,
@@ -91,10 +85,7 @@ class ChatLocalDataProviderImpl extends ChatLocalDataProvider {
         images: body.images.join(';'),
         isRead: (body.owner == Owner.you) ? true : false,
       );
-      var newMessageList = await getMessageOfChat(
-        GetMessageOfChatBody(modelId: body.modelId, userUid: userUid),
-      );
-      return newMessageList;
+      return result;
     } catch (e) {
       throw Exception('No messages found');
     }

@@ -27,9 +27,9 @@ extension PersonModelToEntites on PersonModel {
   String _getRequestToChat() {
     StringBuffer strBuff = StringBuffer();
 
-    strBuff.writeln(
-      '$modelId $bioApp $artBio name - $name identity.age_band - $identityAgeBand gender - $gender',
-    );
+    strBuff.writeln('name - $name');
+    strBuff.writeln('identity.age_band - $identityAgeBand');
+    strBuff.writeln('gender - $gender');
     strBuff.writeln(_getProperty(identityEthnicity, 'identity.ethnicity'));
     strBuff.writeln(_getProperty(identityOccupation, 'identity.occupation'));
     strBuff.writeln(_getProperty(identityCity, 'identity.city'));

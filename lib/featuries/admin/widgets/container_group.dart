@@ -10,6 +10,7 @@ class ContainerGroup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: AppTheme.of(context).color.neutralLightLight,
       child: Padding(
         padding: EdgeInsets.all(16),
         child: Column(

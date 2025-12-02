@@ -66,6 +66,8 @@ dependencies:
 
   flutter_card_swiper:
     path: ./local_packages/flutter_card_swiper
+  deepseek_client:
+    path: ./local_packages/deepseek_client
 
   image_picker: ^1.2.0
   url_launcher: ^6.3.2

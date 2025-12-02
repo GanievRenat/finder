@@ -10,6 +10,7 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:cloud_firestore/cloud_firestore.dart' as _i974;
+import 'package:deepseek_client/deepseek_client.dart' as _i987;
 import 'package:dio/dio.dart' as _i361;
 import 'package:firebase_auth/firebase_auth.dart' as _i59;
 import 'package:firebase_remote_config/firebase_remote_config.dart' as _i627;
@@ -77,6 +78,8 @@ import 'package:flirta/common/domain/usecase/chat/get_detail_chat_usecase.dart'
     as _i830;
 import 'package:flirta/common/domain/usecase/chat/send_message_to_chat_usecase.dart'
     as _i775;
+import 'package:flirta/common/domain/usecase/chat/set_read_chat_usecase.dart'
+    as _i558;
 import 'package:flirta/common/domain/usecase/dating/delete_older_data_usecase.dart'
     as _i325;
 import 'package:flirta/common/domain/usecase/dating/get_detail_of_person_usecase.dart'
@@ -122,6 +125,7 @@ import 'package:flirta/common/service/analytics/analytics_service.dart'
     as _i957;
 import 'package:flirta/common/service/app_state_service.dart' as _i523;
 import 'package:flirta/common/service/crashlytics_service.dart' as _i551;
+import 'package:flirta/common/service/deepseek_service.dart' as _i300;
 import 'package:flirta/common/service/language_service.dart' as _i39;
 import 'package:flirta/common/service/photo_picker_service.dart' as _i651;
 import 'package:flirta/common/service/services.dart' as _i697;
@@ -192,6 +196,7 @@ extension GetItInjectableX on _i174.GetIt {
       () => thirdPartyModule.remoteConfig,
     );
     gh.singleton<_i457.FirebaseStorage>(() => thirdPartyModule.firestorage);
+    gh.singleton<_i987.DeepseekClient>(() => thirdPartyModule.deepseekClient);
     gh.singleton<_i216.AppModalBottomSheet>(() => _i216.AppModalBottomSheet());
     gh.singleton<_i534.AppToast>(() => _i534.AppToast());
     gh.singleton<_i523.AppStateService>(() => _i523.AppStateService());
@@ -212,6 +217,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i2.PersonDataProvider>(
       () => _i2.PersonDataProviderFireBase(
         fireStore: gh<_i974.FirebaseFirestore>(),
+      ),
+    );
+    gh.singleton<_i300.DeepseekService>(
+      () => _i300.DeepseekService(
+        deepseekClient: gh<_i987.DeepseekClient>(),
+        appStateService: gh<_i523.AppStateService>(),
       ),
     );
     gh.singleton<_i1048.AppConfig>(
@@ -421,6 +432,12 @@ extension GetItInjectableX on _i174.GetIt {
         appStateService: gh<_i697.AppStateService>(),
       ),
     );
+    gh.singleton<_i558.SetReadChat>(
+      () => _i558.SetReadChat(
+        chatRepository: gh<_i243.ChatRepository>(),
+        appStateService: gh<_i697.AppStateService>(),
+      ),
+    );
     gh.singleton<_i91.GetListDatingPerson>(
       () => _i91.GetListDatingPerson(
         datingRepository: gh<_i243.DatingRepository>(),
@@ -498,6 +515,9 @@ extension GetItInjectableX on _i174.GetIt {
         cretaeNewChat: gh<_i25.CreateNewChat>(),
         getChatList: gh<_i25.GetChatList>(),
         sendMessageToChat: gh<_i25.SendMessageToChat>(),
+        detailOfPerson: gh<_i25.GetDetailOfPerson>(),
+        deepseekService: gh<_i300.DeepseekService>(),
+        appStateService: gh<_i523.AppStateService>(),
       ),
     );
     gh.singleton<_i367.DatingCubit>(

@@ -1,10 +1,13 @@
+import 'package:flirta/common/di/init_di.dart';
 import 'package:flirta/common/ui/theme/theme.dart';
-import 'package:flirta/featuries/chat/pages/detail_chat/state/detail_chat_cubit.dart';
+import 'package:flirta/featuries/chat/state/chat_cubit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class InputMessagePanel extends StatelessWidget {
-  const InputMessagePanel({super.key});
+  InputMessagePanel({super.key, required this.modelId});
+
+  final String modelId;
+  final TextEditingController _textEditingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -20,11 +23,12 @@ class InputMessagePanel extends StatelessWidget {
                 color: AppTheme.of(context).color.neutralLightLight,
                 borderRadius: BorderRadius.circular(20),
               ),
-              padding: EdgeInsets.all(4),
+              padding: EdgeInsets.only(left: 8),
               child: Row(
                 children: [
                   Expanded(
                     child: TextFormField(
+                      controller: _textEditingController,
                       decoration: InputDecoration(
                         isDense: true,
                         border: UnderlineInputBorder(
@@ -46,8 +50,9 @@ class InputMessagePanel extends StatelessWidget {
                       ),
                     ),
                     onPressed: () {
-                      context.read<DetailChatCubit>().sendMessage(
-                        message: 'Hello!',
+                      getIt<ChatCubit>().sendMessage(
+                        modelId: modelId,
+                        message: _textEditingController.text,
                       );
                     },
                     icon: Icon(

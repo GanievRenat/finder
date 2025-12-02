@@ -13,11 +13,11 @@ abstract class ChatRepository {
     GetMessageOfChatBody body,
   );
   // Добавить новое сообщение в чат
-  Future<Either<ChatError, List<Messages>>> addNewMessage(
+  Future<Either<ChatError, int>> addNewMessage(
     String userUid,
     AddNewMessageBody body,
   );
-  Future<void> setReadStatus(SetReadStatusBody body);
+  Future<int> setReadStatus(SetReadStatusBody body);
   // Подготовить промт для отправки нового сообщения
 }
 

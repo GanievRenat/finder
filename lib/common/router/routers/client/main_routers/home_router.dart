@@ -111,8 +111,6 @@ class DetailPersonRoute extends GoRouteData with $DetailPersonRoute {
 
   final String personJson;
 
-  // TODO: Форма должна возвращать действие пользователя - лайк, скип, null
-
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return Transition.slide(

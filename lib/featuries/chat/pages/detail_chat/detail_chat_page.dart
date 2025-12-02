@@ -1,7 +1,6 @@
 import 'package:flirta/common/di/init_di.dart';
 import 'package:flirta/common/domain/entites/entities.dart';
 import 'package:flirta/common/domain/usecase/usecases.dart';
-import 'package:flirta/featuries/chat/state/chat_cubit.dart';
 import 'package:flirta/generated/assets.gen.dart';
 
 import 'package:flutter/material.dart';
@@ -15,7 +14,7 @@ import 'widget/fragments/chat_detail_error_fragment.dart';
 import 'widget/fragments/chat_detail_loader_fragment.dart';
 
 class DetailChatPage extends StatelessWidget {
-  const DetailChatPage({
+  DetailChatPage({
     super.key,
     required this.modelId,
     required this.onDetailPerson,
@@ -26,15 +25,14 @@ class DetailChatPage extends StatelessWidget {
   final Function({required Person person}) onDetailPerson;
   final Function({required String modelId}) onPhotoGallery;
 
+  final GlobalKey _chatListKey = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => DetailChatCubit(
         modelId: modelId,
-        getDetailChat: getIt<GetDetailChat>(),
-        sendMessageToChat: getIt<SendMessageToChat>(),
         getDetailOfPerson: getIt<GetDetailOfPerson>(),
-        chatCubit: getIt<ChatCubit>(),
       ),
       child: Scaffold(
         appBar: AppBarChat(
@@ -54,7 +52,7 @@ class DetailChatPage extends StatelessWidget {
             error: (context, value, child) =>
                 ChatDetailErrorFragment(error: value.toString()),
             success: (context, value, child) =>
-                ChatDetailDataFragment(messages: value.chatList),
+                ChatDetailDataFragment(key: _chatListKey, modelId: modelId),
           ),
         ),
       ),

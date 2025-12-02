@@ -7,6 +7,7 @@ import 'package:flirta/common/di/init_di.dart';
 import 'package:flirta/common/domain/usecase/usecases.dart';
 import 'package:flirta/common/ui/theme/app_theme.dart';
 import 'package:flirta/common/ui/widgets/buttons/main_button.dart';
+import 'package:flirta/featuries/admin/persons/pages/list/state/person_list_cubit.dart';
 import 'package:flirta/generated/locale_keys.g.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -38,18 +39,7 @@ class PersonDetailAdminPage extends StatelessWidget {
           centerTitle: false,
           actions: [
             if (personModel != null)
-              IconButton(
-                onPressed: () async {
-                  var result = await onDeletePerson();
-                  if (result && context.mounted) {
-                    final state = context.read<PersonDetailState>().personModel;
-                    if (state != null) {
-                      getIt<RemovePerson>().call(state.modelId);
-                    }
-                  }
-                },
-                icon: Icon(Icons.delete, color: AppTheme.of(context).color.red),
-              ),
+              RemoveButton(onDeletePerson: onDeletePerson),
           ],
         ),
         body: SingleChildScrollView(
@@ -100,9 +90,9 @@ class _CreateButtonState extends State<CreateButton> {
         isLoading: isLoading,
         title: 'Create',
         onPressed: () async {
-          setState(() {
+          /*setState(() {
             isLoading = true;
-          });
+          });*/
           try {
             final state = context.read<PersonDetailState>().personModel;
 
@@ -111,9 +101,10 @@ class _CreateButtonState extends State<CreateButton> {
                 context.read<PersonDetailState>().setNewState(
                   state.copyWith(artBio: state.getArtBio()),
                 );
-                getIt<CreateNewPerson>().call(
+                await getIt<CreateNewPerson>().call(
                   context.read<PersonDetailState>().personModel!,
                 );
+                await getIt<PersonListCubit>().init();
               } else {
                 ScaffoldMessenger.of(context).showMaterialBanner(
                   MaterialBanner(
@@ -134,15 +125,18 @@ class _CreateButtonState extends State<CreateButton> {
                     ],
                   ),
                 );
+                return;
               }
             }
           } catch (e) {
             log(e.toString());
           }
-          setState(() {
+          /*setState(() {
             isLoading = false;
-          });
-          context.pop();
+          });*/
+          if (context.mounted) {
+            context.pop();
+          }
         },
       ),
     );
@@ -167,9 +161,9 @@ class _UpdateButtonState extends State<UpdateButton> {
         isLoading: isLoading,
         title: 'Update',
         onPressed: () async {
-          setState(() {
+          /*setState(() {
             isLoading = true;
-          });
+          });*/
           try {
             final state = context.read<PersonDetailState>().personModel;
 
@@ -178,9 +172,10 @@ class _UpdateButtonState extends State<UpdateButton> {
                 context.read<PersonDetailState>().setNewState(
                   state.copyWith(artBio: state.getArtBio()),
                 );
-                getIt<UpdatePerson>().call(
+                await getIt<UpdatePerson>().call(
                   context.read<PersonDetailState>().personModel!,
                 );
+                await getIt<PersonListCubit>().init();
               } else {
                 ScaffoldMessenger.of(context).showMaterialBanner(
                   MaterialBanner(
@@ -201,17 +196,50 @@ class _UpdateButtonState extends State<UpdateButton> {
                     ],
                   ),
                 );
+                setState(() {
+                  isLoading = false;
+                });
+                return;
               }
             }
           } catch (e) {
             log(e.toString());
           }
-          setState(() {
+          /*setState(() {
             isLoading = false;
-          });
-          context.pop();
+          });*/
+          if (context.mounted) {
+            context.pop();
+          }
         },
       ),
+    );
+  }
+}
+
+class RemoveButton extends StatelessWidget {
+  const RemoveButton({super.key, required this.onDeletePerson});
+
+  final Future<bool> Function() onDeletePerson;
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      onPressed: () async {
+        var result = await onDeletePerson();
+        if (result && context.mounted) {
+          final state = context.read<PersonDetailState>().personModel;
+          if (state != null) {
+            await getIt<RemovePerson>().call(state.modelId);
+            await getIt<PersonListCubit>().init();
+
+            if (context.mounted) {
+              context.pop();
+            }
+          }
+        }
+      },
+      icon: Icon(Icons.delete, color: AppTheme.of(context).color.red),
     );
   }
 }

@@ -1,39 +1,112 @@
+import 'package:flirta/common/di/init_di.dart';
 import 'package:flirta/common/domain/entites/entities.dart';
+import 'package:flirta/common/domain/usecase/chat/set_read_chat_usecase.dart';
 import 'package:flirta/common/enums/enums.dart';
 import 'package:flirta/featuries/chat/pages/detail_chat/widget/message_my.dart';
 import 'package:flirta/featuries/chat/pages/detail_chat/widget/message_person.dart';
+import 'package:flirta/featuries/chat/state/chat_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../input_message_panel.dart';
 
-class ChatDetailDataFragment extends StatelessWidget {
-  const ChatDetailDataFragment({super.key, required this.messages});
+class ChatDetailDataFragment extends StatefulWidget {
+  const ChatDetailDataFragment({super.key, required this.modelId});
+  final String modelId;
 
-  final List<Messages> messages;
+  @override
+  State<ChatDetailDataFragment> createState() => _ChatDetailDataFragmentState();
+}
+
+class _ChatDetailDataFragmentState extends State<ChatDetailDataFragment> {
+  final ScrollController _scrollController = ScrollController();
+  List<Messages> messages = [];
+
+  void _scrollToEnd(BuildContext context) {
+    if (_scrollController.hasClients) {
+      double addPOsition =
+          (_scrollController.position.maxScrollExtent >
+              MediaQuery.of(context).size.height)
+          ? 200
+          : 0;
+
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent + addPOsition,
+        duration: Duration(milliseconds: 100),
+        curve: Curves.easeOut,
+      );
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Expanded(
-          child: ListView.builder(
-            itemBuilder: (context, index) {
-              final chatItem = messages[index];
+          child: BlocBuilder<ChatCubit, ChatState>(
+            bloc: getIt<ChatCubit>(),
+            builder: (context, state) {
+              state.mapOrNull(
+                data: (value) {
+                  var res = value.chatList
+                      .where((chat) => chat.modelId == widget.modelId)
+                      .toList();
+                  if (res.isNotEmpty) {
+                    messages = res.first.messages;
 
-              bool isLast = ((index + 1) < messages.length
-                  ? (messages[index + 1].owner != chatItem.owner)
-                  : true);
+                    //Отмечаем все сообщения как прочитанные
+                    getIt<SetReadChat>()(widget.modelId);
 
-              if (chatItem.owner == Owner.person) {
-                return MessagePerson(message: chatItem.message, isLast: isLast);
-              } else {
-                return MessageMy(message: chatItem.message, isLast: isLast);
-              }
+                    Future.delayed(Duration(milliseconds: 100), () {
+                      if (context.mounted) {
+                        _scrollToEnd(context);
+                      }
+                    });
+                  }
+                },
+              );
+
+              return ListView.builder(
+                controller: _scrollController,
+                itemBuilder: (context, index) {
+                  final chatItem = messages[index];
+
+                  bool isLastOfGroup = ((index + 1) < messages.length
+                      ? (messages[index + 1].owner != chatItem.owner)
+                      : true);
+
+                  return Padding(
+                    padding: EdgeInsets.only(
+                      bottom: (messages[index] == messages.last) ? 8 : 0,
+                    ),
+                    child: (chatItem.owner == Owner.person)
+                        ? MessagePerson(
+                            message: chatItem.message,
+                            isLast: isLastOfGroup,
+                          )
+                        : MessageMy(
+                            message: chatItem.message,
+                            isLast: isLastOfGroup,
+                          ),
+                  );
+                },
+                itemCount: messages.length,
+              );
             },
-            itemCount: messages.length,
           ),
         ),
-        InputMessagePanel(),
+        InputMessagePanel(modelId: widget.modelId),
       ],
     );
   }
