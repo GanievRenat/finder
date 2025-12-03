@@ -76,16 +76,18 @@ extension GetItInjectableX on _i174.GetIt {
       registerFor: {_prod},
     );
     gh.factory<_i361.Dio>(
-      () => apiModule.dioWithKey(
+      () => apiModule.dioWithKeyDeepSeek(
         gh<_i488.AppConfig>(),
         gh<_i687.TokenInterceptor>(),
         gh<_i720.LoggerInterceptor>(),
         gh<_i835.ErrorInterceptor>(),
       ),
-      instanceName: 'dioWithKey',
+      instanceName: 'dioWithKeyDeepSeek',
     );
     gh.singleton<_i302.ChatCompletionsApi>(
-      () => _i302.ChatCompletionsApi(gh<_i361.Dio>(instanceName: 'dioWithKey')),
+      () => _i302.ChatCompletionsApi(
+        gh<_i361.Dio>(instanceName: 'dioWithKeyDeepSeek'),
+      ),
     );
     gh.singleton<_i410.MessageRepository>(
       () => _i616.MessageRepositoryImpl(

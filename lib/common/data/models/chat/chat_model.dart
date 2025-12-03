@@ -27,7 +27,11 @@ extension ChatModelToEntites on ChatModel {
       modelName: modelName,
       messages: messages,
       lastMessage: (messages.isNotEmpty) ? messages.last.message : '',
+      lastUpdate: (messages.isNotEmpty)
+          ? messages.last.atCreated.millisecondsSinceEpoch
+          : 0,
       countNewMessage: messages.where((msg) => !msg.isRead).length,
+      waitingAnswer: false,
     );
   }
 }

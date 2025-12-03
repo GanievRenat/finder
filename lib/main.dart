@@ -1,20 +1,9 @@
-import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MainApp());
-}
-
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
-    );
-  }
-}
+// Общий список доработок проекта
+// TODO:  1. Заверстать дизайн с новыми требованиями
+// TODO:  2. Поставить заглушки при разных ситуациях с пустым списком или если закончились свайпы.
+// TODO:  3. Заверстать А/Б варианты пейвола
+// TODO:  4. Алгоритм пуш сообщений (пока локальных)
+// TODO:  5. Заменить все URL на актуальные, подставить почту support на актуальное
+// TODO:  6. Добавить RemoteConfig для общих переменных и значений
+// TODO:  7. Заменить иконку приложения и изображения для запуска (скринсервер)

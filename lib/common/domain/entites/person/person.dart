@@ -16,6 +16,7 @@ class Person extends Equatable {
   final List<String> interests;
   final String requestToChat;
   final List<String> photos;
+  final bool sfw;
 
   const Person({
     required this.modelId,
@@ -24,6 +25,7 @@ class Person extends Equatable {
     required this.gender,
     required this.bio,
     required this.job,
+    required this.sfw,
     this.lifeStyle = '',
     this.photos = const [],
     this.interests = const [],
@@ -41,6 +43,7 @@ class Person extends Equatable {
     List<String>? interests,
     List<String>? photos,
     String? requestToChat,
+    bool? sfw,
   }) {
     return Person(
       age: age ?? this.age,
@@ -53,6 +56,7 @@ class Person extends Equatable {
       interests: interests ?? this.interests,
       lifeStyle: lifeStyle ?? this.lifeStyle,
       photos: photos ?? this.photos,
+      sfw: sfw ?? this.sfw,
     );
   }
 
@@ -77,6 +81,7 @@ class Person extends Equatable {
       age: json['age'] ?? '',
       bio: json['bio'] ?? '',
       job: json['job'] ?? '',
+      sfw: json['boundaries.store_sfw'] ?? true,
       requestToChat: json['requestToChat'] ?? '',
       lifeStyle: json['lifeStyle'] ?? '',
       gender: getGender(json['gender'] ?? ''),
@@ -105,6 +110,7 @@ class Person extends Equatable {
       'gender': gender.getGenderForInterestedName(),
       'interests': interests,
       'photos': photos,
+      'boundaries.store_sfw': sfw,
     };
 
     return json.encode(jsonMap);
@@ -122,5 +128,6 @@ class Person extends Equatable {
     interests,
     requestToChat,
     photos,
+    sfw,
   ];
 }

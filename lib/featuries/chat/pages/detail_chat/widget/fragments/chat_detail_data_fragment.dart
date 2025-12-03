@@ -21,6 +21,7 @@ class ChatDetailDataFragment extends StatefulWidget {
 class _ChatDetailDataFragmentState extends State<ChatDetailDataFragment> {
   final ScrollController _scrollController = ScrollController();
   List<Messages> messages = [];
+  bool _waitingAnswer = false;
 
   void _scrollToEnd(BuildContext context) {
     if (_scrollController.hasClients) {
@@ -64,6 +65,7 @@ class _ChatDetailDataFragmentState extends State<ChatDetailDataFragment> {
                       .toList();
                   if (res.isNotEmpty) {
                     messages = res.first.messages;
+                    _waitingAnswer = res.first.waitingAnswer;
 
                     //Отмечаем все сообщения как прочитанные
                     getIt<SetReadChat>()(widget.modelId);
@@ -80,6 +82,17 @@ class _ChatDetailDataFragmentState extends State<ChatDetailDataFragment> {
               return ListView.builder(
                 controller: _scrollController,
                 itemBuilder: (context, index) {
+                  if (_waitingAnswer && index == (messages.length)) {
+                    return Padding(
+                      padding: EdgeInsets.only(bottom: 8),
+                      child: MessagePerson(
+                        message: '',
+                        isLast: true,
+                        waiting: true,
+                      ),
+                    );
+                  }
+
                   final chatItem = messages[index];
 
                   bool isLastOfGroup = ((index + 1) < messages.length
@@ -94,6 +107,7 @@ class _ChatDetailDataFragmentState extends State<ChatDetailDataFragment> {
                         ? MessagePerson(
                             message: chatItem.message,
                             isLast: isLastOfGroup,
+                            waiting: false,
                           )
                         : MessageMy(
                             message: chatItem.message,
@@ -101,7 +115,7 @@ class _ChatDetailDataFragmentState extends State<ChatDetailDataFragment> {
                           ),
                   );
                 },
-                itemCount: messages.length,
+                itemCount: messages.length + (_waitingAnswer ? 1 : 0),
               );
             },
           ),

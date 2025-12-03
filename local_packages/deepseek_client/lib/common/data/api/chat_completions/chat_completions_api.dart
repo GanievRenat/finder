@@ -11,8 +11,9 @@ part 'chat_completions_api.g.dart';
 @singleton
 abstract class ChatCompletionsApi {
   @factoryMethod
-  factory ChatCompletionsApi(@Named(DependencyDioName.dioWithKey) Dio dio) =>
-      _ChatCompletionsApi(dio);
+  factory ChatCompletionsApi(
+    @Named(DependencyDioName.dioWithKeyDeepSeek) Dio dio,
+  ) => _ChatCompletionsApi(dio);
 
   @POST('/chat/completions')
   Future<AnswerModel> send({@Body() required ChatCompletionsBody request});

@@ -10,6 +10,7 @@ class ListTileChatItem extends StatelessWidget {
     required this.lastMessage,
     required this.onTap,
     this.countNewMessage = 0,
+    this.waitingAnswer = false,
   }) : _isLoading = false;
 
   const ListTileChatItem.loading({super.key})
@@ -17,6 +18,7 @@ class ListTileChatItem extends StatelessWidget {
       modelName = 'Eleanor Pena',
       lastMessage = 'One day you’re seventeen One day you’re seventeen',
       countNewMessage = 0,
+      waitingAnswer = false,
       onTap = null,
       _isLoading = true;
 
@@ -24,6 +26,7 @@ class ListTileChatItem extends StatelessWidget {
   final String modelName;
   final String lastMessage;
   final int countNewMessage;
+  final bool waitingAnswer;
 
   final bool _isLoading;
 
@@ -52,7 +55,7 @@ class ListTileChatItem extends StatelessWidget {
                     style: AppTheme.of(context).textStyle.header3,
                   ),
                   Text(
-                    lastMessage,
+                    (waitingAnswer) ? 'typing...' : lastMessage,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: AppTheme.of(context).textStyle.bodyM.copyWith(

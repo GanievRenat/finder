@@ -10,6 +10,8 @@ class Chat extends Equatable {
   final int countNewMessage;
   final String lastMessage;
   final List<Messages> messages;
+  final bool waitingAnswer;
+  final int lastUpdate;
 
   const Chat({
     required this.modelId,
@@ -19,6 +21,8 @@ class Chat extends Equatable {
     required this.countNewMessage,
     required this.lastMessage,
     required this.messages,
+    required this.waitingAnswer,
+    required this.lastUpdate,
   });
 
   Chat copyWith({
@@ -29,6 +33,8 @@ class Chat extends Equatable {
     int? countNewMessage,
     String? lastMessage,
     List<Messages>? messages,
+    bool? waitingAnswer,
+    int? lastUpdate,
   }) {
     return Chat(
       modelId: modelId ?? this.modelId,
@@ -38,6 +44,8 @@ class Chat extends Equatable {
       countNewMessage: countNewMessage ?? this.countNewMessage,
       lastMessage: lastMessage ?? this.lastMessage,
       messages: messages ?? this.messages,
+      waitingAnswer: waitingAnswer ?? this.waitingAnswer,
+      lastUpdate: lastUpdate ?? this.lastUpdate,
     );
   }
 
@@ -50,5 +58,7 @@ class Chat extends Equatable {
     countNewMessage,
     lastMessage,
     messages,
+    waitingAnswer,
+    lastUpdate,
   ];
 }

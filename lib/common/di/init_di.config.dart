@@ -121,11 +121,11 @@ import 'package:flirta/common/router/observers/auth_analytics_observer.dart'
 import 'package:flirta/common/router/observers/main_analytics_observer.dart'
     as _i151;
 import 'package:flirta/common/router/toastification.dart' as _i534;
+import 'package:flirta/common/service/ai_agent_service.dart' as _i845;
 import 'package:flirta/common/service/analytics/analytics_service.dart'
     as _i957;
 import 'package:flirta/common/service/app_state_service.dart' as _i523;
 import 'package:flirta/common/service/crashlytics_service.dart' as _i551;
-import 'package:flirta/common/service/deepseek_service.dart' as _i300;
 import 'package:flirta/common/service/language_service.dart' as _i39;
 import 'package:flirta/common/service/photo_picker_service.dart' as _i651;
 import 'package:flirta/common/service/services.dart' as _i697;
@@ -167,6 +167,7 @@ import 'package:internet_connection_checker/internet_connection_checker.dart'
     as _i973;
 import 'package:logger/logger.dart' as _i974;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
+import 'package:venice_client/venice_client.dart' as _i693;
 
 const String _test = 'test';
 const String _dev = 'dev';
@@ -197,6 +198,7 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.singleton<_i457.FirebaseStorage>(() => thirdPartyModule.firestorage);
     gh.singleton<_i987.DeepseekClient>(() => thirdPartyModule.deepseekClient);
+    gh.singleton<_i693.VeniceClient>(() => thirdPartyModule.veniceClient);
     gh.singleton<_i216.AppModalBottomSheet>(() => _i216.AppModalBottomSheet());
     gh.singleton<_i534.AppToast>(() => _i534.AppToast());
     gh.singleton<_i523.AppStateService>(() => _i523.AppStateService());
@@ -217,12 +219,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i2.PersonDataProvider>(
       () => _i2.PersonDataProviderFireBase(
         fireStore: gh<_i974.FirebaseFirestore>(),
-      ),
-    );
-    gh.singleton<_i300.DeepseekService>(
-      () => _i300.DeepseekService(
-        deepseekClient: gh<_i987.DeepseekClient>(),
-        appStateService: gh<_i523.AppStateService>(),
       ),
     );
     gh.singleton<_i1048.AppConfig>(
@@ -251,6 +247,13 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i800.ChatLocalDataProviderImpl(
         chatTable: gh<_i1041.ChatTable>(),
         messageTable: gh<_i320.ChatMessagesTable>(),
+      ),
+    );
+    gh.singleton<_i845.AIAgentService>(
+      () => _i845.AIAgentService(
+        deepseekClient: gh<_i987.DeepseekClient>(),
+        veniceClient: gh<_i693.VeniceClient>(),
+        appStateService: gh<_i523.AppStateService>(),
       ),
     );
     gh.singleton<_i864.LanguageInterceptor>(
@@ -516,7 +519,7 @@ extension GetItInjectableX on _i174.GetIt {
         getChatList: gh<_i25.GetChatList>(),
         sendMessageToChat: gh<_i25.SendMessageToChat>(),
         detailOfPerson: gh<_i25.GetDetailOfPerson>(),
-        deepseekService: gh<_i300.DeepseekService>(),
+        aiAgentService: gh<_i845.AIAgentService>(),
         appStateService: gh<_i523.AppStateService>(),
       ),
     );

@@ -1,11 +1,18 @@
 import 'package:flirta/common/ui/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class MessagePerson extends StatelessWidget {
-  const MessagePerson({super.key, required this.message, required this.isLast});
+  const MessagePerson({
+    super.key,
+    required this.message,
+    required this.isLast,
+    this.waiting = false,
+  });
 
   final String message;
   final bool isLast;
+  final bool waiting;
 
   @override
   Widget build(BuildContext context) {
@@ -28,11 +35,16 @@ class MessagePerson extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           margin: EdgeInsets.only(top: 8, left: 8),
 
-          child: Text(
-            message,
-            softWrap: true,
-            style: AppTheme.of(context).textStyle.bodyL,
-          ),
+          child: (!waiting)
+              ? Text(
+                  message,
+                  softWrap: true,
+                  style: AppTheme.of(context).textStyle.bodyL,
+                )
+              : LoadingAnimationWidget.waveDots(
+                  color: AppTheme.of(context).color.neutralDarkLight,
+                  size: 20,
+                ),
         ),
       ),
     );

@@ -31,7 +31,6 @@ class ListChatPage extends StatelessWidget {
         empty: (context) => ChatListEmptyFragment(),
         error: (context, value, child) =>
             ChatListErrorFragment(error: value.toString()),
-        // TODO: Сортировать сообщения по дате последнего обновления
         success: (context, value, countNew, child) => ChatListDataFragment(
           chat: value,
           onDetailChat: (chat) => onDetailChat(modelId: chat.modelId),

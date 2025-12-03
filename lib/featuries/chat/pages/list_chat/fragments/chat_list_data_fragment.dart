@@ -23,6 +23,7 @@ class ChatListDataFragment extends StatelessWidget {
           lastMessage: chatItem.lastMessage,
           countNewMessage: chatItem.countNewMessage,
           onTap: () => onDetailChat(chatItem),
+          waitingAnswer: chat[index].waitingAnswer,
         );
       },
       itemCount: chat.length,

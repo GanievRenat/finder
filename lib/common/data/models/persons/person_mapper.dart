@@ -21,6 +21,7 @@ extension PersonModelToEntites on PersonModel {
       requestToChat: _getRequestToChat(),
       lifeStyle: identityLifestyle,
       interests: expertiseHobbies,
+      sfw: boundariesStoreSfw,
     );
   }
 

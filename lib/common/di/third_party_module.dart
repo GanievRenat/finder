@@ -16,6 +16,7 @@ import 'package:injectable/injectable.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:venice_client/venice_client.dart';
 
 import '../router/client_router.dart' as client;
 import '../router/admin_router.dart' as admin;
@@ -67,4 +68,7 @@ abstract class ThirdPartyModule {
 
   @singleton
   DeepseekClient get deepseekClient => DeepseekClient();
+
+  @singleton
+  VeniceClient get veniceClient => VeniceClient();
 }

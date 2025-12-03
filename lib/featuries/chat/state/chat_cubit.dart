@@ -6,7 +6,7 @@ import 'package:flirta/common/domain/repository/bodies/bodies.dart';
 import 'package:flirta/common/domain/usecase/usecases.dart';
 import 'package:flirta/common/enums/enums.dart';
 import 'package:flirta/common/service/app_state_service.dart';
-import 'package:flirta/common/service/deepseek_service.dart';
+import 'package:flirta/common/service/ai_agent_service.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -22,20 +22,20 @@ class ChatCubit extends Cubit<ChatState> {
     required GetChatList getChatList,
     required SendMessageToChat sendMessageToChat,
     required GetDetailOfPerson detailOfPerson,
-    required DeepseekService deepseekService,
+    required AIAgentService aiAgentService,
     required AppStateService appStateService,
   }) : _cretaeNewChat = cretaeNewChat,
        _getChatList = getChatList,
        _sendMessageToChat = sendMessageToChat,
        _detailOfPerson = detailOfPerson,
-       _deepseekService = deepseekService,
+       _aiAgentService = aiAgentService,
        super(ChatState.init());
 
   final CreateNewChat _cretaeNewChat;
   final GetChatList _getChatList;
   final SendMessageToChat _sendMessageToChat;
   final GetDetailOfPerson _detailOfPerson;
-  final DeepseekService _deepseekService;
+  final AIAgentService _aiAgentService;
 
   List<Chat> _chatList = [];
 
@@ -69,7 +69,11 @@ class ChatCubit extends Cubit<ChatState> {
     }
   }
 
-  void updateChatList({required bool loadingStatus}) async {
+  void updateChatList({
+    required bool loadingStatus,
+    String modelId = '',
+    bool waitingStatus = false,
+  }) async {
     if (loadingStatus) {
       emit(ChatState.loading());
     }
@@ -87,10 +91,28 @@ class ChatCubit extends Cubit<ChatState> {
           .where((chat) => chat.countNewMessage > 0)
           .length;
 
+      if (modelId.isNotEmpty) {
+        _setWaitingStatus(modelId, waitingStatus);
+      }
+
+      _chatList.sort((a, b) => b.lastUpdate.compareTo(a.lastUpdate));
+
       emit(ChatState.data(_chatList, countNoReadMessage));
     } else {
       emit(ChatState.error(result.left.errorText));
     }
+  }
+
+  bool _setWaitingStatus(String modelId, bool status) {
+    int index = _chatList.indexWhere((item) => item.modelId == modelId);
+
+    if (index != -1) {
+      var updatedItem = _chatList[index].copyWith(waitingAnswer: status);
+      _chatList[index] = updatedItem;
+
+      return true;
+    }
+    return false;
   }
 
   // Написать сообщение в конкретный чат (отправить запрос на сервер)
@@ -98,52 +120,56 @@ class ChatCubit extends Cubit<ChatState> {
     required String modelId,
     required String message,
     List<String> images = const [],
-    Owner owner = Owner.you,
   }) async {
     await _sendMessageToChat(
       AddNewMessageBody(
         modelId: modelId,
-        owner: owner,
+        owner: Owner.you,
         message: message,
         images: images,
       ),
     );
-    updateChatList(loadingStatus: false);
+    updateChatList(loadingStatus: false, modelId: modelId, waitingStatus: true);
 
-    if (owner == Owner.you) {
-      var resultDetailPerson = await _detailOfPerson(modelId);
-      if (resultDetailPerson.isRight) {
-        // надо найти чат
-        var result = _chatList.where((c) => c.modelId == modelId);
-        if (result.isNotEmpty) {
-          _deepseekService
-              .sendMessage(
-                message: message,
-                model: resultDetailPerson.right,
-                chat: result.first,
-              )
-              .then((value) {
-                if (value != null) {
-                  if (value.choices.isNotEmpty) {
-                    var msgFromModel = value.choices.first.message;
-
-                    if (msgFromModel != null) {
-                      _sendMessageToChat(
-                        AddNewMessageBody(
-                          modelId: modelId,
-                          owner: Owner.person,
-                          message: msgFromModel.content,
-                          images: images,
-                        ),
-                      ).then((value) {
-                        updateChatList(loadingStatus: false);
-                      });
-                    }
-                  }
-                }
-              });
-        }
+    var resultDetailPerson = await _detailOfPerson(modelId);
+    if (resultDetailPerson.isRight) {
+      // надо найти чат
+      var result = _chatList.where((c) => c.modelId == modelId);
+      if (result.isNotEmpty) {
+        _aiAgentService
+            .sendMessage(
+              message: message,
+              model: resultDetailPerson.right,
+              chat: result.first,
+            )
+            .then((value) {
+              if (value.result != AIAgentResultAnswer.error) {
+                _sendMessageToChat(
+                      AddNewMessageBody(
+                        modelId: modelId,
+                        owner: Owner.person,
+                        message: value.message,
+                        images: value.images,
+                      ),
+                    )
+                    .then((value) {
+                      updateChatList(
+                        loadingStatus: false,
+                        modelId: modelId,
+                        waitingStatus: false,
+                      );
+                    })
+                    .onError((error, stackTrace) {
+                      _setWaitingStatus(modelId, false);
+                    });
+              }
+            })
+            .onError((error, stackTrace) {
+              _setWaitingStatus(modelId, false);
+            });
       }
+    } else {
+      _setWaitingStatus(modelId, false);
     }
   }
 

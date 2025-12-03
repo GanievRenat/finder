@@ -8,13 +8,13 @@ import '../data/source/network/network_manager.dart';
 import '../domain/app_config.dart';
 
 class DependencyDioName {
-  static const dioWithKey = 'dioWithKey';
+  static const dioWithKeyDeepSeek = 'dioWithKeyDeepSeek';
 }
 
 @module
 abstract class ApiModule {
-  @Named(DependencyDioName.dioWithKey)
-  Dio dioWithKey(
+  @Named(DependencyDioName.dioWithKeyDeepSeek)
+  Dio dioWithKeyDeepSeek(
     AppConfig config,
     TokenInterceptor tokenInterceptor,
     LoggerInterceptor loggerInterceptor,
