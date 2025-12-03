@@ -1,8 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flirta/common/di/init_di.dart';
 import 'package:flirta/common/ui/theme/theme.dart';
+import 'package:flirta/featuries/chat/state/chat_cubit.dart';
 import 'package:flirta/generated/assets.gen.dart';
 import 'package:flirta/generated/locale_keys.g.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class ScaffoldWithNavBar extends StatelessWidget {
@@ -31,11 +34,26 @@ class ScaffoldWithNavBar extends StatelessWidget {
               label: LocaleKeys.bottom_menu_0.tr(),
             ),
             BottomNavigationBarItem(
-              icon: Assets.images.icons.chatIconBottomMenu.image(
-                width: AppSpacing.s7,
-                color: navigationShell.currentIndex == 1
-                    ? AppTheme.of(context).color.neutralDarkDarkset
-                    : AppTheme.of(context).color.neutralLightDark,
+              icon: BlocBuilder<ChatCubit, ChatState>(
+                bloc: getIt<ChatCubit>(),
+                builder: (context, state) {
+                  int count = 0;
+                  state.mapOrNull(
+                    data: (value) => count = value.countNoReadMessage,
+                  );
+
+                  return Badge.count(
+                    count: count,
+                    isLabelVisible: count > 0,
+                    backgroundColor: AppTheme.of(context).color.red,
+                    child: Assets.images.icons.chatIconBottomMenu.image(
+                      width: AppSpacing.s7,
+                      color: navigationShell.currentIndex == 1
+                          ? AppTheme.of(context).color.neutralDarkDarkset
+                          : AppTheme.of(context).color.neutralLightDark,
+                    ),
+                  );
+                },
               ),
               label: LocaleKeys.bottom_menu_1.tr(),
             ),

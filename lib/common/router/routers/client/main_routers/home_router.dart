@@ -13,14 +13,17 @@ class HomeRoute extends GoRouteData with $HomeRoute {
       name: name,
       child: DatingPage(
         onFilter: () => const FiltersRoute().push(context),
-        onMatch: ({required Person person}) =>
-            MatchRoute(personJson: person.toJson()).push(context),
+        onMatch: ({required Person person}) async =>
+            await MatchRoute(personJson: person.toJson()).push<bool>(context) ??
+            false,
         onDetailPerson: ({required Person person}) async =>
             await DetailPersonRoute(
               personJson: person.toJson(),
             ).push<ActionCallBackPersonDetailEnums>(context) ??
             ActionCallBackPersonDetailEnums.none,
         onPayWall: () => PawWallRoute().push(context),
+        onDetailChat: ({required String modelId}) async =>
+            await DetailChatRoute(modelId: modelId).push(context) ?? false,
       ),
     );
   }
@@ -58,30 +61,9 @@ class ChatsRoute extends GoRouteData with $ChatsRoute {
       pageKey: state.pageKey,
       name: name,
       child: ListChatPage(
-        onDetailChat: ({required String modelId}) =>
-            DetailChatRoute(modelId: modelId).push(context),
-      ),
-    );
-  }
-}
-
-class DetailChatRoute extends GoRouteData with $DetailChatRoute {
-  const DetailChatRoute({required this.modelId});
-
-  static const path = 'detail_chats';
-  static const name = 'detail_chats';
-
-  final String modelId;
-
-  @override
-  Page<void> buildPage(BuildContext context, GoRouterState state) {
-    return Transition.fade(
-      pageKey: state.pageKey,
-      name: name,
-      child: DetailChatPage(
-        modelId: modelId,
-        onDetailPerson: ({required person}) {},
-        onPhotoGallery: ({required modelId}) {},
+        onDetailChat: ({required String modelId}) async =>
+            await DetailChatRoute(modelId: modelId).push(context) ?? false,
+        onDating: () => HomeRoute().go(context),
       ),
     );
   }

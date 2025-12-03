@@ -36,9 +36,18 @@ class MessagePerson extends StatelessWidget {
           margin: EdgeInsets.only(top: 8, left: 8),
 
           child: (!waiting)
-              ? Text(
+              ? SelectableText(
                   message,
-                  softWrap: true,
+                  contextMenuBuilder: (context, editableTextState) {
+                    final List<ContextMenuButtonItem> buttonItems =
+                        editableTextState.contextMenuButtonItems;
+
+                    return AdaptiveTextSelectionToolbar.buttonItems(
+                      anchors: editableTextState.contextMenuAnchors,
+                      buttonItems: buttonItems,
+                    );
+                  },
+                  //softWrap: true,
                   style: AppTheme.of(context).textStyle.bodyL,
                 )
               : LoadingAnimationWidget.waveDots(

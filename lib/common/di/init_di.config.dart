@@ -503,6 +503,17 @@ extension GetItInjectableX on _i174.GetIt {
         clearFilterState: gh<_i25.ClearFilterState>(),
       ),
     );
+    gh.singleton<_i310.ChatCubit>(
+      () => _i310.ChatCubit(
+        cretaeNewChat: gh<_i25.CreateNewChat>(),
+        getChatList: gh<_i25.GetChatList>(),
+        sendMessageToChat: gh<_i25.SendMessageToChat>(),
+        detailOfPerson: gh<_i25.GetDetailOfPerson>(),
+        aiAgentService: gh<_i845.AIAgentService>(),
+        setReadChat: gh<_i25.SetReadChat>(),
+        appStateService: gh<_i523.AppStateService>(),
+      ),
+    );
     gh.singleton<_i243.RegistrationFormRepository>(
       () => _i789.RegistrationFormRepositoryImpl(
         dataProvider: gh<_i443.RegistrationFormDataProvider>(),
@@ -511,16 +522,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i243.ProfileRepository>(
       () => _i473.ProfileRepositoryImpl(
         dataProvider: gh<_i443.ProfileDataProvider>(),
-      ),
-    );
-    gh.singleton<_i310.ChatCubit>(
-      () => _i310.ChatCubit(
-        cretaeNewChat: gh<_i25.CreateNewChat>(),
-        getChatList: gh<_i25.GetChatList>(),
-        sendMessageToChat: gh<_i25.SendMessageToChat>(),
-        detailOfPerson: gh<_i25.GetDetailOfPerson>(),
-        aiAgentService: gh<_i845.AIAgentService>(),
-        appStateService: gh<_i523.AppStateService>(),
       ),
     );
     gh.singleton<_i367.DatingCubit>(

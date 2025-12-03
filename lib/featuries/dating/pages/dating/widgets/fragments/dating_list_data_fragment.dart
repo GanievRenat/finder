@@ -19,7 +19,7 @@ class DatingListDataFragment extends StatelessWidget {
     required Person person,
   })
   onDetailPerson;
-  final Function(Person person) onMatch;
+  final Future<bool> Function(Person person) onMatch;
   final Function() onPayWall;
 
   @override
@@ -31,7 +31,7 @@ class DatingListDataFragment extends StatelessWidget {
       onLike: (person) async {
         //
         await getIt<DatingCubit>().like(person);
-        onMatch(person);
+        await onMatch(person);
       },
       onSkip: (person) async {
         await getIt<DatingCubit>().skip(person);

@@ -27,9 +27,17 @@ class MessageMy extends StatelessWidget {
           ),
           padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           margin: EdgeInsets.only(top: 8, left: 8, right: 8),
-          child: Text(
+          child: SelectableText(
             message,
-            softWrap: true,
+            contextMenuBuilder: (context, editableTextState) {
+              final List<ContextMenuButtonItem> buttonItems =
+                  editableTextState.contextMenuButtonItems;
+
+              return AdaptiveTextSelectionToolbar.buttonItems(
+                anchors: editableTextState.contextMenuAnchors,
+                buttonItems: buttonItems,
+              );
+            },
             style: AppTheme.of(context).textStyle.bodyL.copyWith(
               color: AppTheme.of(context).color.neutralLightLightest,
             ),

@@ -15,6 +15,7 @@ class AppTextTheme extends TextTheme {
     required this.bodyS,
     required this.bodyXS,
     required this.actionL,
+    required this.actionXL,
     required this.actionM,
     required this.actionS,
     required this.captionM,
@@ -131,6 +132,15 @@ class AppTextTheme extends TextTheme {
             fontSize: 16,
           ),
         ),
+        actionXL: AppThemeTextStyle(colorScheme).merge(
+          TextStyle(
+            fontFamily: 'Inter',
+            color: colorScheme.neutralDarkDark,
+            fontWeight: FontWeight.w900,
+            fontStyle: FontStyle.normal,
+            fontSize: 20,
+          ),
+        ),
         actionM: AppThemeTextStyle(colorScheme).merge(
           TextStyle(
             fontFamily: 'Inter',
@@ -174,6 +184,7 @@ class AppTextTheme extends TextTheme {
   final AppThemeTextStyle bodyXS;
 
   final AppThemeTextStyle actionL;
+  final AppThemeTextStyle actionXL;
   final AppThemeTextStyle actionM;
   final AppThemeTextStyle actionS;
 

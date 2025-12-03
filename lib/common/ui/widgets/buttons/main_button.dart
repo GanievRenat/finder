@@ -139,7 +139,7 @@ class MainButton extends StatelessWidget {
                       ).textStyle.actionS.copyWith(color: textColor)
                     : AppTheme.of(
                         context,
-                      ).textStyle.actionL.copyWith(color: textColor),
+                      ).textStyle.actionXL.copyWith(color: textColor),
               ),
       ),
     );

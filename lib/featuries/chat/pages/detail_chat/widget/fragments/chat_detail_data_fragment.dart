@@ -1,6 +1,7 @@
+import 'dart:async';
+
 import 'package:flirta/common/di/init_di.dart';
 import 'package:flirta/common/domain/entites/entities.dart';
-import 'package:flirta/common/domain/usecase/chat/set_read_chat_usecase.dart';
 import 'package:flirta/common/enums/enums.dart';
 import 'package:flirta/featuries/chat/pages/detail_chat/widget/message_my.dart';
 import 'package:flirta/featuries/chat/pages/detail_chat/widget/message_person.dart';
@@ -45,6 +46,11 @@ class _ChatDetailDataFragmentState extends State<ChatDetailDataFragment> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
+
+  @override
   void dispose() {
     _scrollController.dispose();
     super.dispose();
@@ -68,7 +74,7 @@ class _ChatDetailDataFragmentState extends State<ChatDetailDataFragment> {
                     _waitingAnswer = res.first.waitingAnswer;
 
                     //Отмечаем все сообщения как прочитанные
-                    getIt<SetReadChat>()(widget.modelId);
+                    getIt<ChatCubit>().setReadChat(widget.modelId);
 
                     Future.delayed(Duration(milliseconds: 100), () {
                       if (context.mounted) {

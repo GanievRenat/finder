@@ -35,7 +35,7 @@ class AIAgentService {
     // 2. Определеяем модель общения SFW или NoSFW
     // 3. Пока просто отправляем запрос для фото или для текстового сообщения в зависимости отрежима SFW у модели
 
-    if (!model.sfw) {
+    if (model.sfw) {
       // Безопасный чат
       var resultSfw = await sendSFWMessage(
         message: message,

@@ -23,12 +23,14 @@ class ChatCubit extends Cubit<ChatState> {
     required SendMessageToChat sendMessageToChat,
     required GetDetailOfPerson detailOfPerson,
     required AIAgentService aiAgentService,
+    required SetReadChat setReadChat,
     required AppStateService appStateService,
   }) : _cretaeNewChat = cretaeNewChat,
        _getChatList = getChatList,
        _sendMessageToChat = sendMessageToChat,
        _detailOfPerson = detailOfPerson,
        _aiAgentService = aiAgentService,
+       _setReadChat = setReadChat,
        super(ChatState.init());
 
   final CreateNewChat _cretaeNewChat;
@@ -36,11 +38,17 @@ class ChatCubit extends Cubit<ChatState> {
   final SendMessageToChat _sendMessageToChat;
   final GetDetailOfPerson _detailOfPerson;
   final AIAgentService _aiAgentService;
+  final SetReadChat _setReadChat;
 
   List<Chat> _chatList = [];
 
   Future<void> init() async {
     updateChatList(loadingStatus: true);
+  }
+
+  void setReadChat(String modelId) async {
+    await _setReadChat(modelId);
+    updateChatList(loadingStatus: false);
   }
 
   void newChat({required Person person}) async {
@@ -172,40 +180,4 @@ class ChatCubit extends Cubit<ChatState> {
       _setWaitingStatus(modelId, false);
     }
   }
-
-  // После успешной отправки в чат, нужен сервис который зарегистрирует callback с ответом.
-  // callback должен быть привязан к чату, он может быть только один.
-  // Если был отправлен новый запрос, то старый callback должен быть прерван новым.
-}
-
-// Получить диалог из чата
-/*Future<SuccessDataState> getMessage(String modelId) async {
-    var result = await _getChatList();
-
-    if (result.isRight) {
-      int countNoReadMessage = result.right
-          .where((chat) => chat.countNewMessage > 0)
-          .length;
-
-      _chatList = result.right;
-      emit(ChatState.data(_chatList, countNoReadMessage));
-
-      // Модель
-      var person = _personMap[modelId];
-      if (person == null) {
-        var resultDetailPerson = await _getDetailOfPerson(modelId);
-        if (resultDetailPerson.isRight) {
-          _personMap[modelId] = resultDetailPerson.right;
-          person = resultDetailPerson.right;
-        }
-      }
-
-      // списо диалогов
-    }
-  }*/
-
-class SuccessDataState {
-  List<Messages> chatList;
-  Person person;
-  SuccessDataState({required this.person, required this.chatList});
 }

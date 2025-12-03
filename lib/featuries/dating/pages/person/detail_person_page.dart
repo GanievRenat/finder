@@ -17,10 +17,12 @@ class DetailPersonPage extends StatefulWidget {
     super.key,
     required this.person,
     required this.onPayWall,
+    this.showControlButton = true,
   });
 
   final Person person;
   final Function() onPayWall;
+  final bool showControlButton;
 
   @override
   State<DetailPersonPage> createState() => _DetailPersonPageState();
@@ -59,6 +61,7 @@ class _DetailPersonPageState extends State<DetailPersonPage> {
                       age: widget.person.age,
                       job: widget.person.job,
                       onPayWall: widget.onPayWall,
+                      showControlButton: widget.showControlButton,
                       onCallBack: (action) {
                         if (action == ActionCallBackPersonDetailEnums.like ||
                             action == ActionCallBackPersonDetailEnums.skip) {
@@ -86,7 +89,12 @@ class _DetailPersonPageState extends State<DetailPersonPage> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.all(16),
+                    padding: EdgeInsets.only(
+                      left: 16,
+                      top: 16,
+                      right: 16,
+                      bottom: 16 + MediaQuery.of(context).padding.bottom,
+                    ),
                     child: ListTileBio(
                       title: LocaleKeys.model_profile_life_style.tr(),
                       text: widget.person.lifeStyle,

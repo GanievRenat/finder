@@ -11,9 +11,14 @@ import 'fragments/chat_list_empty_fragment.dart';
 import 'fragments/chat_list_loader_fragment.dart';
 
 class ListChatPage extends StatelessWidget {
-  const ListChatPage({super.key, required this.onDetailChat});
+  const ListChatPage({
+    super.key,
+    required this.onDetailChat,
+    required this.onDating,
+  });
 
   final Function({required String modelId}) onDetailChat;
+  final Function() onDating;
 
   @override
   Widget build(BuildContext context) {
@@ -28,12 +33,14 @@ class ListChatPage extends StatelessWidget {
       body: ChatBuilder(
         init: (context) => ChatListLoaderFragment(),
         loading: (context) => ChatListLoaderFragment(),
-        empty: (context) => ChatListEmptyFragment(),
+        empty: (context) => ChatListEmptyFragment(onDating: onDating),
         error: (context, value, child) =>
             ChatListErrorFragment(error: value.toString()),
         success: (context, value, countNew, child) => ChatListDataFragment(
           chat: value,
-          onDetailChat: (chat) => onDetailChat(modelId: chat.modelId),
+          onDetailChat: (chat) {
+            onDetailChat(modelId: chat.modelId);
+          },
         ),
       ),
     );

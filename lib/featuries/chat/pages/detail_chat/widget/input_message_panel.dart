@@ -1,7 +1,9 @@
 import 'package:flirta/common/di/init_di.dart';
 import 'package:flirta/common/ui/theme/theme.dart';
+import 'package:flirta/common/ui/widgets/widgets.dart';
 import 'package:flirta/featuries/chat/state/chat_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class InputMessagePanel extends StatelessWidget {
   InputMessagePanel({super.key, required this.modelId});
@@ -13,10 +15,22 @@ class InputMessagePanel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: AppTheme.of(context).color.neutralLightLightest,
-      padding: EdgeInsets.only(left: 0, top: 16, right: 16, bottom: 16),
+      padding: EdgeInsets.only(
+        left: 0,
+        top: 16,
+        right: 16,
+        bottom: 16 + MediaQuery.of(context).padding.bottom,
+      ),
       child: Row(
         children: [
-          IconButton(onPressed: () {}, icon: Icon(Icons.add)),
+          IconButton(
+            onPressed: () async {
+              var imageSource = await ImageSourceBottomSheet().show(context);
+              if (imageSource == ImageSource.camera) {
+              } else if (imageSource == ImageSource.gallery) {}
+            },
+            icon: Icon(Icons.add),
+          ),
           Expanded(
             child: Container(
               decoration: BoxDecoration(
@@ -41,6 +55,9 @@ class InputMessagePanel extends StatelessWidget {
                           borderSide: BorderSide.none,
                         ),
                       ),
+                      onFieldSubmitted: (value) {
+                        onFieldSubmitted();
+                      },
                     ),
                   ),
                   IconButton(
@@ -50,10 +67,7 @@ class InputMessagePanel extends StatelessWidget {
                       ),
                     ),
                     onPressed: () {
-                      getIt<ChatCubit>().sendMessage(
-                        modelId: modelId,
-                        message: _textEditingController.text,
-                      );
+                      onFieldSubmitted();
                     },
                     icon: Icon(
                       Icons.send,
@@ -67,5 +81,15 @@ class InputMessagePanel extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void onFieldSubmitted() {
+    if (_textEditingController.text.trim().isNotEmpty) {
+      getIt<ChatCubit>().sendMessage(
+        modelId: modelId,
+        message: _textEditingController.text,
+      );
+      _textEditingController.text = '';
+    }
   }
 }

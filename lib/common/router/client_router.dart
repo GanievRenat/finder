@@ -29,6 +29,7 @@ part 'routers/client/auth_routers/auth_router.dart';
 part 'routers/client/main_routers/home_router.dart';
 part 'routers/client/main_routers/main_router.dart';
 part 'routers/client/match_routers/match_router.dart';
+part 'routers/client/chat_detail_routers/chat_detail_router.dart';
 part 'routers/client/paywall_routers/paywall_router.dart';
 part 'client_router.g.dart';
 

@@ -14,15 +14,17 @@ class DatingPage extends StatefulWidget {
     required this.onDetailPerson,
     required this.onMatch,
     required this.onPayWall,
+    required this.onDetailChat,
   });
 
   final VoidCallback onFilter;
   final Function() onPayWall;
-  final Function({required Person person}) onMatch;
+  final Future<bool> Function({required Person person}) onMatch;
   final Future<ActionCallBackPersonDetailEnums> Function({
     required Person person,
   })
   onDetailPerson;
+  final Future<bool> Function({required String modelId}) onDetailChat;
 
   @override
   State<DatingPage> createState() => _DatingPageState();
@@ -61,7 +63,13 @@ class _DatingPageState extends State<DatingPage> {
         success: (context, value, child) => DatingListDataFragment(
           persons: value,
           onDetailPerson: widget.onDetailPerson,
-          onMatch: (person) => widget.onMatch(person: person),
+          onMatch: (person) async {
+            var openDetailChat = await widget.onMatch(person: person);
+            if (openDetailChat) {
+              widget.onDetailChat(modelId: person.modelId);
+            }
+            return openDetailChat;
+          },
           onPayWall: widget.onPayWall,
         ),
       ),

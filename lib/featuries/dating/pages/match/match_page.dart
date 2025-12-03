@@ -89,7 +89,9 @@ class MatchPage extends StatelessWidget {
                     AppSpacing.vertical.s5,
                     MainButton.inversion(
                       title: LocaleKeys.dating_match_button_title.tr(),
-                      onPressed: () {},
+                      onPressed: () {
+                        context.pop(true);
+                      },
                     ),
                   ],
                 ),

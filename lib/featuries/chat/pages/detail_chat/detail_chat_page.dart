@@ -1,10 +1,12 @@
 import 'package:flirta/common/di/init_di.dart';
 import 'package:flirta/common/domain/entites/entities.dart';
 import 'package:flirta/common/domain/usecase/usecases.dart';
+import 'package:flirta/featuries/chat/state/chat_cubit.dart';
 import 'package:flirta/generated/assets.gen.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
 import 'state/detail_chat_cubit.dart';
 import 'widget/app_bar_chat.dart';
@@ -33,26 +35,30 @@ class DetailChatPage extends StatelessWidget {
       create: (context) => DetailChatCubit(
         modelId: modelId,
         getDetailOfPerson: getIt<GetDetailOfPerson>(),
+        chatCubit: getIt<ChatCubit>(),
       ),
-      child: Scaffold(
-        appBar: AppBarChat(
-          onPersonDetail: onDetailPerson,
-          onPhotoGallery: onPhotoGallery,
-        ),
-        body: DecoratedBox(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: Assets.images.bgChat.provider(),
-              fit: BoxFit.cover,
-            ),
+      child: KeyboardDismissOnTap(
+        child: Scaffold(
+          resizeToAvoidBottomInset: true,
+          appBar: AppBarChat(
+            onPersonDetail: onDetailPerson,
+            onPhotoGallery: onPhotoGallery,
           ),
-          child: DetailChatBuilder(
-            init: (context) => ChatDetailLoaderFragment(),
-            loading: (context) => ChatDetailLoaderFragment(),
-            error: (context, value, child) =>
-                ChatDetailErrorFragment(error: value.toString()),
-            success: (context, value, child) =>
-                ChatDetailDataFragment(key: _chatListKey, modelId: modelId),
+          body: DecoratedBox(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: Assets.images.bgChat.provider(),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: DetailChatBuilder(
+              init: (context) => ChatDetailLoaderFragment(),
+              loading: (context) => ChatDetailLoaderFragment(),
+              error: (context, value, child) =>
+                  ChatDetailErrorFragment(error: value.toString()),
+              success: (context, value, child) =>
+                  ChatDetailDataFragment(key: _chatListKey, modelId: modelId),
+            ),
           ),
         ),
       ),
