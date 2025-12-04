@@ -41,7 +41,7 @@ class DatingListDataFragment extends StatelessWidget {
       },
       canSwipe: () => getIt<DatingCubit>().canSwipe(),
       canUndo: () => getIt<DatingCubit>().canUndo(),
-      onEnd: () => getIt<DatingCubit>().setEmptyState(),
+      onEnd: () => getIt<DatingCubit>().setCompletedState(),
     );
   }
 }

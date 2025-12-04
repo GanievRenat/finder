@@ -1,6 +1,8 @@
 export 'buttons/main_button.dart';
 export 'buttons/black_button.dart';
 export 'buttons/second_button.dart';
+export 'buttons/close_button.dart';
+export 'buttons/get_premium_status_button.dart';
 export 'gender_options/gender_option_item.dart';
 export 'gender_options/gender_options_group.dart';
 export 'interested_gender_options/interested_gender_option_item.dart';
@@ -26,3 +28,4 @@ export 'logo/logo.dart';
 export 'photo/image_source_bottom_sheet.dart';
 export 'animations/flip_and_grow_transition.dart';
 export 'animations/heartbeat_animation.dart';
+export 'html_text/html_text.dart';

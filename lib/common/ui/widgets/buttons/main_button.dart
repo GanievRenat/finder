@@ -136,7 +136,7 @@ class MainButton extends StatelessWidget {
                 style: _small
                     ? AppTheme.of(
                         context,
-                      ).textStyle.actionS.copyWith(color: textColor)
+                      ).textStyle.actionL.copyWith(color: textColor)
                     : AppTheme.of(
                         context,
                       ).textStyle.actionXL.copyWith(color: textColor),

@@ -7,7 +7,7 @@ import 'package:flirta/generated/locale_keys.g.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import 'widgets/close_button.dart';
+import '../../../../common/ui/widgets/buttons/close_button.dart';
 import 'widgets/head_person.dart';
 import 'widgets/list_tile_bio.dart';
 import 'widgets/list_tile_tags.dart';
@@ -57,6 +57,7 @@ class _DetailPersonPageState extends State<DetailPersonPage> {
                     height: MediaQuery.of(context).size.height * 0.8,
                     child: HeadPerson(
                       imageUrls: widget.person.photos,
+                      modelId: widget.person.modelId,
                       name: widget.person.name,
                       age: widget.person.age,
                       job: widget.person.job,
@@ -107,7 +108,7 @@ class _DetailPersonPageState extends State<DetailPersonPage> {
           Positioned(
             right: 16,
             top: MediaQuery.of(context).padding.top + 32,
-            child: CloseModelButton(),
+            child: GoToBackButton(),
           ),
         ],
       ),

@@ -9,6 +9,7 @@ class HeadPerson extends StatefulWidget {
   const HeadPerson({
     super.key,
     required this.imageUrls,
+    required this.modelId,
     required this.name,
     required this.age,
     required this.onPayWall,
@@ -19,6 +20,7 @@ class HeadPerson extends StatefulWidget {
 
   final List<String> imageUrls;
   final String name;
+  final String modelId;
   final int age;
   final String job;
   final Function() onPayWall;
@@ -44,28 +46,33 @@ class _HeadPersonState extends State<HeadPerson> {
             ),
           ),
         ),
-        Align(
-          alignment: AlignmentGeometry.bottomCenter,
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 80.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  '${widget.name}, ${widget.age}',
-                  textAlign: TextAlign.center,
-                  style: AppTheme.of(context).textStyle.header1.copyWith(
-                    color: AppTheme.of(context).color.neutralLightLightest,
+        Hero(
+          tag: '${widget.name}, ${widget.age}, ${widget.modelId}',
+          child: Align(
+            alignment: AlignmentGeometry.bottomCenter,
+            child: Padding(
+              padding: EdgeInsets.only(
+                bottom: widget.showControlButton ? 115.0 : 80.0,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    '${widget.name}, ${widget.age}',
+                    textAlign: TextAlign.center,
+                    style: AppTheme.of(context).textStyle.header1.copyWith(
+                      color: AppTheme.of(context).color.neutralLightLightest,
+                    ),
                   ),
-                ),
-                Text(
-                  widget.job,
-                  textAlign: TextAlign.center,
-                  style: AppTheme.of(context).textStyle.bodyXL.copyWith(
-                    color: AppTheme.of(context).color.neutralLightLightest,
+                  Text(
+                    widget.job,
+                    textAlign: TextAlign.center,
+                    style: AppTheme.of(context).textStyle.bodyXL.copyWith(
+                      color: AppTheme.of(context).color.neutralLightLightest,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -77,35 +84,43 @@ class _HeadPersonState extends State<HeadPerson> {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  FloatingActionButton(
-                    heroTag: 'skipButton',
-                    backgroundColor: AppTheme.of(
-                      context,
-                    ).color.neutralLightLightest,
-                    mini: false,
-                    onPressed: () {
-                      widget.onCallBack(ActionCallBackPersonDetailEnums.skip);
-                    },
-                    shape: CircleBorder(),
-                    child: Icon(
-                      CupertinoIcons.clear,
-                      color: AppTheme.of(context).color.red,
-                      size: 30,
+                  SizedBox(
+                    width: 80,
+                    height: 80,
+                    child: FloatingActionButton(
+                      heroTag: 'skipButton',
+                      backgroundColor: AppTheme.of(
+                        context,
+                      ).color.neutralLightLightest,
+                      mini: false,
+                      onPressed: () {
+                        widget.onCallBack(ActionCallBackPersonDetailEnums.skip);
+                      },
+                      shape: CircleBorder(),
+                      child: Icon(
+                        CupertinoIcons.clear,
+                        color: AppTheme.of(context).color.red,
+                        size: 50,
+                      ),
                     ),
                   ),
                   AppSpacing.horizontal.s3,
-                  FloatingActionButton(
-                    heroTag: 'likeButton',
-                    backgroundColor: Colors.white,
-                    mini: false,
-                    onPressed: () {
-                      widget.onCallBack(ActionCallBackPersonDetailEnums.like);
-                    },
-                    shape: CircleBorder(),
-                    child: Icon(
-                      CupertinoIcons.heart_solid,
-                      color: AppTheme.of(context).color.primaryDarkset,
-                      size: 30,
+                  SizedBox(
+                    width: 80,
+                    height: 80,
+                    child: FloatingActionButton(
+                      heroTag: 'likeButton',
+                      backgroundColor: Colors.white,
+                      mini: false,
+                      onPressed: () {
+                        widget.onCallBack(ActionCallBackPersonDetailEnums.like);
+                      },
+                      shape: CircleBorder(),
+                      child: Icon(
+                        CupertinoIcons.heart_solid,
+                        color: AppTheme.of(context).color.primaryDarkset,
+                        size: 60,
+                      ),
                     ),
                   ),
                 ],

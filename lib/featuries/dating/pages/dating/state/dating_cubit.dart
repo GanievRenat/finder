@@ -54,6 +54,10 @@ class DatingCubit extends Cubit<DatingState> {
     emit(DatingState.empty());
   }
 
+  void setCompletedState() {
+    emit(DatingState.complited());
+  }
+
   void getListDatingPerson() async {
     emit(DatingState.loading());
 

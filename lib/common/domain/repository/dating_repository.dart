@@ -22,6 +22,7 @@ abstract class DatingRepository {
   // Кол-во свайпов за сегодня
   Future<int> getSwipeCount(String userUid);
   Future<int> deleteOlderBlockData(String userUid);
+  Future<bool> clear(String userUid);
 }
 
 sealed class DatingError {

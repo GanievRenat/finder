@@ -5,7 +5,9 @@ import 'package:flirta/generated/locale_keys.g.dart';
 import 'package:flutter/material.dart';
 
 class NoPremiumStatus extends StatelessWidget {
-  const NoPremiumStatus({super.key});
+  const NoPremiumStatus({super.key, required this.onTap});
+
+  final Function() onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,9 @@ class NoPremiumStatus extends StatelessWidget {
         ),
       ),
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          onTap();
+        },
         borderRadius: BorderRadius.circular(16),
         splashColor: AppTheme.of(
           context,

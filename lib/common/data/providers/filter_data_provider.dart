@@ -13,6 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 abstract class FilterDataProvider {
   Future<Either<FilterError, FilterStateModel>> getFilterState();
   Future<Either<FilterError, bool>> saveFilterState(SaveFilterStateBody body);
+  Future<bool> clear();
 }
 
 //**
@@ -127,6 +128,18 @@ class FilterDataProviderLocal extends FilterDataProvider {
       return Future.value(Right(true));
     } catch (e) {
       return Future.value(Left(MainFilterError()));
+    }
+  }
+
+  @override
+  Future<bool> clear() async {
+    try {
+      await _sharedPreferences.remove(
+        _appConfig.localKeies[LocalKeies.localFilterStateKey]!,
+      );
+      return true;
+    } catch (e) {
+      return false;
     }
   }
 }

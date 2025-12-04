@@ -9,16 +9,21 @@ class LikeButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton(
-      heroTag: 'likeButton',
-      backgroundColor: Colors.white,
-      mini: false,
-      onPressed: () => onTap(),
-      shape: CircleBorder(),
-      child: Icon(
-        CupertinoIcons.heart_solid,
-        color: AppTheme.of(context).color.primaryDarkset,
-        size: 30,
+    return SizedBox(
+      width: 80,
+      height: 80,
+      child: FloatingActionButton(
+        mini: false,
+        isExtended: false,
+        shape: CircleBorder(),
+        heroTag: 'likeButton',
+        backgroundColor: Colors.white,
+        onPressed: () => onTap(),
+        child: Icon(
+          CupertinoIcons.heart_solid,
+          color: AppTheme.of(context).color.primaryDarkset,
+          size: 60,
+        ),
       ),
     );
   }

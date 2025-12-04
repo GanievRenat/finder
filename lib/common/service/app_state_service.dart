@@ -12,7 +12,7 @@ class AppStateService {
   bool get isAuth => (adminUser != null || currentUser != entities.User.empty())
       ? true
       : false;
-  bool get isPremium => true;
+  bool get isPremium => false;
   bool get isAdmin => adminUser != null;
 
   void clearCurrentUser() {

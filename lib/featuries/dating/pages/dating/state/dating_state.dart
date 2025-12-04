@@ -6,5 +6,6 @@ class DatingState with _$DatingState {
   factory DatingState.loading() = _DatingStateLoading;
   factory DatingState.data(List<Person> pesrons) = _DatingStateData;
   factory DatingState.empty() = _DatingStateEmpty;
+  factory DatingState.complited() = _DatingStateComplited;
   factory DatingState.error(String errorText) = _DatingStateError;
 }

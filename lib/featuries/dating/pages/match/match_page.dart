@@ -71,30 +71,30 @@ class MatchPage extends StatelessWidget {
             bottom: 16 + MediaQuery.of(context).padding.bottom,
             child: SizedBox(
               width: MediaQuery.of(context).size.width,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    HeartWidget(),
-                    AppSpacing.vertical.s5,
-                    Text(
-                      LocaleKeys.dating_match_message.tr(),
-                      textAlign: TextAlign.center,
-                      style: AppTheme.of(context).textStyle.header3.copyWith(
-                        color: AppTheme.of(context).color.neutralLightLightest,
-                        height: 1.2,
-                      ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  HeartWidget(),
+                  AppSpacing.vertical.s5,
+                  Text(
+                    LocaleKeys.dating_match_message.tr(),
+                    textAlign: TextAlign.center,
+                    style: AppTheme.of(context).textStyle.header2.copyWith(
+                      color: AppTheme.of(context).color.neutralLightLightest,
+                      height: 1.2,
                     ),
-                    AppSpacing.vertical.s5,
-                    MainButton.inversion(
+                  ),
+                  AppSpacing.vertical.s8,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                    child: MainButton.inversion(
                       title: LocaleKeys.dating_match_button_title.tr(),
                       onPressed: () {
                         context.pop(true);
                       },
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),

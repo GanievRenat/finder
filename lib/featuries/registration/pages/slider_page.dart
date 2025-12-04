@@ -152,7 +152,7 @@ class ScrollTextPage extends StatelessWidget {
       child: Text(
         text,
         softWrap: true,
-        style: AppTheme.of(context).textStyle.header3.copyWith(
+        style: AppTheme.of(context).textStyle.header2.copyWith(
           color: AppTheme.of(context).color.neutralLightLightest,
           height: 1,
         ),

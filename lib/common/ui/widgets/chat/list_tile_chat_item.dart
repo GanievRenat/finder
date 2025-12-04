@@ -58,7 +58,7 @@ class ListTileChatItem extends StatelessWidget {
                     (waitingAnswer) ? 'typing...' : lastMessage,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: AppTheme.of(context).textStyle.bodyM.copyWith(
+                    style: AppTheme.of(context).textStyle.bodyL.copyWith(
                       color: AppTheme.of(context).color.neutralDarkLight,
                     ),
                   ),
@@ -74,7 +74,7 @@ class ListTileChatItem extends StatelessWidget {
                   child: Text(
                     '$countNewMessage',
                     maxLines: 1,
-                    style: AppTheme.of(context).textStyle.captionM.copyWith(
+                    style: AppTheme.of(context).textStyle.captionL.copyWith(
                       color: AppTheme.of(context).color.neutralLightLightest,
                     ),
                   ),

@@ -9,16 +9,19 @@ class SkipButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton(
-      heroTag: 'skipButton',
-      backgroundColor: AppTheme.of(context).color.neutralLightLightest,
-      mini: false,
-      onPressed: () => onTap(),
-      shape: CircleBorder(),
-      child: Icon(
-        CupertinoIcons.clear,
-        color: AppTheme.of(context).color.red,
-        size: 30,
+    return SizedBox(
+      width: 80,
+      height: 80,
+      child: FloatingActionButton(
+        heroTag: 'skipButton',
+        backgroundColor: AppTheme.of(context).color.neutralLightLightest,
+        onPressed: () => onTap(),
+        shape: CircleBorder(),
+        child: Icon(
+          CupertinoIcons.clear,
+          color: AppTheme.of(context).color.red,
+          size: 50,
+        ),
       ),
     );
   }

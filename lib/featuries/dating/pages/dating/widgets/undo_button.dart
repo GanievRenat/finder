@@ -27,25 +27,29 @@ class UndoButton extends StatelessWidget {
       stream: _undoStreamController.stream,
       builder: (context, asyncSnapshot) {
         bool thereIsUndo = asyncSnapshot.data ?? false;
-        return FloatingActionButton.small(
-          backgroundColor: Colors.white,
-          onPressed: (thereIsUndo)
-              ? () async {
-                  if (canUndo()) {
-                    await onUndo();
-                    _swipeController.undo();
-                  } else {
-                    onPayWall();
+        return SizedBox(
+          width: 60,
+          height: 60,
+          child: FloatingActionButton.small(
+            backgroundColor: Colors.white,
+            onPressed: (thereIsUndo)
+                ? () async {
+                    if (canUndo()) {
+                      await onUndo();
+                      _swipeController.undo();
+                    } else {
+                      onPayWall();
+                    }
                   }
-                }
-              : null,
-          shape: CircleBorder(),
-          child: Icon(
-            CupertinoIcons.arrow_turn_up_left,
-            color: thereIsUndo
-                ? AppTheme.of(context).color.green
-                : AppTheme.of(context).color.neutralLightDark,
-            size: 25,
+                : null,
+            shape: CircleBorder(),
+            child: Icon(
+              CupertinoIcons.arrow_turn_up_left,
+              color: thereIsUndo
+                  ? AppTheme.of(context).color.green
+                  : AppTheme.of(context).color.neutralLightDark,
+              size: 35,
+            ),
           ),
         );
       },

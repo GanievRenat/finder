@@ -12,10 +12,12 @@ class ProfilePage extends StatefulWidget {
     super.key,
     required this.onEditProfile,
     required this.onNotificationSettings,
+    required this.onPayWall,
   });
 
   final Function onEditProfile;
   final Function onNotificationSettings;
+  final Function onPayWall;
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -32,19 +34,20 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(LocaleKeys.user_profile_title.tr())),
+      appBar: AppBar(
+        title: Text(LocaleKeys.user_profile_title.tr()),
+        centerTitle: true,
+      ),
       body: SingleChildScrollView(
         child: BackgroundProfile(
           child: Column(
             children: [
               ProfileHead(),
-              ProfilePremiumStatus(),
+              ProfilePremiumStatus(onTap: () => widget.onPayWall()),
               AppSpacing.vertical.s3,
               ListTileItem(
                 title: LocaleKeys.user_profile_menu_your_profile_title.tr(),
-                onTap: () {
-                  widget.onEditProfile();
-                },
+                onTap: () => widget.onEditProfile(),
               ),
               AppSpacing.vertical.s3,
               ListTileItem(
@@ -55,9 +58,7 @@ class _ProfilePageState extends State<ProfilePage> {
               AppSpacing.vertical.s3,
               ListTileItem(
                 title: LocaleKeys.user_profile_menu_notifications_title.tr(),
-                onTap: () {
-                  widget.onNotificationSettings();
-                },
+                onTap: () => widget.onNotificationSettings(),
               ),
               AppSpacing.vertical.s8,
               ListTileItem.link(
@@ -80,7 +81,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 title: LocaleKeys.user_profile_menu_contact_support_title.tr(),
                 email: 'info@levelapp.io',
                 queryParameters: {
-                  'subject': 'Support of Flider App',
+                  'subject': 'Support of Flirta App',
                   'body': 'Hello!',
                 },
               ),

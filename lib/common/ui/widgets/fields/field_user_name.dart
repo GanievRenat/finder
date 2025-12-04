@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flirta/common/di/init_di.dart';
 import 'package:flirta/common/router/toastification.dart';
+import 'package:flirta/common/ui/theme/app_theme.dart';
 import 'package:flirta/generated/locale_keys.g.dart';
 import 'package:flutter/material.dart';
 
@@ -38,10 +39,11 @@ class _FieldUserNameState extends State<FieldUserName> {
           decoration: InputDecoration(
             hintText: LocaleKeys.auth_your_name_hint.tr(),
             errorStyle: TextStyle(height: 0, fontSize: 0),
+            //labelStyle: AppTheme.of(context).textStyle.bodyXL,
           ),
           keyboardType: TextInputType.name,
           textCapitalization: TextCapitalization.sentences,
-
+          style: AppTheme.of(context).textStyle.bodyXL,
           textInputAction: TextInputAction.next,
           validator: (value) {
             if ((value ?? '').trim().isEmpty) {

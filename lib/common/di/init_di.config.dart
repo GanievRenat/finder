@@ -221,6 +221,14 @@ extension GetItInjectableX on _i174.GetIt {
         fireStore: gh<_i974.FirebaseFirestore>(),
       ),
     );
+    gh.singleton<_i845.AIAgentService>(
+      () => _i845.AIAgentService(
+        deepseekClient: gh<_i987.DeepseekClient>(),
+        veniceClient: gh<_i693.VeniceClient>(),
+        remoteConfig: gh<_i627.FirebaseRemoteConfig>(),
+        appStateService: gh<_i523.AppStateService>(),
+      ),
+    );
     gh.singleton<_i1048.AppConfig>(
       () => _i67.TestAppConfig(),
       registerFor: {_test},
@@ -247,13 +255,6 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i800.ChatLocalDataProviderImpl(
         chatTable: gh<_i1041.ChatTable>(),
         messageTable: gh<_i320.ChatMessagesTable>(),
-      ),
-    );
-    gh.singleton<_i845.AIAgentService>(
-      () => _i845.AIAgentService(
-        deepseekClient: gh<_i987.DeepseekClient>(),
-        veniceClient: gh<_i693.VeniceClient>(),
-        appStateService: gh<_i523.AppStateService>(),
       ),
     );
     gh.singleton<_i864.LanguageInterceptor>(
@@ -542,12 +543,6 @@ extension GetItInjectableX on _i174.GetIt {
         appStateService: gh<_i523.AppStateService>(),
       ),
     );
-    gh.singleton<_i851.DeleteProfile>(
-      () => _i851.DeleteProfile(
-        appStateService: gh<_i523.AppStateService>(),
-        profileRepository: gh<_i243.ProfileRepository>(),
-      ),
-    );
     gh.singleton<_i732.ClearRegistrationFormData>(
       () => _i732.ClearRegistrationFormData(
         registrationFormRepository: gh<_i243.RegistrationFormRepository>(),
@@ -592,6 +587,17 @@ extension GetItInjectableX on _i174.GetIt {
         appStateService: gh<_i697.AppStateService>(),
       ),
     );
+    gh.singleton<_i851.DeleteProfile>(
+      () => _i851.DeleteProfile(
+        appStateService: gh<_i523.AppStateService>(),
+        profileRepository: gh<_i243.ProfileRepository>(),
+        chatRepository: gh<_i243.ChatRepository>(),
+        datingRepository: gh<_i243.DatingRepository>(),
+        filterRepository: gh<_i243.FilterRepository>(),
+        settingsRepository: gh<_i243.SettingsRepository>(),
+        registrationFormRepository: gh<_i243.RegistrationFormRepository>(),
+      ),
+    );
     gh.singleton<_i761.RegistrationCubit>(
       () => _i761.RegistrationCubit(
         saveRegistrationData: gh<_i25.SaveRegistrationFormData>(),
@@ -600,6 +606,7 @@ extension GetItInjectableX on _i174.GetIt {
         registrationNewUserByGuest: gh<_i25.RegistrationNewUserByGuest>(),
         saveFilterState: gh<_i25.SaveFilterState>(),
         clearFilterState: gh<_i25.ClearFilterState>(),
+        getProfile: gh<_i25.GetProfile>(),
       ),
     );
     gh.singleton<_i227.ProfileCubit>(

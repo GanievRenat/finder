@@ -4,7 +4,9 @@ import 'package:flirta/common/ui/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePremiumStatus extends StatelessWidget {
-  const ProfilePremiumStatus({super.key});
+  const ProfilePremiumStatus({super.key, required this.onTap});
+
+  final Function() onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +15,7 @@ class ProfilePremiumStatus extends StatelessWidget {
     if (isPremium) {
       return PremiumStatus();
     } else {
-      return NoPremiumStatus();
+      return NoPremiumStatus(onTap: onTap);
     }
   }
 }

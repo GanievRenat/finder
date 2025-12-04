@@ -151,4 +151,10 @@ class DatingRepositoryImpl implements DatingRepository {
       return Left(result.left);
     }
   }
+
+  @override
+  Future<bool> clear(String userUid) async {
+    var result = await _dataProvider.clear(userUid);
+    return result;
+  }
 }

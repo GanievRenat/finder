@@ -84,8 +84,8 @@ class AppTheme {
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
     ),
     listTileTheme: ListTileThemeData(
-      titleTextStyle: textTheme.header5,
-      subtitleTextStyle: textTheme.bodyS,
+      titleTextStyle: textTheme.header4,
+      subtitleTextStyle: textTheme.bodyL,
     ),
     dividerTheme: DividerThemeData(
       color: colorScheme.neutralLightDark,
@@ -113,9 +113,9 @@ class AppTheme {
       focusedErrorBorder: UnderlineInputBorder(
         borderSide: BorderSide(width: 2.0, color: colorScheme.error),
       ),
-      errorStyle: textTheme.bodyXL.copyWith(color: colorScheme.error),
-      hintStyle: textTheme.bodyXL,
-      labelStyle: textTheme.bodyXL,
+      errorStyle: textTheme.bodyXXL.copyWith(color: colorScheme.error),
+      hintStyle: textTheme.bodyXXL,
+      labelStyle: textTheme.bodyXXL,
       // Размер текста
       contentPadding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 8.0),
     ),
@@ -123,7 +123,7 @@ class AppTheme {
       backgroundColor: colorScheme.background,
       foregroundColor: colorScheme.onBackground,
       actionsPadding: EdgeInsets.all(0),
-      titleTextStyle: textTheme.header3,
+      titleTextStyle: textTheme.header2,
       elevation: 0,
       scrolledUnderElevation: 0,
     ),
@@ -145,10 +145,10 @@ class AppTheme {
       backgroundColor: colorScheme.background,
       selectedItemColor: colorScheme.neutralDarkDarkset,
       unselectedItemColor: colorScheme.neutralDarkLight,
-      selectedLabelStyle: textTheme.actionS.copyWith(
+      selectedLabelStyle: textTheme.actionM.copyWith(
         color: colorScheme.neutralDarkDarkset,
       ),
-      unselectedLabelStyle: textTheme.bodyXS.copyWith(
+      unselectedLabelStyle: textTheme.bodyS.copyWith(
         color: colorScheme.neutralDarkLight,
       ),
       type: BottomNavigationBarType.fixed,
@@ -201,7 +201,7 @@ class AppTheme {
       backgroundColor: colorScheme.background,
       foregroundColor: colorScheme.onBackground,
       actionsPadding: EdgeInsets.all(0),
-      titleTextStyle: textTheme.header3,
+      titleTextStyle: textTheme.header2,
       elevation: 0,
       scrolledUnderElevation: 0,
       centerTitle: false,

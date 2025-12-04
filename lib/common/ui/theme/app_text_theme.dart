@@ -9,6 +9,7 @@ class AppTextTheme extends TextTheme {
     required this.header3,
     required this.header4,
     required this.header5,
+    required this.bodyXXL,
     required this.bodyXL,
     required this.bodyL,
     required this.bodyM,
@@ -18,6 +19,7 @@ class AppTextTheme extends TextTheme {
     required this.actionXL,
     required this.actionM,
     required this.actionS,
+    required this.captionL,
     required this.captionM,
   }) : super();
 
@@ -69,6 +71,16 @@ class AppTextTheme extends TextTheme {
             fontWeight: FontWeight.w700,
             fontStyle: FontStyle.normal,
             fontSize: 14,
+          ),
+        ),
+        bodyXXL: AppThemeTextStyle(colorScheme).merge(
+          TextStyle(
+            fontFamily: 'Inter',
+            color: colorScheme.neutralDarkDark,
+            fontWeight: FontWeight.w400,
+            fontStyle: FontStyle.normal,
+            fontSize: 24,
+            height: 24 / 18,
           ),
         ),
         bodyXL: AppThemeTextStyle(colorScheme).merge(
@@ -123,15 +135,6 @@ class AppTextTheme extends TextTheme {
             letterSpacing: 10 * 0.015,
           ),
         ),
-        actionL: AppThemeTextStyle(colorScheme).merge(
-          TextStyle(
-            fontFamily: 'Inter',
-            color: colorScheme.neutralDarkDark,
-            fontWeight: FontWeight.w600,
-            fontStyle: FontStyle.normal,
-            fontSize: 16,
-          ),
-        ),
         actionXL: AppThemeTextStyle(colorScheme).merge(
           TextStyle(
             fontFamily: 'Inter',
@@ -139,6 +142,15 @@ class AppTextTheme extends TextTheme {
             fontWeight: FontWeight.w900,
             fontStyle: FontStyle.normal,
             fontSize: 20,
+          ),
+        ),
+        actionL: AppThemeTextStyle(colorScheme).merge(
+          TextStyle(
+            fontFamily: 'Inter',
+            color: colorScheme.neutralDarkDark,
+            fontWeight: FontWeight.w600,
+            fontStyle: FontStyle.normal,
+            fontSize: 16,
           ),
         ),
         actionM: AppThemeTextStyle(colorScheme).merge(
@@ -159,6 +171,16 @@ class AppTextTheme extends TextTheme {
             fontSize: 12,
           ),
         ),
+        captionL: AppThemeTextStyle(colorScheme).merge(
+          TextStyle(
+            fontFamily: 'Inter',
+            color: colorScheme.neutralDarkDark,
+            fontWeight: FontWeight.w600,
+            fontStyle: FontStyle.normal,
+            fontSize: 12,
+            letterSpacing: 10 * 0.05,
+          ),
+        ),
         captionM: AppThemeTextStyle(colorScheme).merge(
           TextStyle(
             fontFamily: 'Inter',
@@ -177,6 +199,7 @@ class AppTextTheme extends TextTheme {
   final AppThemeTextStyle header4;
   final AppThemeTextStyle header5;
 
+  final AppThemeTextStyle bodyXXL;
   final AppThemeTextStyle bodyXL;
   final AppThemeTextStyle bodyL;
   final AppThemeTextStyle bodyM;
@@ -188,6 +211,7 @@ class AppTextTheme extends TextTheme {
   final AppThemeTextStyle actionM;
   final AppThemeTextStyle actionS;
 
+  final AppThemeTextStyle captionL;
   final AppThemeTextStyle captionM;
 
   TextTheme toTextTheme() {

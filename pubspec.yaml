@@ -176,3 +176,11 @@ melos:
       run: |
         flutter build web -t lib/main_admin.dart --release --no-wasm-dry-run
         firebase deploy --only hosting
+
+    build_apk:
+      run: |
+        flutter build apk --release --target=lib/main_client.dart
+
+    build_app:
+      run: |
+        flutter build appbundle --release --target=lib/main_client.dart

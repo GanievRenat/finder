@@ -16,4 +16,11 @@ class SettingsRepositoryImpl implements SettingsRepository {
     // TODO: implement updatet
     throw UnimplementedError();
   }
+
+  @override
+  Future<bool> clear(String userUid) async {
+    // TODO: implement getSettings
+    //throw UnimplementedError();
+    return true;
+  }
 }

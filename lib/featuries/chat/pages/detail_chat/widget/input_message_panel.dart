@@ -4,11 +4,15 @@ import 'package:flirta/common/ui/widgets/widgets.dart';
 import 'package:flirta/featuries/chat/state/chat_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class InputMessagePanel extends StatelessWidget {
-  InputMessagePanel({super.key, required this.modelId});
+  InputMessagePanel({super.key, required this.modelId}) : isLoading = false;
+
+  InputMessagePanel.loading({super.key}) : isLoading = true, modelId = '';
 
   final String modelId;
+  final bool isLoading;
   final TextEditingController _textEditingController = TextEditingController();
 
   @override
@@ -91,5 +95,86 @@ class InputMessagePanel extends StatelessWidget {
       );
       _textEditingController.text = '';
     }
+  }
+}
+
+class LoadingInputMessage extends StatelessWidget {
+  const LoadingInputMessage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Skeletonizer(
+      effect: ShimmerEffect(
+        baseColor: AppTheme.of(context).color.neutralLightMedium,
+        highlightColor: AppTheme.of(context).color.neutralLightLightest,
+        duration: Duration(seconds: 2),
+      ),
+      enabled: true,
+      ignoreContainers: false,
+      child: Container(
+        color: AppTheme.of(context).color.neutralLightLightest,
+        padding: EdgeInsets.only(
+          left: 0,
+          top: 16,
+          right: 16,
+          bottom: 16 + MediaQuery.of(context).padding.bottom,
+        ),
+        child: Row(
+          children: [
+            IconButton(
+              onPressed: () async {
+                var imageSource = await ImageSourceBottomSheet().show(context);
+                if (imageSource == ImageSource.camera) {
+                } else if (imageSource == ImageSource.gallery) {}
+              },
+              icon: Icon(Icons.add),
+            ),
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: AppTheme.of(context).color.neutralLightLight,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                padding: EdgeInsets.only(left: 8),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        enabled: false,
+                        decoration: InputDecoration(
+                          isDense: true,
+                          border: UnderlineInputBorder(
+                            borderSide: BorderSide.none,
+                          ),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide.none,
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide.none,
+                          ),
+                        ),
+                        onFieldSubmitted: (value) {},
+                      ),
+                    ),
+                    IconButton(
+                      style: ButtonStyle(
+                        backgroundColor: WidgetStatePropertyAll(
+                          AppTheme.of(context).color.primary,
+                        ),
+                      ),
+                      onPressed: () {},
+                      icon: Icon(
+                        Icons.send,
+                        color: AppTheme.of(context).color.neutralLightLightest,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

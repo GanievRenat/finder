@@ -27,7 +27,7 @@ class _GenderTagsGroupState extends State<GenderTagsGroup> {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(widget.title, style: AppTheme.of(context).textStyle.header4),
+        Text(widget.title, style: AppTheme.of(context).textStyle.header3),
         SizedBox(height: 16),
         GroupOptionsTags(
           tags: {

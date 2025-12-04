@@ -31,11 +31,11 @@ class ListTileProfileItem extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(title, style: AppTheme.of(context).textStyle.header4),
+              Text(title, style: AppTheme.of(context).textStyle.header3),
               SizedBox(height: 4),
               Text(
                 subtitle,
-                style: AppTheme.of(context).textStyle.bodyM.copyWith(
+                style: AppTheme.of(context).textStyle.bodyL.copyWith(
                   color: AppTheme.of(context).color.neutralDarkLight,
                 ),
               ),

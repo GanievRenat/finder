@@ -1,4 +1,5 @@
 import 'package:deepseek_client/deepseek_client.dart' as deepseek;
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:venice_client/venice_client.dart' as venice;
 import 'package:flirta/common/domain/entites/entities.dart';
 import 'package:flirta/common/enums/enums.dart';
@@ -12,18 +13,26 @@ class AIAgentService {
   final deepseek.DeepseekClient _deepseekClient;
   final venice.VeniceClient _veniceClient;
   final AppStateService _appStateService;
+  final FirebaseRemoteConfig _remoteConfig;
 
   AIAgentService({
     required deepseek.DeepseekClient deepseekClient,
     required venice.VeniceClient veniceClient,
+    required FirebaseRemoteConfig remoteConfig,
     required AppStateService appStateService,
   }) : _deepseekClient = deepseekClient,
        _appStateService = appStateService,
-       _veniceClient = veniceClient {
-    // Устанавливаем ключ
-    // TODO: Сделать загрузку с RemoteConfig и установить нужный ключ
-    _deepseekClient.setKey(key: 'sk-b0434e70ac79468bacdd31b09eac2582');
-    _veniceClient.setKey(key: 'R7SsbzAZuM_7DEQZr8zvJdKh8nX9Gsv3ZFvVxbqzev');
+       _veniceClient = veniceClient,
+       _remoteConfig = remoteConfig;
+
+  Future<void> init() async {
+    await _remoteConfig.fetchAndActivate();
+
+    final String deepseekKey = _remoteConfig.getString('deepseek_key');
+    final String veniceKey = _remoteConfig.getString('venice_key');
+
+    _deepseekClient.setKey(key: deepseekKey);
+    _veniceClient.setKey(key: veniceKey);
   }
 
   Future<AIAnswer> sendMessage({

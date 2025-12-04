@@ -10,6 +10,7 @@ class DatingBuilder extends StatelessWidget {
     required this.init,
     required this.loading,
     required this.empty,
+    required this.completed,
     required this.error,
     required this.success,
   });
@@ -17,6 +18,7 @@ class DatingBuilder extends StatelessWidget {
   final WidgetBuilder init;
   final WidgetBuilder loading;
   final WidgetBuilder empty;
+  final WidgetBuilder completed;
   final ValueWidgetBuilder error;
   final ValueWidgetBuilder success;
 
@@ -29,6 +31,7 @@ class DatingBuilder extends StatelessWidget {
           init: () => init(context),
           loading: () => loading(context),
           empty: () => empty(context),
+          complited: () => completed(context),
           error: (errorText) => error(context, errorText, this),
           data: (List<Person> persons) => success(context, persons, this),
         );

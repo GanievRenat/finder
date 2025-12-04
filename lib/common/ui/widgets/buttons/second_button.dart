@@ -54,10 +54,10 @@ class SecondButton extends StatelessWidget {
             : Text(
                 title,
                 style: _small
-                    ? AppTheme.of(context).textStyle.actionS.copyWith(
+                    ? AppTheme.of(context).textStyle.actionL.copyWith(
                         color: AppTheme.of(context).color.primaryDarkset,
                       )
-                    : AppTheme.of(context).textStyle.actionL.copyWith(
+                    : AppTheme.of(context).textStyle.actionXL.copyWith(
                         color: AppTheme.of(context).color.primaryDarkset,
                       ),
               ),

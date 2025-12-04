@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flirta/common/di/init_di.dart';
 import 'package:flirta/common/router/toastification.dart';
 import 'package:flirta/common/ui/widgets/widgets.dart';
+import 'package:flirta/featuries/chat/state/chat_cubit.dart';
 import 'package:flirta/featuries/profile/pages/profile/state/profile_cubit.dart';
 import 'package:flirta/generated/locale_keys.g.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +35,7 @@ class _DeleteProfileButtonState extends State<DeleteProfileButton> {
             isLoading = true;
           });
           var resultDelete = await getIt<ProfileCubit>().deleteProfile();
+          getIt<ChatCubit>().updateChatList(loadingStatus: false);
           if (resultDelete.isRight) {
             Future.delayed(
               Duration(milliseconds: 100),

@@ -31,6 +31,7 @@ abstract class DatingDataProvider {
   );
   Future<int> getSwipeCount(String userUid);
   Future<int> deleteOlderData(String userUid);
+  Future<bool> clear(String userUid);
 }
 
 //**
@@ -254,6 +255,16 @@ class DatingDataProviderLocal extends DatingDataProvider {
       }
     } catch (e) {
       return Future.value(Left(MainDatingError()));
+    }
+  }
+
+  @override
+  Future<bool> clear(String userUid) async {
+    try {
+      await _matchAndBlockTable.clear(userUid: userUid);
+      return true;
+    } catch (e) {
+      return false;
     }
   }
 }

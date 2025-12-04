@@ -44,6 +44,7 @@ class ProfileRoute extends GoRouteData with $ProfileRoute {
         onEditProfile: () => const EditProfileRoute().push(context),
         onNotificationSettings: () =>
             const NotificationSettingsRoute().push(context),
+        onPayWall: () => PawWallRoute().push(context),
       ),
     );
   }
@@ -173,6 +174,7 @@ class EditGenderProfileRoute extends GoRouteData with $EditGenderProfileRoute {
       name: name,
       title: LocaleKeys.auth_how_old_are_you_title.tr(),
       subtitle: LocaleKeys.auth_how_old_are_you_subtitle.tr(),
+      isScroll: true,
       child: GenderEditWidget(
         initGender: Gender.values[initGenderIndex],
         onComplited: () {

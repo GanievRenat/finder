@@ -12,8 +12,8 @@ class ListTileBio extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title, style: AppTheme.of(context).textStyle.header4),
-        Text(text, softWrap: true, style: AppTheme.of(context).textStyle.bodyM),
+        Text(title, style: AppTheme.of(context).textStyle.header3),
+        Text(text, softWrap: true, style: AppTheme.of(context).textStyle.bodyL),
       ],
     );
   }

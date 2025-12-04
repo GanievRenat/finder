@@ -64,7 +64,7 @@ class _TagState extends State<Tag> {
   Widget _buildTagLabel() {
     return Text(
       widget.name.toUpperCase(),
-      style: AppTheme.of(context).textStyle.captionM.copyWith(
+      style: AppTheme.of(context).textStyle.captionL.copyWith(
         color: _select
             ? AppTheme.of(context).color.neutralLightLightest
             : AppTheme.of(context).color.neutralDarkDarkset,

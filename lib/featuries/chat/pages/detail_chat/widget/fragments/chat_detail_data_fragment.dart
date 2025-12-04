@@ -28,8 +28,9 @@ class _ChatDetailDataFragmentState extends State<ChatDetailDataFragment> {
     if (_scrollController.hasClients) {
       double addPOsition =
           (_scrollController.position.maxScrollExtent >
-              MediaQuery.of(context).size.height)
-          ? 200
+              MediaQuery.of(context).size.height -
+                  (MediaQuery.of(context).padding.bottom + kToolbarHeight + 50))
+          ? MediaQuery.of(context).padding.bottom + kToolbarHeight + 50
           : 0;
 
       _scrollController.animateTo(
@@ -48,6 +49,13 @@ class _ChatDetailDataFragmentState extends State<ChatDetailDataFragment> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+  }
+
+  @override
+  void deactivate() {
+    //Отмечаем все сообщения как прочитанные
+    getIt<ChatCubit>().setReadChat(widget.modelId);
+    super.deactivate();
   }
 
   @override
@@ -72,9 +80,6 @@ class _ChatDetailDataFragmentState extends State<ChatDetailDataFragment> {
                   if (res.isNotEmpty) {
                     messages = res.first.messages;
                     _waitingAnswer = res.first.waitingAnswer;
-
-                    //Отмечаем все сообщения как прочитанные
-                    getIt<ChatCubit>().setReadChat(widget.modelId);
 
                     Future.delayed(Duration(milliseconds: 100), () {
                       if (context.mounted) {

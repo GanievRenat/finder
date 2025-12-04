@@ -14,7 +14,7 @@ class ListTileTags extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title, style: AppTheme.of(context).textStyle.header4),
+        Text(title, style: AppTheme.of(context).textStyle.header3),
         AppSpacing.vertical.s4,
         GroupPersonTags(tags: tags.toSet()),
       ],

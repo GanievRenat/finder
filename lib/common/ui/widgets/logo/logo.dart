@@ -13,7 +13,7 @@ class LogoFlirta extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Assets.images.icons.starsLogo.svg(),
+        Assets.images.icons.starsLogo.svg(width: 40),
         SizedBox(width: 8),
         ShaderMask(
           shaderCallback: (Rect bounds) {
@@ -29,7 +29,7 @@ class LogoFlirta extends StatelessWidget {
           blendMode: BlendMode.srcIn,
           child: Text(
             LocaleKeys.project_name.tr(),
-            style: TextStyle(fontSize: 36, fontFamily: 'Logo'),
+            style: TextStyle(fontSize: 46, fontFamily: 'Logo'),
           ),
         ),
       ],

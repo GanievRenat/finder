@@ -4,6 +4,7 @@ import 'package:flirta/common/domain/repository/auth_repository.dart';
 import 'package:flirta/common/domain/repository/bodies/bodies.dart';
 import 'package:flirta/common/domain/usecase/usecases.dart';
 import 'package:flirta/common/enums/enums.dart';
+import 'package:flirta/common/service/init_auth_state_service.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -20,6 +21,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
   final RegistrationNewUserByGuest _registrationNewUserByGuest;
   final SaveFilterState _saveFilterState;
   final ClearFilterState _clearFilterState;
+  final GetProfile _getProfile;
 
   RegistrationData currentData = RegistrationData.empty();
 
@@ -30,12 +32,14 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     required RegistrationNewUserByGuest registrationNewUserByGuest,
     required SaveFilterState saveFilterState,
     required ClearFilterState clearFilterState,
+    required GetProfile getProfile,
   }) : _saveRegistrationData = saveRegistrationData,
        _loadRegistrationData = loadRegistrationData,
        _clearRegistrationData = clearRegistrationData,
        _registrationNewUserByGuest = registrationNewUserByGuest,
        _saveFilterState = saveFilterState,
        _clearFilterState = clearFilterState,
+       _getProfile = getProfile,
        super(RegistrationState.init()) {
     getCurrentData();
   }
@@ -66,11 +70,20 @@ class RegistrationCubit extends Cubit<RegistrationState> {
         photo: '',
       ),
     );
-    await _saveFilterState(
-      FilterData.empty().copyWith(
-        interestedGender: currentData.interestedGender,
-      ),
-    );
+    if (result.isRight) {
+      await _saveFilterState(
+        FilterData.empty().copyWith(
+          interestedGender: currentData.interestedGender,
+        ),
+      );
+
+      var user = await _getProfile.call();
+
+      if (user.isRight) {
+        await InitAuthStateService.initState(user.right.uid);
+      }
+    }
+
     return result;
   }
 

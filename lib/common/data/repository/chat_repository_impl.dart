@@ -85,4 +85,10 @@ class ChatRepositoryImpl implements ChatRepository {
     var result = await _localDataProvider.setReadStatus(body: body);
     return result;
   }
+
+  @override
+  Future<bool> clear(String userUid) async {
+    var result = await _localDataProvider.clear(userUid);
+    return result;
+  }
 }

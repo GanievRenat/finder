@@ -45,7 +45,7 @@ class BodyStepPage extends StatelessWidget {
                         if (subtitle != null)
                           Text(
                             subtitle!,
-                            style: AppTheme.of(context).textStyle.bodyM,
+                            style: AppTheme.of(context).textStyle.bodyL,
                             textAlign: TextAlign.center,
                           ),
                       ],

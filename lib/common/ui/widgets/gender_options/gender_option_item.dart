@@ -41,7 +41,7 @@ class GenderOptionItem<T> extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Expanded(
-              child: Text(title, style: AppTheme.of(context).textStyle.header4),
+              child: Text(title, style: AppTheme.of(context).textStyle.header3),
             ),
             Checker(isSelected: isSelected),
           ],

@@ -58,7 +58,7 @@ class InterestedGenderOptionItem<T> extends StatelessWidget {
                     Expanded(
                       child: Text(
                         title,
-                        style: AppTheme.of(context).textStyle.header4.copyWith(
+                        style: AppTheme.of(context).textStyle.header3.copyWith(
                           color: AppTheme.of(
                             context,
                           ).color.neutralLightLightest,

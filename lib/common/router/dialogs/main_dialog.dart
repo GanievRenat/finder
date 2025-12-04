@@ -32,7 +32,7 @@ class MainDialog<T> extends StatelessWidget {
       content: Text(
         message,
         textAlign: TextAlign.center,
-        style: AppTheme.of(context).textStyle.bodyM.copyWith(
+        style: AppTheme.of(context).textStyle.bodyL.copyWith(
           color: AppTheme.of(context).color.neutralDarkLight,
         ),
       ),

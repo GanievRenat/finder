@@ -96,14 +96,12 @@ class ChatMessagesTable {
     }
   }
 
-  // Удалить все сообщения чата
-  Future<int> clear({required String userUid, required String modelId}) async {
+  // Удалить все сообщения в чатах
+  Future<int> clear({required String userUid}) async {
     try {
-      var result =
-          await (appDatabase.delete(appDatabase.messages)..where(
-                (t) => t.userUid.equals(userUid) & t.modelId.equals(modelId),
-              ))
-              .go();
+      var result = await (appDatabase.delete(
+        appDatabase.messages,
+      )..where((t) => t.userUid.equals(userUid))).go();
       return result;
     } catch (e) {
       rethrow;

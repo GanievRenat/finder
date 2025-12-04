@@ -35,7 +35,7 @@ class DatingListLoaderFragment extends StatelessWidget {
             Align(
               alignment: AlignmentGeometry.bottomCenter,
               child: Padding(
-                padding: const EdgeInsets.only(bottom: 80.0),
+                padding: const EdgeInsets.only(bottom: 115.0),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -64,48 +64,60 @@ class DatingListLoaderFragment extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    FloatingActionButton(
-                      heroTag: 'undoButton',
-                      backgroundColor: AppTheme.of(
-                        context,
-                      ).color.neutralLightLightest,
-                      mini: true,
-                      onPressed: () {},
-                      shape: CircleBorder(),
-                      child: Icon(
-                        CupertinoIcons.clear,
-                        color: AppTheme.of(context).color.red,
-                        size: 30,
+                    SizedBox(
+                      width: 60,
+                      height: 60,
+                      child: FloatingActionButton(
+                        heroTag: 'undoButton',
+                        backgroundColor: AppTheme.of(
+                          context,
+                        ).color.neutralLightLightest,
+                        mini: true,
+                        onPressed: () {},
+                        shape: CircleBorder(),
+                        child: Icon(
+                          CupertinoIcons.clear,
+                          color: AppTheme.of(context).color.red,
+                          size: 30,
+                        ),
                       ),
                     ),
                     AppSpacing.horizontal.s3,
-                    FloatingActionButton(
-                      heroTag: 'likeButton',
-                      backgroundColor: AppTheme.of(
-                        context,
-                      ).color.neutralLightLightest,
-                      mini: false,
-                      onPressed: () {},
-                      shape: CircleBorder(),
-                      child: Icon(
-                        CupertinoIcons.heart_solid,
-                        color: AppTheme.of(context).color.primaryDarkset,
-                        size: 30,
+                    SizedBox(
+                      width: 80,
+                      height: 80,
+                      child: FloatingActionButton(
+                        heroTag: 'likeButton',
+                        backgroundColor: AppTheme.of(
+                          context,
+                        ).color.neutralLightLightest,
+                        mini: false,
+                        onPressed: () {},
+                        shape: CircleBorder(),
+                        child: Icon(
+                          CupertinoIcons.heart_solid,
+                          color: AppTheme.of(context).color.primaryDarkset,
+                          size: 30,
+                        ),
                       ),
                     ),
                     AppSpacing.horizontal.s3,
-                    FloatingActionButton(
-                      heroTag: 'skipButton',
-                      backgroundColor: AppTheme.of(
-                        context,
-                      ).color.neutralLightLightest,
-                      mini: false,
-                      onPressed: () {},
-                      shape: CircleBorder(),
-                      child: Icon(
-                        CupertinoIcons.clear,
-                        color: AppTheme.of(context).color.red,
-                        size: 30,
+                    SizedBox(
+                      width: 80,
+                      height: 80,
+                      child: FloatingActionButton(
+                        heroTag: 'skipButton',
+                        backgroundColor: AppTheme.of(
+                          context,
+                        ).color.neutralLightLightest,
+                        mini: false,
+                        onPressed: () {},
+                        shape: CircleBorder(),
+                        child: Icon(
+                          CupertinoIcons.clear,
+                          color: AppTheme.of(context).color.red,
+                          size: 30,
+                        ),
                       ),
                     ),
                   ],

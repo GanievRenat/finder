@@ -7,9 +7,11 @@ import 'package:injectable/injectable.dart';
 class ModalBottomSheetPage<T> extends Page<T> {
   const ModalBottomSheetPage({
     required this.child,
+    this.isScroll = false,
     this.title = '',
     this.subtitle = '',
     this.closeButton = false,
+
     super.key,
     super.name,
   });
@@ -18,53 +20,61 @@ class ModalBottomSheetPage<T> extends Page<T> {
   final String title;
   final String subtitle;
   final bool closeButton;
+  final bool isScroll;
 
   @override
   Route<T> createRoute(BuildContext context) {
     return ModalBottomSheetRoute(
       settings: this,
-      builder: (BuildContext context) => Container(
-        constraints: BoxConstraints(minWidth: double.infinity),
-        padding: EdgeInsets.only(
-          left: 16,
-          top: 16,
-          right: 16,
-          bottom: 16 + MediaQuery.of(context).padding.bottom,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (title.isNotEmpty)
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      title,
-                      style: AppTheme.of(context).textStyle.header3,
-                    ),
-                  ),
-                  if (closeButton)
-                    IconButton(
-                      onPressed: () {
-                        context.pop();
-                      },
-                      icon: Icon(
-                        Icons.close,
-                        color: AppTheme.of(context).color.neutralLightDark,
+      builder: (BuildContext context) => DraggableScrollableSheet(
+        initialChildSize: 0.8, // Начальная высота 60%
+        minChildSize: 0.6, // Минимальная высота 60%
+        maxChildSize: 0.9, // Максимальная высота 80%
+        expand: false,
+        builder: (context, scrollController) => Container(
+          constraints: BoxConstraints(minWidth: double.infinity),
+          padding: EdgeInsets.only(
+            left: 16,
+            top: 16,
+            right: 16,
+            bottom: 16 + MediaQuery.of(context).padding.bottom,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (title.isNotEmpty)
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        title,
+                        style: AppTheme.of(context).textStyle.header2,
                       ),
                     ),
-                ],
-              ),
-            if (subtitle.isNotEmpty) AppSpacing.vertical.s2,
-            if (subtitle.isNotEmpty)
-              Text(subtitle, style: AppTheme.of(context).textStyle.bodyM),
-            if (title.isNotEmpty || subtitle.isNotEmpty) AppSpacing.vertical.s4,
-            Expanded(child: child),
-          ],
+                    if (closeButton)
+                      IconButton(
+                        onPressed: () {
+                          context.pop();
+                        },
+                        icon: Icon(
+                          Icons.close,
+                          color: AppTheme.of(context).color.neutralLightDark,
+                        ),
+                      ),
+                  ],
+                ),
+              if (subtitle.isNotEmpty) AppSpacing.vertical.s2,
+              if (subtitle.isNotEmpty)
+                Text(subtitle, style: AppTheme.of(context).textStyle.bodyXL),
+              if (title.isNotEmpty || subtitle.isNotEmpty)
+                AppSpacing.vertical.s4,
+              Expanded(child: child),
+            ],
+          ),
         ),
       ),
-      isScrollControlled: false,
+      isScrollControlled: isScroll,
       backgroundColor: AppTheme.of(context).color.background,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(

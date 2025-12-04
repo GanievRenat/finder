@@ -38,7 +38,7 @@ class ChatListEmptyFragment extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 32.0),
             child: MainButton(
-              title: 'Find matches',
+              title: LocaleKeys.chat_messages_empty_button.tr(),
               onPressed: () => onDating(),
             ),
           ),

@@ -18,7 +18,8 @@ abstract class ChatRepository {
     AddNewMessageBody body,
   );
   Future<int> setReadStatus(SetReadStatusBody body);
-  // Подготовить промт для отправки нового сообщения
+
+  Future<bool> clear(String userUid);
 }
 
 sealed class ChatError {

@@ -9,6 +9,7 @@ abstract class FilterRepository {
   Future<Either<FilterError, bool>> saveFilterState(
     SaveFilterStateBody newState,
   );
+  Future<bool> clear();
 }
 
 sealed class FilterError {

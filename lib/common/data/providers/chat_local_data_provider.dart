@@ -12,6 +12,7 @@ abstract class ChatLocalDataProvider {
   Future<List<MessagesModel>> getAllMessageByUserId(String userUid);
   Future<int> addNewMessage(String userUid, AddNewMessageBody body);
   Future<int> setReadStatus({required SetReadStatusBody body});
+  Future<bool> clear(String userUid);
 }
 
 //**
@@ -114,5 +115,16 @@ class ChatLocalDataProviderImpl extends ChatLocalDataProvider {
       modelId: body.modelId,
     );
     return result;
+  }
+
+  @override
+  Future<bool> clear(String userUid) async {
+    try {
+      await _chatTable.clear(userUid: userUid);
+      await _messageTable.clear(userUid: userUid);
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 }

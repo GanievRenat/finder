@@ -17,13 +17,15 @@ class CardSwipe extends StatefulWidget {
 class _CardSwipeState extends State<CardSwipe> {
   @override
   Widget build(BuildContext context) {
-    return Hero(
-      tag: widget.person.photos.isNotEmpty ? widget.person.photos.first : '',
-      child: GestureDetector(
-        onTap: () => widget.onTap(),
-        child: Stack(
-          children: [
-            Padding(
+    return GestureDetector(
+      onTap: () => widget.onTap(),
+      child: Stack(
+        children: [
+          Hero(
+            tag: widget.person.photos.isNotEmpty
+                ? widget.person.photos.first
+                : '',
+            child: Padding(
               padding: const EdgeInsets.only(bottom: 32.0, top: 16),
               child: CachedNetworkImage(
                 fit: BoxFit.fitHeight,
@@ -45,10 +47,14 @@ class _CardSwipeState extends State<CardSwipe> {
                 errorWidget: (context, url, error) => SizedBox(),
               ),
             ),
-            Align(
+          ),
+          Hero(
+            tag:
+                '${widget.person.name}, ${widget.person.age}, ${widget.person.modelId}',
+            child: Align(
               alignment: AlignmentGeometry.bottomCenter,
               child: Padding(
-                padding: const EdgeInsets.only(bottom: 80.0),
+                padding: const EdgeInsets.only(bottom: 115.0),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -70,8 +76,8 @@ class _CardSwipeState extends State<CardSwipe> {
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

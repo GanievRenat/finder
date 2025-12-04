@@ -27,7 +27,7 @@ class ListChatPage extends StatelessWidget {
         centerTitle: false,
         title: Text(
           LocaleKeys.chat_title.tr(),
-          style: AppTheme.of(context).textStyle.header3,
+          style: AppTheme.of(context).textStyle.header2,
         ),
       ),
       body: ChatBuilder(

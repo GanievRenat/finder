@@ -31,4 +31,10 @@ class FilterRepositoryImpl implements FilterRepository {
     var result = await _dataProvider.saveFilterState(newState);
     return result;
   }
+
+  @override
+  Future<bool> clear() async {
+    var result = await _dataProvider.clear();
+    return result;
+  }
 }

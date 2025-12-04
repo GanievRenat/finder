@@ -29,7 +29,7 @@ class NotificationSettingsPage extends StatelessWidget {
                     child: Text(
                       LocaleKeys.user_profile_menu_notifications_page_subtitle
                           .tr(),
-                      style: AppTheme.of(context).textStyle.bodyM,
+                      style: AppTheme.of(context).textStyle.bodyL,
                     ),
                   ),
                   AppSpacing.vertical.s4,

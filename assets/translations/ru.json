@@ -156,7 +156,8 @@
         "messages": {
             "empty": {
                 "title": "Nothing here yet",
-                "subtitle": "Start swiping to get\nnew matches"
+                "subtitle": "Start swiping to get\nnew matches",
+                "button": "Find matches"
             }
         }
     },
@@ -232,7 +233,24 @@
         },
         "text": {
             "empty_result_search": "Unfortunately, we were unable to\nfind suitable partners"
+        },
+        "messages": {
+            "empty": {
+                "title": "No suitable partners",
+                "subtitle": "Try changing your\nsearch parameters",
+                "button": "Change filters"
+            },
+            "completed_premium": {
+                "title": "You've viewed all\navailable profiles\nfor today",
+                "subtitle": "New profiles will appear soon –\ncheck back later"
+            },
+            "completed_no_premium": {
+                "title": "You've viewed all\navailable profiles\nfor today",
+                "subtitle": "Want to keep going – unlock\nmore profiles",
+                "button": "Unlock Now"
+            }
         }
+        
     },
     "paywall": {
         "title": "Choose your subscription plan",
