@@ -6,3 +6,4 @@ export 'filter/filter_data.dart';
 export 'person/person.dart';
 export 'chat/chat.dart';
 export 'chat/message.dart';
+export 'subscription/subscription_package.dart';

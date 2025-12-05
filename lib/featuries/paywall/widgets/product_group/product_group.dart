@@ -1,51 +1,64 @@
-import 'package:flirta/common/ui/theme/app_spacing.dart';
+import 'package:flirta/common/domain/entites/entities.dart';
+import 'package:flirta/common/enums/enums.dart';
 import 'package:flutter/material.dart';
 
 import 'product_item.dart';
 
 class ProductGroup extends StatefulWidget {
-  const ProductGroup({super.key});
+  const ProductGroup({
+    super.key,
+    required this.version,
+    required this.subscriptionPackages,
+    required this.onSelect,
+  });
+
+  final PayWallVersion version;
+  final List<SubscriptionPackage> subscriptionPackages;
+  final Function(SubscriptionPackage packages) onSelect;
 
   @override
   State<ProductGroup> createState() => _ProductGroupState();
 }
 
 class _ProductGroupState extends State<ProductGroup> {
-  int valueGroup = 1;
+  SubscriptionPackage? valueGroup;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.subscriptionPackages.isNotEmpty) {
+      valueGroup = widget.subscriptionPackages.first;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    List<ProductItem<SubscriptionPackage>> listItems = widget
+        .subscriptionPackages
+        .map(
+          (e) => ProductItem<SubscriptionPackage>(
+            version: widget.version,
+            value: e,
+            onTap: (value) {
+              setState(() {
+                valueGroup = value;
+              });
+              widget.onSelect(value);
+            },
+            isSelect: valueGroup == e,
+            title: e.name,
+            subtitle: e.discountInfo,
+            price: e.package.storeProduct.priceString,
+            priceLabel: e.labelPrice,
+          ),
+        )
+        .toList();
+
     return Column(
       mainAxisSize: MainAxisSize.min,
-      children: [
-        ProductItem<int>(
-          value: 1,
-          onTap: (value) {
-            setState(() {
-              valueGroup = value;
-            });
-          },
-          isSelect: valueGroup == 1,
-          title: 'Yearly',
-          subtitle: '-66% discount',
-          price: '\$99.99',
-          priceLabel: 'every year',
-        ),
-        AppSpacing.vertical.s3,
-        ProductItem<int>(
-          value: 2,
-          onTap: (value) {
-            setState(() {
-              valueGroup = value;
-            });
-          },
-          isSelect: valueGroup == 2,
-          title: 'Monthly',
-          subtitle: '-53% discount',
-          price: '\$29.99',
-          priceLabel: 'every month',
-        ),
-      ],
+      children: listItems
+          .map((e) => Padding(padding: EdgeInsets.only(bottom: 8), child: e))
+          .toList(),
     );
   }
 }

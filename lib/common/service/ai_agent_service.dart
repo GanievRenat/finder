@@ -1,5 +1,5 @@
 import 'package:deepseek_client/deepseek_client.dart' as deepseek;
-import 'package:firebase_remote_config/firebase_remote_config.dart';
+import 'package:flirta/common/service/remote_config_service.dart';
 import 'package:venice_client/venice_client.dart' as venice;
 import 'package:flirta/common/domain/entites/entities.dart';
 import 'package:flirta/common/enums/enums.dart';
@@ -13,12 +13,12 @@ class AIAgentService {
   final deepseek.DeepseekClient _deepseekClient;
   final venice.VeniceClient _veniceClient;
   final AppStateService _appStateService;
-  final FirebaseRemoteConfig _remoteConfig;
+  final RemoteConfigService _remoteConfig;
 
   AIAgentService({
     required deepseek.DeepseekClient deepseekClient,
     required venice.VeniceClient veniceClient,
-    required FirebaseRemoteConfig remoteConfig,
+    required RemoteConfigService remoteConfig,
     required AppStateService appStateService,
   }) : _deepseekClient = deepseekClient,
        _appStateService = appStateService,
@@ -26,13 +26,11 @@ class AIAgentService {
        _remoteConfig = remoteConfig;
 
   Future<void> init() async {
-    await _remoteConfig.fetchAndActivate();
-
-    final String deepseekKey = _remoteConfig.getString('deepseek_key');
-    final String veniceKey = _remoteConfig.getString('venice_key');
-
-    _deepseekClient.setKey(key: deepseekKey);
-    _veniceClient.setKey(key: veniceKey);
+    if (!_remoteConfig.isInit) {
+      await _remoteConfig.init();
+    }
+    _deepseekClient.setKey(key: _remoteConfig.deepseekKey);
+    _veniceClient.setKey(key: _remoteConfig.veniceKey);
   }
 
   Future<AIAnswer> sendMessage({

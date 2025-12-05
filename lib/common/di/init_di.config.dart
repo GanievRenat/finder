@@ -128,6 +128,7 @@ import 'package:flirta/common/service/app_state_service.dart' as _i523;
 import 'package:flirta/common/service/crashlytics_service.dart' as _i551;
 import 'package:flirta/common/service/language_service.dart' as _i39;
 import 'package:flirta/common/service/photo_picker_service.dart' as _i651;
+import 'package:flirta/common/service/remote_config_service.dart' as _i327;
 import 'package:flirta/common/service/services.dart' as _i697;
 import 'package:flirta/common/service/storage_services.dart' as _i726;
 import 'package:flirta/common/source/database/database_manager.dart' as _i366;
@@ -156,6 +157,7 @@ import 'package:flirta/featuries/dating/pages/dating/state/dating_cubit.dart'
     as _i367;
 import 'package:flirta/featuries/dating/pages/filter/state/filter_cubit.dart'
     as _i103;
+import 'package:flirta/featuries/paywall/state/paywall_cubit.dart' as _i403;
 import 'package:flirta/featuries/profile/pages/profile/state/profile_cubit.dart'
     as _i227;
 import 'package:flirta/featuries/registration/state/registration_cubit.dart'
@@ -207,6 +209,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i682.ImageSourceBottomSheet>(
       () => _i682.ImageSourceBottomSheet(),
     );
+    gh.singleton<_i403.PaywallCubit>(() => _i403.PaywallCubit());
+    gh.singleton<_i327.RemoteConfigService>(
+      () => _i327.RemoteConfigService(
+        remoteConfig: gh<_i627.FirebaseRemoteConfig>(),
+      ),
+    );
     gh.singleton<_i320.ChatMessagesTable>(
       () => _i320.ChatMessagesTable(gh<_i366.AppDatabase>()),
     );
@@ -219,14 +227,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i2.PersonDataProvider>(
       () => _i2.PersonDataProviderFireBase(
         fireStore: gh<_i974.FirebaseFirestore>(),
-      ),
-    );
-    gh.singleton<_i845.AIAgentService>(
-      () => _i845.AIAgentService(
-        deepseekClient: gh<_i987.DeepseekClient>(),
-        veniceClient: gh<_i693.VeniceClient>(),
-        remoteConfig: gh<_i627.FirebaseRemoteConfig>(),
-        appStateService: gh<_i523.AppStateService>(),
       ),
     );
     gh.singleton<_i1048.AppConfig>(
@@ -242,6 +242,14 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.singleton<_i1072.LoggerInterceptor>(
       () => _i1072.LoggerInterceptor(logger: gh<_i974.Logger>()),
+    );
+    gh.singleton<_i845.AIAgentService>(
+      () => _i845.AIAgentService(
+        deepseekClient: gh<_i987.DeepseekClient>(),
+        veniceClient: gh<_i693.VeniceClient>(),
+        remoteConfig: gh<_i327.RemoteConfigService>(),
+        appStateService: gh<_i523.AppStateService>(),
+      ),
     );
     gh.singleton<_i534.ErrorInterceptor>(
       () => _i534.ErrorInterceptor(
@@ -504,6 +512,11 @@ extension GetItInjectableX on _i174.GetIt {
         clearFilterState: gh<_i25.ClearFilterState>(),
       ),
     );
+    gh.singleton<_i243.RegistrationFormRepository>(
+      () => _i789.RegistrationFormRepositoryImpl(
+        dataProvider: gh<_i443.RegistrationFormDataProvider>(),
+      ),
+    );
     gh.singleton<_i310.ChatCubit>(
       () => _i310.ChatCubit(
         cretaeNewChat: gh<_i25.CreateNewChat>(),
@@ -512,12 +525,6 @@ extension GetItInjectableX on _i174.GetIt {
         detailOfPerson: gh<_i25.GetDetailOfPerson>(),
         aiAgentService: gh<_i845.AIAgentService>(),
         setReadChat: gh<_i25.SetReadChat>(),
-        appStateService: gh<_i523.AppStateService>(),
-      ),
-    );
-    gh.singleton<_i243.RegistrationFormRepository>(
-      () => _i789.RegistrationFormRepositoryImpl(
-        dataProvider: gh<_i443.RegistrationFormDataProvider>(),
       ),
     );
     gh.singleton<_i243.ProfileRepository>(

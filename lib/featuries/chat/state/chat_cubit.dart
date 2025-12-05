@@ -5,7 +5,6 @@ import 'package:flirta/common/domain/entites/entities.dart';
 import 'package:flirta/common/domain/repository/bodies/bodies.dart';
 import 'package:flirta/common/domain/usecase/usecases.dart';
 import 'package:flirta/common/enums/enums.dart';
-import 'package:flirta/common/service/app_state_service.dart';
 import 'package:flirta/common/service/ai_agent_service.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,7 +23,6 @@ class ChatCubit extends Cubit<ChatState> {
     required GetDetailOfPerson detailOfPerson,
     required AIAgentService aiAgentService,
     required SetReadChat setReadChat,
-    required AppStateService appStateService,
   }) : _cretaeNewChat = cretaeNewChat,
        _getChatList = getChatList,
        _sendMessageToChat = sendMessageToChat,

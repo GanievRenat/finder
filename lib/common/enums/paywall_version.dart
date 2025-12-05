@@ -1,0 +1,1 @@
+enum PayWallVersion { a, b }

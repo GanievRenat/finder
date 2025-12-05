@@ -1,9 +1,11 @@
+import 'package:flirta/common/enums/enums.dart';
 import 'package:flirta/common/ui/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class ProductItem<T> extends StatelessWidget {
   const ProductItem({
     super.key,
+    required this.version,
     required this.isSelect,
     required this.title,
     required this.subtitle,
@@ -13,6 +15,7 @@ class ProductItem<T> extends StatelessWidget {
     required this.value,
   });
 
+  final PayWallVersion version;
   final bool isSelect;
   final String title;
   final String subtitle;
@@ -23,6 +26,23 @@ class ProductItem<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var kWarmGradient = LinearGradient(
+      colors: [
+        AppTheme.of(context).color.gradientWarmEnd,
+        AppTheme.of(context).color.gradientWarmBegin,
+      ],
+      begin: AlignmentGeometry.centerLeft,
+      end: AlignmentGeometry.centerRight,
+    );
+    var kColdGradient = LinearGradient(
+      colors: [
+        AppTheme.of(context).color.gradientColdEnd,
+        AppTheme.of(context).color.gradientColdBegin,
+      ],
+      begin: AlignmentGeometry.centerLeft,
+      end: AlignmentGeometry.centerRight,
+    );
+
     return Material(
       borderRadius: BorderRadius.circular(16),
       color: Colors.transparent,
@@ -30,14 +50,9 @@ class ProductItem<T> extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
           gradient: (isSelect)
-              ? LinearGradient(
-                  colors: [
-                    AppTheme.of(context).color.gradientWarmEnd,
-                    AppTheme.of(context).color.gradientWarmBegin,
-                  ],
-                  begin: AlignmentGeometry.centerLeft,
-                  end: AlignmentGeometry.centerRight,
-                )
+              ? version == PayWallVersion.b
+                    ? kColdGradient
+                    : kWarmGradient
               : null,
           border: isSelect
               ? null
