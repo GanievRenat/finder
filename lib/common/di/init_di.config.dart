@@ -127,6 +127,7 @@ import 'package:flirta/common/service/analytics/analytics_service.dart'
 import 'package:flirta/common/service/app_state_service.dart' as _i523;
 import 'package:flirta/common/service/crashlytics_service.dart' as _i551;
 import 'package:flirta/common/service/language_service.dart' as _i39;
+import 'package:flirta/common/service/notification_service.dart' as _i128;
 import 'package:flirta/common/service/photo_picker_service.dart' as _i651;
 import 'package:flirta/common/service/remote_config_service.dart' as _i327;
 import 'package:flirta/common/service/services.dart' as _i697;
@@ -205,6 +206,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i534.AppToast>(() => _i534.AppToast());
     gh.singleton<_i523.AppStateService>(() => _i523.AppStateService());
     gh.singleton<_i551.CrashlyticsService>(() => _i551.CrashlyticsService());
+    gh.singleton<_i128.NotificationService>(() => _i128.NotificationService());
     gh.singleton<_i651.PhotoPickerService>(() => _i651.PhotoPickerService());
     gh.singleton<_i682.ImageSourceBottomSheet>(
       () => _i682.ImageSourceBottomSheet(),

@@ -1,6 +1,7 @@
 import 'package:flirta/common/di/init_di.dart';
 import 'package:flirta/common/service/ai_agent_service.dart';
 import 'package:flirta/common/service/crashlytics_service.dart';
+import 'package:flirta/common/service/notification_service.dart';
 import 'package:flirta/common/service/remote_config_service.dart';
 import 'package:flirta/featuries/chat/state/chat_cubit.dart';
 import 'package:flirta/featuries/dating/pages/dating/state/dating_cubit.dart';
@@ -20,6 +21,15 @@ class InitAuthStateService {
       await getIt<ChatCubit>().init();
 
       await getIt<AIAgentService>().init();
+
+      await getIt<NotificationService>().init();
+      getIt<NotificationService>().scheduleNotification(
+        title: 'Hello!',
+        body: 'This Notification',
+        hour: 20,
+        minute: 20,
+      );
+
       _init = true;
     }
     return;
