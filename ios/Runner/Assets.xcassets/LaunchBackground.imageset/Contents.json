@@ -6,10 +6,12 @@
       "scale" : "1x"
     },
     {
+      "filename" : "01_Start screen.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "01_Start screen 1.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
