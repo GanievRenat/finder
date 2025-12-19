@@ -6,10 +6,12 @@ import 'package:flirta/common/domain/repository/bodies/bodies.dart';
 import 'package:flirta/common/domain/usecase/usecases.dart';
 import 'package:flirta/common/enums/enums.dart';
 import 'package:flirta/common/service/ai_agent_service.dart';
+import 'package:flirta/common/state/queue_messages/bloc/queue_message_bloc.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:venice_client/common/di/init_di.dart';
 
 part 'chat_state.dart';
 part 'chat_cubit.freezed.dart';
@@ -39,6 +41,9 @@ class ChatCubit extends Cubit<ChatState> {
   final SetReadChat _setReadChat;
 
   List<Chat> _chatList = [];
+
+  Map<String, bool> typingStatus = {};
+  Map<String, bool> sendingPhotoStatus = {};
 
   Future<void> init() async {
     updateChatList(loadingStatus: true);
@@ -78,11 +83,7 @@ class ChatCubit extends Cubit<ChatState> {
     }
   }
 
-  void updateChatList({
-    required bool loadingStatus,
-    String modelId = '',
-    bool waitingStatus = false,
-  }) async {
+  void updateChatList({required bool loadingStatus}) async {
     if (loadingStatus) {
       emit(ChatState.loading());
     }
@@ -100,27 +101,66 @@ class ChatCubit extends Cubit<ChatState> {
           .where((chat) => chat.countNewMessage > 0)
           .length;
 
-      if (modelId.isNotEmpty) {
-        _setWaitingStatus(modelId, waitingStatus);
-      }
-
       _chatList.sort((a, b) => b.lastUpdate.compareTo(a.lastUpdate));
 
-      emit(ChatState.data(_chatList, countNoReadMessage));
+      var photoList = getIt<TickerBloc>().queueMessages;
+
+      emit(
+        ChatState.data(
+          _chatList
+              .map(
+                (e) => e.copyWith(
+                  waitingAnswer: typingStatus[e.modelId] ?? false,
+                  waitingPhoto: photoList[e.modelId] != null ? true : false,
+                ),
+              )
+              .toList(),
+          countNoReadMessage,
+        ),
+      );
     } else {
       emit(ChatState.error(result.left.errorText));
     }
   }
 
-  bool _setWaitingStatus(String modelId, bool status) {
+  bool setWaitingStatus(String modelId, bool status) {
     int index = _chatList.indexWhere((item) => item.modelId == modelId);
 
     if (index != -1) {
-      var updatedItem = _chatList[index].copyWith(waitingAnswer: status);
+      /*var updatedItem = _chatList[index].copyWith(waitingAnswer: status);
       _chatList[index] = updatedItem;
+
+      int countNoReadMessage = _chatList
+          .where((chat) => chat.countNewMessage > 0)
+          .length;
+      emit(ChatState.data(_chatList, countNoReadMessage));
+      */
+      typingStatus[modelId] = status;
 
       return true;
     }
+    typingStatus[modelId] = false;
+    //updateChatList(loadingStatus: false);
+    return false;
+  }
+
+  bool setWaitingPhotoStatus(String modelId, bool status) {
+    int index = _chatList.indexWhere((item) => item.modelId == modelId);
+
+    if (index != -1) {
+      /*var updatedItem = _chatList[index].copyWith(waitingPhoto: status);
+      _chatList[index] = updatedItem;
+
+      int countNoReadMessage = _chatList
+          .where((chat) => chat.countNewMessage > 0)
+          .length;
+      emit(ChatState.data(_chatList, countNoReadMessage));*/
+
+      sendingPhotoStatus[modelId] = status;
+
+      return true;
+    }
+    sendingPhotoStatus[modelId] = false;
     return false;
   }
 
@@ -139,7 +179,6 @@ class ChatCubit extends Cubit<ChatState> {
         images: images,
       ),
     );
-    updateChatList(loadingStatus: false, modelId: modelId, waitingStatus: true);
 
     if (owner == Owner.you) {
       var resultDetailPerson = await _detailOfPerson(modelId);
@@ -147,6 +186,8 @@ class ChatCubit extends Cubit<ChatState> {
         // надо найти чат
         var result = _chatList.where((c) => c.modelId == modelId);
         if (result.isNotEmpty) {
+          setWaitingStatus(modelId, true);
+
           _aiAgentService
               .sendMessage(
                 message: message,
@@ -164,24 +205,25 @@ class ChatCubit extends Cubit<ChatState> {
                         ),
                       )
                       .then((value) {
-                        updateChatList(
-                          loadingStatus: false,
-                          modelId: modelId,
-                          waitingStatus: false,
-                        );
+                        setWaitingStatus(modelId, false);
+                        updateChatList(loadingStatus: false);
                       })
                       .onError((error, stackTrace) {
-                        _setWaitingStatus(modelId, false);
+                        setWaitingStatus(modelId, false);
+                        updateChatList(loadingStatus: false);
                       });
                 }
               })
               .onError((error, stackTrace) {
-                _setWaitingStatus(modelId, false);
+                setWaitingStatus(modelId, false);
+                updateChatList(loadingStatus: false);
               });
         }
       } else {
-        _setWaitingStatus(modelId, false);
+        setWaitingStatus(modelId, false);
+        updateChatList(loadingStatus: false);
       }
     }
+    updateChatList(loadingStatus: false);
   }
 }

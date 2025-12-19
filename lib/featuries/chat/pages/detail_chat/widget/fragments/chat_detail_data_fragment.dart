@@ -33,22 +33,9 @@ class _ChatDetailDataFragmentState extends State<ChatDetailDataFragment> {
   final ScrollController _scrollController = ScrollController();
   List<Messages> messages = [];
   bool _waitingAnswer = false;
+  bool _waitingPhoto = false;
 
   void _scrollToEnd(BuildContext context) {
-    /*if (_scrollController.hasClients) {
-      double addPOsition =
-          (_scrollController.position.maxScrollExtent >
-              MediaQuery.of(context).size.height -
-                  (MediaQuery.of(context).padding.bottom + kToolbarHeight + 50))
-          ? MediaQuery.of(context).padding.bottom + kToolbarHeight + 50
-          : 0;
-
-      _scrollController.animateTo(
-        _scrollController.position.maxScrollExtent + addPOsition,
-        duration: Duration(milliseconds: 1000),
-        curve: Curves.easeOut,
-      );
-    }*/
     if (_scrollController.hasClients) {
       _scrollController.animateTo(
         0,
@@ -99,6 +86,7 @@ class _ChatDetailDataFragmentState extends State<ChatDetailDataFragment> {
                   if (res.isNotEmpty) {
                     messages = res.first.messages.reversed.toList();
                     _waitingAnswer = res.first.waitingAnswer;
+                    _waitingPhoto = res.first.waitingPhoto;
 
                     Future.delayed(Duration(milliseconds: 100), () {
                       if (context.mounted) {
@@ -113,21 +101,24 @@ class _ChatDetailDataFragmentState extends State<ChatDetailDataFragment> {
                 controller: _scrollController,
                 reverse: true,
                 itemBuilder: (context, index) {
-                  if (_waitingAnswer && index == (0)) {
+                  if ((_waitingAnswer || _waitingPhoto) && index == (0)) {
                     return Padding(
                       padding: EdgeInsets.only(bottom: 8),
                       child: MessagePerson(
                         isPremium: isPremium,
                         message: '',
                         isLast: true,
-                        waiting: true,
+                        typing: _waitingAnswer,
+                        sendignPhoto: _waitingPhoto,
                         onPayWall: () {},
                         onSliderPhoto: () {},
                       ),
                     );
                   }
 
-                  int idx = _waitingAnswer ? index - 1 : index;
+                  int idx = (_waitingAnswer || _waitingPhoto)
+                      ? index - 1
+                      : index;
 
                   final chatItem = messages[idx];
 
@@ -150,7 +141,7 @@ class _ChatDetailDataFragmentState extends State<ChatDetailDataFragment> {
                                   )
                                 : null,
                             isLast: isLastOfGroup,
-                            waiting: false,
+
                             onSliderPhoto: () {
                               widget.onSliderPhoto(
                                 fileName: chatItem.imageUrls.first,
@@ -165,7 +156,9 @@ class _ChatDetailDataFragmentState extends State<ChatDetailDataFragment> {
                           ),
                   );
                 },
-                itemCount: messages.length + (_waitingAnswer ? 1 : 0),
+                itemCount:
+                    messages.length +
+                    ((_waitingAnswer || _waitingPhoto) ? 1 : 0),
               );
             },
           ),

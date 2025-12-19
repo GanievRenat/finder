@@ -91,4 +91,16 @@ class ChatRepositoryImpl implements ChatRepository {
     var result = await _localDataProvider.clear(userUid);
     return result;
   }
+
+  @override
+  Future<Map<String, dynamic>> loadRequestIds() async {
+    var result = await _localDataProvider.loadRequestIds();
+    return result;
+  }
+
+  @override
+  Future<void> saveRequestIds(Map<String, dynamic> requestIds) async {
+    var result = await _localDataProvider.saveRequestIds(requestIds);
+    return result;
+  }
 }

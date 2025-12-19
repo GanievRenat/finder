@@ -15,34 +15,38 @@ class MessagePerson extends StatelessWidget {
     required this.onSliderPhoto,
     required this.onPayWall,
     required this.isPremium,
-    this.waiting = false,
+    this.typing = false,
+    this.sendignPhoto = false,
     this.image,
   });
 
   final FutureOr<Uint8List?> image;
   final String message;
   final bool isLast;
-  final bool waiting;
+  final bool typing;
+  final bool sendignPhoto;
   final bool isPremium;
   final Function() onSliderPhoto;
   final Function() onPayWall;
 
   @override
   Widget build(BuildContext context) {
-    var textWidget = SelectableText(
-      message,
-      contextMenuBuilder: (context, editableTextState) {
-        final List<ContextMenuButtonItem> buttonItems =
-            editableTextState.contextMenuButtonItems;
+    var textWidget = message.isNotEmpty
+        ? SelectableText(
+            message,
+            contextMenuBuilder: (context, editableTextState) {
+              final List<ContextMenuButtonItem> buttonItems =
+                  editableTextState.contextMenuButtonItems;
 
-        return AdaptiveTextSelectionToolbar.buttonItems(
-          anchors: editableTextState.contextMenuAnchors,
-          buttonItems: buttonItems,
-        );
-      },
-      //softWrap: true,
-      style: AppTheme.of(context).textStyle.bodyL,
-    );
+              return AdaptiveTextSelectionToolbar.buttonItems(
+                anchors: editableTextState.contextMenuAnchors,
+                buttonItems: buttonItems,
+              );
+            },
+            //softWrap: true,
+            style: AppTheme.of(context).textStyle.bodyL,
+          )
+        : null;
 
     return Align(
       alignment: Alignment.topLeft,
@@ -62,7 +66,26 @@ class MessagePerson extends StatelessWidget {
           ),
           padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           margin: EdgeInsets.only(top: 8, left: 8),
-          child: (!waiting)
+          child: (sendignPhoto)
+              ? Row(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      'sending photo  ',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppTheme.of(context).textStyle.bodyL.copyWith(
+                        color: AppTheme.of(context).color.neutralDarkLight,
+                      ),
+                    ),
+                    LoadingAnimationWidget.progressiveDots(
+                      color: AppTheme.of(context).color.primaryDarkset,
+                      size: 20,
+                    ),
+                  ],
+                )
+              : (!typing)
               ? (image != null)
                     ? Column(
                         mainAxisSize: MainAxisSize.min,
@@ -78,8 +101,8 @@ class MessagePerson extends StatelessWidget {
                               }
                             },
                           ),
-                          SizedBox(height: 4),
-                          textWidget,
+                          if (textWidget != null) SizedBox(height: 4),
+                          if (textWidget != null) textWidget,
                         ],
                       )
                     : textWidget

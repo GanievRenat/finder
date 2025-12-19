@@ -21,9 +21,13 @@ class ChatListDataFragment extends StatelessWidget {
           imageURL: chatItem.modelAvatar,
           modelName: chatItem.modelName,
           lastMessage: chatItem.lastMessage,
+          image: chatItem.messages.isNotEmpty
+              ? chatItem.messages.last.imageUrls.isNotEmpty
+              : false,
           countNewMessage: chatItem.countNewMessage,
           onTap: () => onDetailChat(chatItem),
           waitingAnswer: chat[index].waitingAnswer,
+          waitingPhoto: chat[index].waitingPhoto,
         );
       },
       itemCount: chat.length,

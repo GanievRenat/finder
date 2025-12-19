@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:flirta/common/domain/usecase/usecases.dart';
 import 'package:flirta/common/enums/enums.dart';
 import 'package:flirta/common/service/remote_config_service.dart';
 import 'package:flirta/common/service/secure_storage_service.dart';
@@ -19,9 +20,11 @@ class TickerBloc extends Bloc<TickerEvent, TickerState> {
   final spacy.SpacyAPIClient _spacyClient;
   final RemoteConfigService _remoteConfig;
   final SecureStorageService _secureStorageService;
+  final LoadQueueMessage _loadQueueMessage;
+  final SaveQueueMessage _saveQueueMessage;
   final ChatCubit _chatCubit;
 
-  Map<String, String> queueMessages = {};
+  Map<String, dynamic> queueMessages = {};
 
   // Локальная очередь, для скорости
   // При инициализации тикета, надо заполнить очередь.
@@ -31,11 +34,15 @@ class TickerBloc extends Bloc<TickerEvent, TickerState> {
     required spacy.SpacyAPIClient spacyClient,
     required RemoteConfigService remoteConfig,
     required SecureStorageService securiteStore,
+    required LoadQueueMessage loadQueueMessage,
+    required SaveQueueMessage saveQueueMessage,
     required ChatCubit chatCubit,
   }) : _spacyClient = spacyClient,
        _remoteConfig = remoteConfig,
        _chatCubit = chatCubit,
        _secureStorageService = securiteStore,
+       _loadQueueMessage = loadQueueMessage,
+       _saveQueueMessage = saveQueueMessage,
        super(const TickerState()) {
     on<TickerStarted>(_onStarted);
     on<TickerGo>(_onTickerGo);
@@ -52,6 +59,11 @@ class TickerBloc extends Bloc<TickerEvent, TickerState> {
       clientId: _remoteConfig.spacyapiClientId,
       negativePrompt: '',
     );
+    queueMessages = await _loadQueueMessage();
+    if (queueMessages.isNotEmpty) {
+      _doWork();
+      add(TickerStarted());
+    }
   }
 
   void _onStarted(TickerStarted event, Emitter<TickerState> emit) {
@@ -77,6 +89,10 @@ class TickerBloc extends Bloc<TickerEvent, TickerState> {
     // Удаляем из очереди событие.
     // Если очередь пуста, останавливаем тикер
     if (queueMessages.isNotEmpty) {
+      //for (var mId in queueMessages.keys) {
+      //  _chatCubit.setWaitingPhotoStatus(mId, true);
+      //}
+
       var modelId = queueMessages.keys.first;
       var reuestId = queueMessages[modelId] ?? '';
       // Узнаем статус и
@@ -99,17 +115,24 @@ class TickerBloc extends Bloc<TickerEvent, TickerState> {
                   message: '',
                   images: [fileName],
                 );
+                _chatCubit.setWaitingPhotoStatus(modelId, false);
               }
             } catch (e) {
               log(e.toString());
             }
             queueMessages.remove(modelId);
+            _chatCubit.setWaitingPhotoStatus(modelId, false);
           }
         } else {
           queueMessages.remove(modelId);
+          _chatCubit.setWaitingPhotoStatus(modelId, false);
         }
+        _chatCubit.updateChatList(loadingStatus: false);
       }
     }
+
+    _saveQueueMessage(queueMessages);
+
     if (queueMessages.isEmpty) {
       _timer?.cancel();
     }
@@ -117,6 +140,7 @@ class TickerBloc extends Bloc<TickerEvent, TickerState> {
 
   void addNewMessage({required String modelId, required String requestId}) {
     queueMessages[modelId] = requestId;
+    _saveQueueMessage(queueMessages);
     add(TickerStarted());
   }
 
@@ -126,3 +150,11 @@ class TickerBloc extends Bloc<TickerEvent, TickerState> {
     return super.close();
   }
 }
+
+//Вышли фотографию где ты сидишь голая на барном стуле, в рок баре, позади тебя барная стойка, в руках у тебя стакан с виски, твой взгляд томный, а на лице игривая улыбка.
+
+
+/*Вышли мне фотографию где ты стоишь голая в голубом море. 
+Представьте себе уединенное место на пляже, солнце пробивается сквозь пальмы, 
+отбрасывая пятнистые тени на воду. Ты стишь в мелководье, вода мягко омывает 
+мою попу, твои волосы мокрые и зачесаны назад, на твоем лице игривая улыбка.*/

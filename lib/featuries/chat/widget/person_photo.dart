@@ -45,7 +45,7 @@ class PersonPhoto extends StatelessWidget {
                     fadeRadius: 3,
                     enableFadeAnimation: true,
                     enableGestureReveal: false,
-                    imageFilter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+                    imageFilter: ImageFilter.blur(sigmaX: 25, sigmaY: 25),
                   ),
                   child: loadingImage(),
                 ),

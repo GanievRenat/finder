@@ -32,6 +32,7 @@ extension ChatModelToEntites on ChatModel {
           : 0,
       countNewMessage: messages.where((msg) => !msg.isRead).length,
       waitingAnswer: false,
+      waitingPhoto: false,
     );
   }
 }

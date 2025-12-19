@@ -87,6 +87,10 @@ import 'package:flirta/common/domain/usecase/chat/get_chat_list_usecase.dart'
     as _i984;
 import 'package:flirta/common/domain/usecase/chat/get_detail_chat_usecase.dart'
     as _i830;
+import 'package:flirta/common/domain/usecase/chat/load_queue_message_usecase.dart'
+    as _i749;
+import 'package:flirta/common/domain/usecase/chat/save_queue_message_usecase.dart'
+    as _i894;
 import 'package:flirta/common/domain/usecase/chat/send_message_to_chat_usecase.dart'
     as _i775;
 import 'package:flirta/common/domain/usecase/chat/set_read_chat_usecase.dart'
@@ -292,12 +296,6 @@ extension GetItInjectableX on _i174.GetIt {
         secureStorageService: gh<_i521.SecureStorageService>(),
       ),
     );
-    gh.singleton<_i800.ChatLocalDataProvider>(
-      () => _i800.ChatLocalDataProviderImpl(
-        chatTable: gh<_i1041.ChatTable>(),
-        messageTable: gh<_i320.ChatMessagesTable>(),
-      ),
-    );
     gh.singleton<_i864.LanguageInterceptor>(
       () => _i864.LanguageInterceptor(
         appStateService: gh<_i523.AppStateService>(),
@@ -350,6 +348,14 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i957.AnalyticsService(
         logger: gh<_i974.Logger>(),
         config: gh<_i1048.AppConfig>(),
+      ),
+    );
+    gh.singleton<_i800.ChatLocalDataProvider>(
+      () => _i800.ChatLocalDataProviderImpl(
+        chatTable: gh<_i1041.ChatTable>(),
+        messageTable: gh<_i320.ChatMessagesTable>(),
+        sharedPreferences: gh<_i460.SharedPreferences>(),
+        appConfig: gh<_i1048.AppConfig>(),
       ),
     );
     gh.singleton<_i666.DatingDataProvider>(
@@ -501,6 +507,12 @@ extension GetItInjectableX on _i174.GetIt {
         appStateService: gh<_i697.AppStateService>(),
       ),
     );
+    gh.singleton<_i749.LoadQueueMessage>(
+      () => _i749.LoadQueueMessage(chatRepository: gh<_i243.ChatRepository>()),
+    );
+    gh.singleton<_i894.SaveQueueMessage>(
+      () => _i894.SaveQueueMessage(chatRepository: gh<_i243.ChatRepository>()),
+    );
     gh.lazySingleton<_i76.PersonListCubit>(
       () => _i76.PersonListCubit(
         getPersonList: gh<_i25.GetPersonList>(),
@@ -595,6 +607,8 @@ extension GetItInjectableX on _i174.GetIt {
         spacyClient: gh<_i146.SpacyAPIClient>(),
         remoteConfig: gh<_i327.RemoteConfigService>(),
         securiteStore: gh<_i521.SecureStorageService>(),
+        loadQueueMessage: gh<_i25.LoadQueueMessage>(),
+        saveQueueMessage: gh<_i25.SaveQueueMessage>(),
         chatCubit: gh<_i310.ChatCubit>(),
       ),
     );

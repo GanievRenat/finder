@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:flirta/common/data/models/models.dart';
+import 'package:flirta/common/domain/app_config.dart';
 import 'package:flirta/common/domain/repository/bodies/bodies.dart';
 import 'package:flirta/common/enums/owner_enums.dart';
 import 'package:flirta/common/source/database/table/chat_messages_table.dart';
 import 'package:flirta/common/source/database/table/chat_table.dart';
 import 'package:injectable/injectable.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class ChatLocalDataProvider {
   Future<int> createNewChat({required CreateNewChatBody body});
@@ -13,6 +17,8 @@ abstract class ChatLocalDataProvider {
   Future<int> addNewMessage(String userUid, AddNewMessageBody body);
   Future<int> setReadStatus({required SetReadStatusBody body});
   Future<bool> clear(String userUid);
+  Future<void> saveRequestIds(Map<String, dynamic> requestIds);
+  Future<Map<String, dynamic>> loadRequestIds();
 }
 
 //**
@@ -22,12 +28,18 @@ abstract class ChatLocalDataProvider {
 class ChatLocalDataProviderImpl extends ChatLocalDataProvider {
   final ChatTable _chatTable;
   final ChatMessagesTable _messageTable;
+  final SharedPreferences _sharedPreferences;
+  final AppConfig _appConfig;
 
   ChatLocalDataProviderImpl({
     required ChatTable chatTable,
     required ChatMessagesTable messageTable,
+    required SharedPreferences sharedPreferences,
+    required AppConfig appConfig,
   }) : _chatTable = chatTable,
-       _messageTable = messageTable;
+       _messageTable = messageTable,
+       _sharedPreferences = sharedPreferences,
+       _appConfig = appConfig;
 
   @override
   Future<List<ChatModel>> getChats({required String userUid}) async {
@@ -126,5 +138,29 @@ class ChatLocalDataProviderImpl extends ChatLocalDataProvider {
     } catch (e) {
       return false;
     }
+  }
+
+  @override
+  Future<Map<String, dynamic>> loadRequestIds() {
+    var value =
+        _sharedPreferences.getString(
+          _appConfig.localKeies[LocalKeies.localRequestIds]!,
+        ) ??
+        '';
+    if (value.isNotEmpty) {
+      Map<String, dynamic> map = json.decode(value);
+      return Future.value(map);
+    }
+    return Future.value({});
+  }
+
+  @override
+  Future<void> saveRequestIds(Map<String, dynamic> requestIds) {
+    _sharedPreferences.setString(
+      _appConfig.localKeies[LocalKeies.localRequestIds]!,
+      json.encode(requestIds),
+    );
+
+    return Future.value();
   }
 }

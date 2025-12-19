@@ -32,6 +32,7 @@ class DefAppConfig implements AppConfig {
     LocalKeies.localRegistrationFormKey: 'registration_data',
     LocalKeies.localFilterStateKey: 'filter_state',
     LocalKeies.localPersonsPerDay: 'person_per_day',
+    LocalKeies.localRequestIds: 'request_ids',
   };
 }
 

@@ -11,6 +11,7 @@ class Chat extends Equatable {
   final String lastMessage;
   final List<Messages> messages;
   final bool waitingAnswer;
+  final bool waitingPhoto;
   final int lastUpdate;
 
   const Chat({
@@ -22,6 +23,7 @@ class Chat extends Equatable {
     required this.lastMessage,
     required this.messages,
     required this.waitingAnswer,
+    required this.waitingPhoto,
     required this.lastUpdate,
   });
 
@@ -34,6 +36,7 @@ class Chat extends Equatable {
     String? lastMessage,
     List<Messages>? messages,
     bool? waitingAnswer,
+    bool? waitingPhoto,
     int? lastUpdate,
   }) {
     return Chat(
@@ -45,6 +48,7 @@ class Chat extends Equatable {
       lastMessage: lastMessage ?? this.lastMessage,
       messages: messages ?? this.messages,
       waitingAnswer: waitingAnswer ?? this.waitingAnswer,
+      waitingPhoto: waitingPhoto ?? this.waitingPhoto,
       lastUpdate: lastUpdate ?? this.lastUpdate,
     );
   }
@@ -59,6 +63,7 @@ class Chat extends Equatable {
     lastMessage,
     messages,
     waitingAnswer,
+    waitingPhoto,
     lastUpdate,
   ];
 }

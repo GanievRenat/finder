@@ -20,6 +20,9 @@ abstract class ChatRepository {
   Future<int> setReadStatus(SetReadStatusBody body);
 
   Future<bool> clear(String userUid);
+
+  Future<void> saveRequestIds(Map<String, dynamic> requestIds);
+  Future<Map<String, dynamic>> loadRequestIds();
 }
 
 sealed class ChatError {

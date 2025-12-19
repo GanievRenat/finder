@@ -328,8 +328,10 @@ class AIAgentService {
     if (message.contains("user_need_photo")) {
       // Пришел ответ с запросом на фотку
 
+      var msg = message.replaceAll("```json", '').replaceAll("```", '');
+
       PhotoRequestModel photoRequestModel = PhotoRequestModel.fromJson(
-        json.decode(message),
+        json.decode(msg),
       );
       if (photoRequestModel.userNeedPhoto) {
         // Делаем запрос в AI агент для ген. изображения

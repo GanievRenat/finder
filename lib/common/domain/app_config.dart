@@ -3,6 +3,7 @@ enum LocalKeies {
   localRegistrationFormKey,
   localFilterStateKey,
   localPersonsPerDay,
+  localRequestIds,
 }
 
 abstract class AppConfig {
