@@ -39,8 +39,8 @@ class _AgeBandState extends State<AgeBand> {
             onChangeEnd: (value) {
               widget.onChanged(value.toInt());
             },
-            divisions: 50 - 18,
-            max: 50,
+            divisions: 70 - 18,
+            max: 70,
             min: 18,
           ),
         ),

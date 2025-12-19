@@ -62,7 +62,8 @@ class _FilterPageState extends State<FilterPage> {
               bottom: 16 + MediaQuery.of(context).padding.bottom,
             ),
             child: ApplyFilteresButton(
-              onSaved: () {
+              onSaved: () async {
+                //await getIt<StorageServices>().createFolders();
                 getIt<DatingCubit>().getListDatingPerson();
                 if (context.mounted) {
                   context.pop();

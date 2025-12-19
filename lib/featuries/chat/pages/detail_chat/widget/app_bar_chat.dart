@@ -12,7 +12,7 @@ class AppBarChat extends StatelessWidget implements PreferredSizeWidget {
   });
 
   final Function({required Person person}) onPersonDetail;
-  final Function({required String modelId}) onPhotoGallery;
+  final Function({required Person person}) onPhotoGallery;
 
   @override
   Widget build(BuildContext context) {
@@ -21,10 +21,10 @@ class AppBarChat extends StatelessWidget implements PreferredSizeWidget {
       loading: (context) => ChatAppBar.loading(context: context),
       error: (context, value, child) => ChatAppBar.loading(context: context),
       success: (context, value, child) => ChatAppBar(
-        imageURL: value.photos.isNotEmpty ? value.photos.first : '',
+        imageURL: value.avatarMini,
         modelName: value.name,
         onProfile: () => onPersonDetail(person: value),
-        onPhoto: () => onPhotoGallery(modelId: value.modelId),
+        onPhoto: () => onPhotoGallery(person: value),
       ),
     );
   }

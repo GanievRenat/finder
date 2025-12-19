@@ -32,10 +32,10 @@ class DeleteProfile {
   Future<Either<ProfileRepositoryError, bool>> call() async {
     var result = await _profileRepository.delete();
     if (result.isRight) {
-      await _chatRepository.clear(_appStateService.currentUser.uid);
-      await _datingRepository.clear(_appStateService.currentUser.uid);
+      await _chatRepository.clear(_appStateService.getUid);
+      await _datingRepository.clear(_appStateService.getUid);
       await _filterRepository.clear();
-      await _settingsRepository.clear(_appStateService.currentUser.uid);
+      await _settingsRepository.clear(_appStateService.getUid);
       await _registrationFormRepository.clearData();
 
       _appStateService.clearCurrentUser();

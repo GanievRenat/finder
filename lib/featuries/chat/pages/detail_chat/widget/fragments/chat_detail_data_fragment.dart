@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flirta/common/di/init_di.dart';
 import 'package:flirta/common/domain/entites/entities.dart';
 import 'package:flirta/common/enums/enums.dart';
+import 'package:flirta/common/service/app_state_service.dart';
+import 'package:flirta/common/service/secure_storage_service.dart';
 import 'package:flirta/featuries/chat/pages/detail_chat/widget/message_my.dart';
 import 'package:flirta/featuries/chat/pages/detail_chat/widget/message_person.dart';
 import 'package:flirta/featuries/chat/state/chat_cubit.dart';
@@ -12,8 +14,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../input_message_panel.dart';
 
 class ChatDetailDataFragment extends StatefulWidget {
-  const ChatDetailDataFragment({super.key, required this.modelId});
+  const ChatDetailDataFragment({
+    super.key,
+    required this.modelId,
+    required this.onSliderPhoto,
+    required this.onPayWall,
+  });
   final String modelId;
+  final Function({required String modelId, required String fileName})
+  onSliderPhoto;
+  final Function() onPayWall;
 
   @override
   State<ChatDetailDataFragment> createState() => _ChatDetailDataFragmentState();
@@ -25,7 +35,7 @@ class _ChatDetailDataFragmentState extends State<ChatDetailDataFragment> {
   bool _waitingAnswer = false;
 
   void _scrollToEnd(BuildContext context) {
-    if (_scrollController.hasClients) {
+    /*if (_scrollController.hasClients) {
       double addPOsition =
           (_scrollController.position.maxScrollExtent >
               MediaQuery.of(context).size.height -
@@ -35,7 +45,14 @@ class _ChatDetailDataFragmentState extends State<ChatDetailDataFragment> {
 
       _scrollController.animateTo(
         _scrollController.position.maxScrollExtent + addPOsition,
-        duration: Duration(milliseconds: 100),
+        duration: Duration(milliseconds: 1000),
+        curve: Curves.easeOut,
+      );
+    }*/
+    if (_scrollController.hasClients) {
+      _scrollController.animateTo(
+        0,
+        duration: Duration(milliseconds: 800),
         curve: Curves.easeOut,
       );
     }
@@ -66,6 +83,8 @@ class _ChatDetailDataFragmentState extends State<ChatDetailDataFragment> {
 
   @override
   Widget build(BuildContext context) {
+    bool isPremium = getIt<AppStateService>().isPremium;
+
     return Column(
       children: [
         Expanded(
@@ -78,7 +97,7 @@ class _ChatDetailDataFragmentState extends State<ChatDetailDataFragment> {
                       .where((chat) => chat.modelId == widget.modelId)
                       .toList();
                   if (res.isNotEmpty) {
-                    messages = res.first.messages;
+                    messages = res.first.messages.reversed.toList();
                     _waitingAnswer = res.first.waitingAnswer;
 
                     Future.delayed(Duration(milliseconds: 100), () {
@@ -92,33 +111,53 @@ class _ChatDetailDataFragmentState extends State<ChatDetailDataFragment> {
 
               return ListView.builder(
                 controller: _scrollController,
+                reverse: true,
                 itemBuilder: (context, index) {
-                  if (_waitingAnswer && index == (messages.length)) {
+                  if (_waitingAnswer && index == (0)) {
                     return Padding(
                       padding: EdgeInsets.only(bottom: 8),
                       child: MessagePerson(
+                        isPremium: isPremium,
                         message: '',
                         isLast: true,
                         waiting: true,
+                        onPayWall: () {},
+                        onSliderPhoto: () {},
                       ),
                     );
                   }
 
-                  final chatItem = messages[index];
+                  int idx = _waitingAnswer ? index - 1 : index;
 
-                  bool isLastOfGroup = ((index + 1) < messages.length
-                      ? (messages[index + 1].owner != chatItem.owner)
+                  final chatItem = messages[idx];
+
+                  bool isLastOfGroup = ((idx) < messages.length
+                      ? (messages[idx].owner != chatItem.owner)
                       : true);
 
                   return Padding(
                     padding: EdgeInsets.only(
-                      bottom: (messages[index] == messages.last) ? 8 : 0,
+                      bottom: (messages[idx] == messages.first) ? 8 : 0,
                     ),
                     child: (chatItem.owner == Owner.person)
                         ? MessagePerson(
+                            isPremium: isPremium,
                             message: chatItem.message,
+                            image: (chatItem.imageUrls.isNotEmpty)
+                                ? getIt<SecureStorageService>().getImage(
+                                    widget.modelId,
+                                    chatItem.imageUrls.first,
+                                  )
+                                : null,
                             isLast: isLastOfGroup,
                             waiting: false,
+                            onSliderPhoto: () {
+                              widget.onSliderPhoto(
+                                fileName: chatItem.imageUrls.first,
+                                modelId: widget.modelId,
+                              );
+                            },
+                            onPayWall: () => widget.onPayWall(),
                           )
                         : MessageMy(
                             message: chatItem.message,

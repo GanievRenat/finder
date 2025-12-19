@@ -1,12 +1,20 @@
 import 'package:flirta/common/data/models/persons/person_model.dart';
+import 'package:flirta/common/di/init_di.dart';
+import 'package:flirta/common/service/properties_service.dart';
 import 'package:flirta/common/ui/theme/theme.dart';
 import 'package:flirta/featuries/admin/widgets/admin_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../state/person_detail_state.dart';
 
-class VisualDataFragment extends StatelessWidget {
-  VisualDataFragment({super.key});
+class VisualDataFragment extends StatefulWidget {
+  const VisualDataFragment({super.key});
+
+  @override
+  State<VisualDataFragment> createState() => _VisualDataFragmentState();
+}
+
+class _VisualDataFragmentState extends State<VisualDataFragment> {
   final GlobalKey globalKeyWardrobeCapsule = GlobalKey(
     debugLabel: 'WardrobeCapsule',
   );
@@ -15,9 +23,23 @@ class VisualDataFragment extends StatelessWidget {
     debugLabel: 'ClothingStyles',
   );
 
+  bool editDistanceError = true;
+  bool wardrobeCapsuleError = true;
+  bool clothingStylesError = true;
+
+  BoxDecoration kBoxDecoration = BoxDecoration(
+    color: Colors.red.shade100,
+    borderRadius: BorderRadius.circular(20),
+    border: Border.all(width: 2, color: Colors.red),
+  );
+
   @override
   Widget build(BuildContext context) {
     final state = context.read<PersonDetailState>().personModel;
+
+    editDistanceError = state?.visualDistinctiveFeatures.isEmpty ?? true;
+    wardrobeCapsuleError = state?.visualWardrobeCapsule.isEmpty ?? true;
+    clothingStylesError = state?.clothingStyles.isEmpty ?? true;
 
     return ContainerGroup(
       title: 'Visual',
@@ -26,17 +48,7 @@ class VisualDataFragment extends StatelessWidget {
           MenuSelector(
             title: 'Signature',
             initValue: state?.visualSignature,
-            values: {
-              'artsy flair',
-              'clean lines',
-              'delicate scar on brow',
-              'dimples',
-              'left-handed',
-              'modern chic',
-              'natural elegance',
-              'right-handed',
-              'sporty minimal',
-            },
+            values: getIt<PropertiesService>().signature.toSet(),
             onChanged: (value) {
               final state = context.read<PersonDetailState>().personModel;
               context.read<PersonDetailState>().setNewState(
@@ -49,21 +61,7 @@ class VisualDataFragment extends StatelessWidget {
           MenuSelector(
             title: 'Palette',
             initValue: state?.visualPalette,
-            values: {
-              'bold contrasts',
-              'cool',
-              'cool pastels',
-              'cool_silver',
-              'cozy_neutral',
-              'earth tones',
-              'earthy_olive',
-              'neutral',
-              'sunset_warm',
-              'urban_contrast',
-              'vivid',
-              'warm',
-              'warm neutrals',
-            },
+            values: getIt<PropertiesService>().palette.toSet(),
             onChanged: (value) {
               final state = context.read<PersonDetailState>().personModel;
               context.read<PersonDetailState>().setNewState(
@@ -73,49 +71,58 @@ class VisualDataFragment extends StatelessWidget {
               );
             },
           ),
-          MainTagsGroup(
-            key: globalKeyWardrobeCapsule,
-            title: 'Wardrobe Capsule',
+          Container(
+            decoration: wardrobeCapsuleError ? kBoxDecoration : null,
+            padding: wardrobeCapsuleError ? EdgeInsets.all(16) : null,
+            child: MainTagsGroup(
+              key: globalKeyWardrobeCapsule,
+              title: 'Wardrobe Capsule',
+              tags: getIt<PropertiesService>().wardrobeCapsule.toSet(),
+              initTags: state?.visualWardrobeCapsule.toSet() ?? {},
+              onChanged: (selectTags) {
+                final state = context.read<PersonDetailState>().personModel;
+                context.read<PersonDetailState>().setNewState(
+                  state == null
+                      ? PersonModel(visualWardrobeCapsule: selectTags.toList())
+                      : state.copyWith(
+                          visualWardrobeCapsule: selectTags.toList(),
+                        ),
+                );
+                setState(() {
+                  wardrobeCapsuleError = selectTags.isEmpty;
+                });
+              },
+            ),
+          ),
 
-            tags: {
-              'athleisure',
-              'boho modern',
-              'boho_soft',
-              'casual chic',
-              'city_comfy',
-              'evening_simple',
-              'cafe_smart',
-              'classic feminine',
-              'elegant_modern',
-              'minimalist classic',
-              'smart casual',
-              'sporty_minimal',
-              'office_casual',
-              'night_out',
-              'summer_light',
-              'vintage_touch',
-              'smart_casual',
-              'tailored essentials',
-              'tech_basic',
-              'denim_focus',
-              'monochrome',
-              'vintage_chic',
-            },
-            initTags: state?.visualWardrobeCapsule.toSet() ?? {},
-            onChanged: (selectTags) {
-              final state = context.read<PersonDetailState>().personModel;
-              context.read<PersonDetailState>().setNewState(
-                state == null
-                    ? PersonModel(visualWardrobeCapsule: selectTags.toList())
-                    : state.copyWith(
-                        visualWardrobeCapsule: selectTags.toList(),
-                      ),
-              );
-            },
+          AppSpacing.vertical.s8,
+          Container(
+            decoration: clothingStylesError ? kBoxDecoration : null,
+            padding: clothingStylesError ? EdgeInsets.all(16) : null,
+            child: MainTagsGroup(
+              key: globalKeyClothingStyles,
+              title: 'Clothing Styles',
+              tags: getIt<PropertiesService>().clothingStyles.toSet(),
+              initTags: state?.clothingStyles.toSet() ?? {},
+              onChanged: (selectTags) {
+                final state = context.read<PersonDetailState>().personModel;
+                context.read<PersonDetailState>().setNewState(
+                  state == null
+                      ? PersonModel(clothingStyles: selectTags.toList())
+                      : state.copyWith(clothingStyles: selectTags.toList()),
+                );
+                setState(() {
+                  clothingStylesError = selectTags.isEmpty;
+                });
+              },
+            ),
           ),
           AppSpacing.vertical.s8,
           TextFormField(
-            decoration: InputDecoration(label: Text('Distinctive Features')),
+            decoration: InputDecoration(
+              label: Text('Distinctive Features'),
+              errorText: (editDistanceError) ? 'Заполните поле' : null,
+            ),
             initialValue: state?.visualDistinctiveFeatures,
             onChanged: (value) {
               final state = context.read<PersonDetailState>().personModel;
@@ -124,38 +131,9 @@ class VisualDataFragment extends StatelessWidget {
                     ? PersonModel(visualDistinctiveFeatures: value)
                     : state.copyWith(visualDistinctiveFeatures: value),
               );
-            },
-          ),
-          AppSpacing.vertical.s8,
-          MainTagsGroup(
-            key: globalKeyClothingStyles,
-            title: 'Clothing Styles',
-            tags: {
-              'artsy',
-              'athletic',
-              'boho',
-              'minimalist',
-              'preppy',
-              'tailored',
-              'vintage',
-              'streetwear',
-              'casual',
-              'edgy',
-              'elegant',
-              'minimal',
-              'romantic',
-              'smart_casual',
-              'athleisure',
-              'sporty',
-            },
-            initTags: state?.clothingStyles.toSet() ?? {},
-            onChanged: (selectTags) {
-              final state = context.read<PersonDetailState>().personModel;
-              context.read<PersonDetailState>().setNewState(
-                state == null
-                    ? PersonModel(clothingStyles: selectTags.toList())
-                    : state.copyWith(clothingStyles: selectTags.toList()),
-              );
+              setState(() {
+                editDistanceError = value.isEmpty;
+              });
             },
           ),
         ],

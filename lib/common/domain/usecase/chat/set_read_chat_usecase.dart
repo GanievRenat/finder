@@ -16,10 +16,7 @@ class SetReadChat {
 
   Future<int> call(String modelId) async {
     var result = _chatRepository.setReadStatus(
-      SetReadStatusBody(
-        modelId: modelId,
-        userUid: _appStateService.currentUser.uid,
-      ),
+      SetReadStatusBody(modelId: modelId, userUid: _appStateService.getUid),
     );
     return result;
   }

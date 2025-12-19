@@ -1,4 +1,5 @@
 import 'package:flirta/common/enums/enums.dart';
+import 'package:flirta/common/extension/extension.dart';
 import 'package:flirta/common/ui/theme/theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,6 @@ class HeadPerson extends StatefulWidget {
     required this.modelId,
     required this.name,
     required this.age,
-    required this.onPayWall,
     required this.onCallBack,
     required this.showControlButton,
     this.job = '',
@@ -23,7 +23,6 @@ class HeadPerson extends StatefulWidget {
   final String modelId;
   final int age;
   final String job;
-  final Function() onPayWall;
   final Function(ActionCallBackPersonDetailEnums action) onCallBack;
   final bool showControlButton;
 
@@ -40,10 +39,7 @@ class _HeadPersonState extends State<HeadPerson> {
           padding: const EdgeInsets.only(bottom: 32.0, top: 0),
           child: Hero(
             tag: widget.imageUrls.first,
-            child: SliderPhotos(
-              photos: widget.imageUrls,
-              onPayWall: widget.onPayWall,
-            ),
+            child: SliderPhotos(photos: widget.imageUrls),
           ),
         ),
         Hero(
@@ -65,7 +61,7 @@ class _HeadPersonState extends State<HeadPerson> {
                     ),
                   ),
                   Text(
-                    widget.job,
+                    widget.job.capitalize(),
                     textAlign: TextAlign.center,
                     style: AppTheme.of(context).textStyle.bodyXL.copyWith(
                       color: AppTheme.of(context).color.neutralLightLightest,

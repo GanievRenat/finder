@@ -80,19 +80,57 @@ class _SliderPageState extends State<SliderPage> {
             ),
           ),
           Positioned.fill(
-            child: PageView(
-              controller: pageController,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                ScrollTextPage(text: LocaleKeys.auth_slider_0.tr()),
-                ScrollTextPage(text: LocaleKeys.auth_slider_1.tr()),
-                ScrollTextPage(text: LocaleKeys.auth_slider_2.tr()),
+                Expanded(
+                  child: PageView(
+                    controller: pageController,
+                    children: [
+                      ScrollTextPage(text: LocaleKeys.auth_slider_0.tr()),
+                      ScrollTextPage(text: LocaleKeys.auth_slider_1.tr()),
+                      ScrollTextPage(text: LocaleKeys.auth_slider_2.tr()),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0, bottom: 16),
+                  child: SmoothPageIndicator(
+                    controller: pageController,
+                    axisDirection: Axis.horizontal,
+                    count: 3,
+                    effect: ExpandingDotsEffect(
+                      activeDotColor: AppTheme.of(context).color.primaryDarkset,
+                      dotColor: AppTheme.of(
+                        context,
+                      ).color.neutralLightLightest.withAlpha(100),
+                      dotWidth: 8,
+                      dotHeight: 8,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                    left: 16.0,
+                    right: 16,
+                    bottom: 16 + MediaQuery.of(context).viewPadding.bottom,
+                  ),
+                  child: MainButton.inversion(
+                    title: LocaleKeys.auth_button_get_start.tr(),
+                    onPressed: () async {
+                      await _controller.pause();
+                      await widget.onEnterName();
+                      await _controller.play();
+                    },
+                  ),
+                ),
               ],
             ),
           ),
-          Positioned(
-            bottom: MediaQuery.of(context).padding.bottom == 0
-                ? 32
-                : MediaQuery.of(context).padding.bottom,
+          /*Positioned(
+            bottom: MediaQuery.of(context).viewPadding.bottom == 0
+                ? 16
+                : MediaQuery.of(context).viewPadding.bottom,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: SizedBox(
@@ -120,14 +158,15 @@ class _SliderPageState extends State<SliderPage> {
                       title: LocaleKeys.auth_button_get_start.tr(),
                       onPressed: () async {
                         await _controller.pause();
-                        widget.onEnterName();
+                        await widget.onEnterName();
+                        await _controller.play();
                       },
                     ),
                   ],
                 ),
               ),
             ),
-          ),
+          ),*/
         ],
       ),
     );
@@ -141,22 +180,25 @@ class ScrollTextPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(
-        top:
-            MediaQuery.of(context).size.height -
-            (MediaQuery.of(context).padding.bottom + 45 + 32 + 50),
-        left: 16,
-        right: 16,
-      ),
-      child: Text(
-        text,
-        softWrap: true,
-        style: AppTheme.of(context).textStyle.header2.copyWith(
-          color: AppTheme.of(context).color.neutralLightLightest,
-          height: 1,
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: Padding(
+        padding: EdgeInsets.only(
+          //top:
+          //    MediaQuery.of(context).size.height -
+          //    (MediaQuery.of(context).viewPadding.bottom + 45 + 32 + 50),
+          left: 16,
+          right: 16,
         ),
-        textAlign: TextAlign.center,
+        child: Text(
+          text,
+          softWrap: true,
+          style: AppTheme.of(context).textStyle.header2.copyWith(
+            color: AppTheme.of(context).color.neutralLightLightest,
+            height: 1,
+          ),
+          textAlign: TextAlign.center,
+        ),
       ),
     );
   }
@@ -197,9 +239,9 @@ class OnboardingSlide extends StatelessWidget {
             ),
           ),
           Positioned(
-            bottom: MediaQuery.of(context).padding.bottom == 0
+            bottom: MediaQuery.of(context).viewPadding.bottom == 0
                 ? 32 + 45 + 8 + 8 + 32
-                : MediaQuery.of(context).padding.bottom + 45 + 8 + 8 + 32,
+                : MediaQuery.of(context).viewPadding.bottom + 45 + 8 + 8 + 32,
             child: SizedBox(
               width: MediaQuery.of(context).size.width,
               child: Padding(

@@ -5,8 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../state/person_detail_state.dart';
 
-class ChatDataFragment extends StatelessWidget {
+class ChatDataFragment extends StatefulWidget {
   const ChatDataFragment({super.key});
+
+  @override
+  State<ChatDataFragment> createState() => _ChatDataFragmentState();
+}
+
+class _ChatDataFragmentState extends State<ChatDataFragment> {
+  bool editChatError = true;
+  bool editFilterError = true;
 
   @override
   Widget build(BuildContext context) {
@@ -24,14 +32,20 @@ class ChatDataFragment extends StatelessWidget {
       state = context.read<PersonDetailState>().personModel;
     }
 
+    editChatError = state?.chatBehavior.isEmpty ?? true;
+    editFilterError = state?.chatFilter.isEmpty ?? true;
+
     return ContainerGroup(
       title: 'Chat',
       child: Column(
         children: [
           TextFormField(
-            decoration: InputDecoration(label: Text('Behavior')),
-            minLines: 10,
-            maxLines: 10,
+            decoration: InputDecoration(
+              label: Text('Behavior'),
+              errorText: (editChatError) ? 'Заполните поле' : null,
+            ),
+            minLines: 5,
+            maxLines: 5,
             keyboardType: TextInputType.multiline,
             initialValue: state?.chatBehavior,
             onChanged: (value) {
@@ -41,13 +55,19 @@ class ChatDataFragment extends StatelessWidget {
                     ? PersonModel(chatBehavior: value)
                     : state.copyWith(chatBehavior: value),
               );
+              setState(() {
+                editChatError = value.isEmpty;
+              });
             },
           ),
           AppSpacing.vertical.s4,
           TextFormField(
-            decoration: InputDecoration(label: Text('Filters')),
-            minLines: 10,
-            maxLines: 10,
+            decoration: InputDecoration(
+              label: Text('Filters'),
+              errorText: (editFilterError) ? 'Заполните поле' : null,
+            ),
+            minLines: 5,
+            maxLines: 5,
             keyboardType: TextInputType.multiline,
             initialValue: state?.chatFilter,
             onChanged: (value) {
@@ -57,6 +77,9 @@ class ChatDataFragment extends StatelessWidget {
                     ? PersonModel(chatFilter: value)
                     : state.copyWith(chatFilter: value),
               );
+              setState(() {
+                editFilterError = value.isEmpty;
+              });
             },
           ),
         ],

@@ -1,3 +1,4 @@
+import 'package:flirta/common/extension/extension.dart';
 import 'package:flirta/common/ui/widgets/tags/tag.dart';
 import 'package:flutter/material.dart';
 
@@ -40,7 +41,7 @@ class _GroupTagsState extends State<GroupTags> {
             .map(
               (tag) => Tag(
                 key: ValueKey(tag),
-                name: tag,
+                name: tag.capitalize(),
                 onChange: (value) {
                   setState(() {
                     if (value) {

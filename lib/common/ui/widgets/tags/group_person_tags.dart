@@ -1,3 +1,4 @@
+import 'package:flirta/common/extension/extension.dart';
 import 'package:flirta/common/ui/widgets/tags/tag.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +23,7 @@ class _GroupPersonTagsState extends State<GroupPersonTags> {
         spacing: 8,
         runSpacing: 8,
         children: widget.tags
-            .map((tag) => Tag(key: ValueKey(tag), name: tag))
+            .map((tag) => Tag(key: ValueKey(tag), name: tag.capitalize()))
             .toList(),
       ),
     );

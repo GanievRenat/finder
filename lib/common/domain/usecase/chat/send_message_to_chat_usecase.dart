@@ -17,7 +17,7 @@ class SendMessageToChat {
 
   Future<Either<ChatError, int>> call(AddNewMessageBody body) async {
     var result = await _chatRepository.addNewMessage(
-      _appStateService.currentUser.uid,
+      _appStateService.getUid,
       body,
     );
     return result;

@@ -1,3 +1,4 @@
+import 'package:flirta/common/extension/extension.dart';
 import 'package:flirta/common/ui/theme/app_spacing.dart';
 import 'package:flirta/common/ui/theme/app_theme.dart';
 import 'package:flirta/common/ui/widgets/widgets.dart';
@@ -16,7 +17,7 @@ class ListTileTags extends StatelessWidget {
       children: [
         Text(title, style: AppTheme.of(context).textStyle.header3),
         AppSpacing.vertical.s4,
-        GroupPersonTags(tags: tags.toSet()),
+        GroupPersonTags(tags: tags.map((e) => e.capitalize()).toSet()),
       ],
     );
   }

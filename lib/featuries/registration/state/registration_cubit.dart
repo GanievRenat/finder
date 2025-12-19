@@ -74,6 +74,12 @@ class RegistrationCubit extends Cubit<RegistrationState> {
       await _saveFilterState(
         FilterData.empty().copyWith(
           interestedGender: currentData.interestedGender,
+          ageStart: (currentData.age - 5) <= 18 ? 18 : currentData.age - 5,
+          ageFinish: currentData.age == 18
+              ? 28
+              : (currentData.age + 5) >= 60
+              ? 60
+              : currentData.age + 5,
         ),
       );
 

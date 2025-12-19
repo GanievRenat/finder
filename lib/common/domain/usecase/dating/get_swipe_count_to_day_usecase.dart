@@ -15,9 +15,7 @@ class GetSwipeCountToDay {
        _datingRepository = datingRepository;
 
   Future<int> call() async {
-    var result = await _datingRepository.getSwipeCount(
-      _appStateService.currentUser.uid,
-    );
+    var result = await _datingRepository.getSwipeCount(_appStateService.getUid);
     return result;
   }
 }

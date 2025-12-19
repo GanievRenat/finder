@@ -9,11 +9,16 @@ class AppStateService {
   entities.User currentUser = entities.User.empty();
   firebase.User? adminUser;
 
+  bool _premium = false;
+
   bool get isAuth => (adminUser != null || currentUser != entities.User.empty())
       ? true
       : false;
-  bool get isPremium => false;
+  bool get isPremium => _premium;
   bool get isAdmin => adminUser != null;
+  String get getUid => isAdmin ? adminUser?.uid ?? '' : currentUser.uid;
+
+  set premium(bool status) => _premium = status;
 
   void clearCurrentUser() {
     currentUser = entities.User.empty();

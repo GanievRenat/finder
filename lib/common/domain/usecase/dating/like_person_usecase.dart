@@ -19,7 +19,7 @@ class LikePerson {
   Future<bool> call(Person person) async {
     // Записываем пользователя в базу данных куда, чтобы в будущем учесть.
     await _datingRepository.likePerson(
-      LikePersonBody(person: person, userUid: _appStateService.currentUser.uid),
+      LikePersonBody(person: person, userUid: _appStateService.getUid),
     );
     return true;
   }

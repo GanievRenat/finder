@@ -15,9 +15,7 @@ class DeleteOlderData {
 
   Future<bool> call() async {
     // Удаляем старые заблокированные модели
-    await _datingRepository.deleteOlderBlockData(
-      _appStateService.currentUser.uid,
-    );
+    await _datingRepository.deleteOlderBlockData(_appStateService.getUid);
     return true;
   }
 }

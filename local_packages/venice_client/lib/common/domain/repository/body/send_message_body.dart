@@ -20,6 +20,7 @@ class SendMessageBody extends RequestBody {
       "model": model.toString(),
       "frequency_penalty": frequencyPenalty,
       "messages": messages.map((m) => m.toMap()),
+      //"venice_parameters": {"include_venice_system_prompt": false},
     };
   }
 }

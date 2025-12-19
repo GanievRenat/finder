@@ -7,13 +7,52 @@ import 'package:flirta/common/ui/widgets/widgets.dart';
 import 'package:flirta/generated/locale_keys.g.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:video_player/video_player.dart';
 
 import 'widgets/heart_widget.dart';
 
-class MatchPage extends StatelessWidget {
+class MatchPage extends StatefulWidget {
   const MatchPage({super.key, required this.person});
 
   final Person person;
+
+  @override
+  State<MatchPage> createState() => _MatchPageState();
+}
+
+class _MatchPageState extends State<MatchPage> {
+  late VideoPlayerController _controller;
+  bool _isInitializedController = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.person.video.isNotEmpty) {
+      _controller =
+          VideoPlayerController.networkUrl(
+              Uri.parse(widget.person.video),
+              videoPlayerOptions: VideoPlayerOptions(
+                allowBackgroundPlayback: false,
+              ),
+            )
+            ..initialize().then((_) {
+              setState(() {});
+              _controller.setVolume(0.0);
+              _controller.setLooping(true);
+              _controller.play();
+            });
+      _isInitializedController = true;
+    }
+  }
+
+  @override
+  void dispose() {
+    if (_isInitializedController) {
+      _controller.dispose();
+    }
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,15 +60,38 @@ class MatchPage extends StatelessWidget {
       body: Stack(
         children: [
           Positioned.fill(
-            child: CachedNetworkImage(
-              fit: BoxFit.fitHeight,
-              //width: MediaQuery.of(context).size.width,
-              height: double.infinity,
-              imageUrl: person.photos.isNotEmpty ? person.photos.first : '',
-              placeholder: (context, url) =>
-                  Center(child: CircularProgressIndicator()),
-              errorWidget: (context, url, error) => SizedBox(),
-            ),
+            child: (widget.person.video.isNotEmpty)
+                ? (_controller.value.isInitialized)
+                      ? FittedBox(
+                          fit: BoxFit.cover,
+                          child: SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            height: MediaQuery.of(context).size.width * 1.77777,
+                            child: VideoPlayer(_controller),
+                          ),
+                        )
+                      : CachedNetworkImage(
+                          fit: BoxFit.fitHeight,
+                          //width: MediaQuery.of(context).size.width,
+                          height: double.infinity,
+                          imageUrl: widget.person.photos.isNotEmpty
+                              ? widget.person.photos.first
+                              : '',
+                          placeholder: (context, url) =>
+                              Center(child: CircularProgressIndicator()),
+                          errorWidget: (context, url, error) => SizedBox(),
+                        )
+                : CachedNetworkImage(
+                    fit: BoxFit.fitHeight,
+                    //width: MediaQuery.of(context).size.width,
+                    height: double.infinity,
+                    imageUrl: widget.person.photos.isNotEmpty
+                        ? widget.person.photos.first
+                        : '',
+                    placeholder: (context, url) =>
+                        Center(child: CircularProgressIndicator()),
+                    errorWidget: (context, url, error) => SizedBox(),
+                  ),
           ),
           Positioned(
             right: 16,

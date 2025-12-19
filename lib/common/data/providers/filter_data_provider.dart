@@ -102,7 +102,15 @@ class FilterDataProviderLocal extends FilterDataProvider {
         return Future.value(Right(filterStateModel));
       } else {
         return Future.value(
-          Right(FilterStateModel(genderIndex: 0, selectTags: [], tags: tags)),
+          Right(
+            FilterStateModel(
+              genderIndex: 0,
+              selectTags: [],
+              tags: tags,
+              ageStart: 18,
+              ageFinish: 60,
+            ),
+          ),
         );
       }
     } catch (e) {

@@ -9,6 +9,7 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:banana_client/banana_client.dart' as _i209;
 import 'package:cloud_firestore/cloud_firestore.dart' as _i974;
 import 'package:deepseek_client/deepseek_client.dart' as _i987;
 import 'package:dio/dio.dart' as _i361;
@@ -20,6 +21,8 @@ import 'package:flirta/common/data/providers/admin/auth_admin_data_provider.dart
     as _i752;
 import 'package:flirta/common/data/providers/admin/person_data_provider.dart'
     as _i2;
+import 'package:flirta/common/data/providers/admin/properties_data_provider.dart'
+    as _i664;
 import 'package:flirta/common/data/providers/chat_local_data_provider.dart'
     as _i800;
 import 'package:flirta/common/data/providers/data_providers.dart' as _i443;
@@ -37,6 +40,8 @@ import 'package:flirta/common/data/repository/admin/auth_admin_repository_impl.d
     as _i956;
 import 'package:flirta/common/data/repository/admin/person_admin_repository_impl.dart'
     as _i208;
+import 'package:flirta/common/data/repository/admin/properties_admin_repository_impl.dart'
+    as _i146;
 import 'package:flirta/common/data/repository/chat_repository_impl.dart'
     as _i190;
 import 'package:flirta/common/data/repository/dating_repository_impl.dart'
@@ -53,6 +58,8 @@ import 'package:flirta/common/data/repository/settings_repository_impl.dart'
     as _i131;
 import 'package:flirta/common/di/third_party_module.dart' as _i362;
 import 'package:flirta/common/domain/app_config.dart' as _i1048;
+import 'package:flirta/common/domain/repository/admin/properties_admin_repository.dart'
+    as _i733;
 import 'package:flirta/common/domain/repository/repositories.dart' as _i243;
 import 'package:flirta/common/domain/usecase/admin/auth/auth_by_admin_usecase.dart'
     as _i799;
@@ -70,6 +77,10 @@ import 'package:flirta/common/domain/usecase/admin/person/remove_person_usecase.
     as _i5;
 import 'package:flirta/common/domain/usecase/admin/person/update_person_usecase.dart'
     as _i1062;
+import 'package:flirta/common/domain/usecase/admin/properties/get_property_list_usecase.dart'
+    as _i477;
+import 'package:flirta/common/domain/usecase/admin/properties/update_property_usecase.dart'
+    as _i64;
 import 'package:flirta/common/domain/usecase/chat/create_new_chat_usecase.dart'
     as _i2;
 import 'package:flirta/common/domain/usecase/chat/get_chat_list_usecase.dart'
@@ -129,7 +140,9 @@ import 'package:flirta/common/service/crashlytics_service.dart' as _i551;
 import 'package:flirta/common/service/language_service.dart' as _i39;
 import 'package:flirta/common/service/notification_service.dart' as _i128;
 import 'package:flirta/common/service/photo_picker_service.dart' as _i651;
+import 'package:flirta/common/service/properties_service.dart' as _i588;
 import 'package:flirta/common/service/remote_config_service.dart' as _i327;
+import 'package:flirta/common/service/secure_storage_service.dart' as _i521;
 import 'package:flirta/common/service/services.dart' as _i697;
 import 'package:flirta/common/service/storage_services.dart' as _i726;
 import 'package:flirta/common/source/database/database_manager.dart' as _i366;
@@ -149,6 +162,8 @@ import 'package:flirta/common/source/network/interceptors/logger_interceptors.da
     as _i1072;
 import 'package:flirta/common/source/network/interceptors/token_interceptor.dart'
     as _i970;
+import 'package:flirta/common/state/queue_messages/bloc/queue_message_bloc.dart'
+    as _i468;
 import 'package:flirta/common/ui/widgets/photo/image_source_bottom_sheet.dart'
     as _i682;
 import 'package:flirta/featuries/admin/persons/pages/list/state/person_list_cubit.dart'
@@ -170,6 +185,7 @@ import 'package:internet_connection_checker/internet_connection_checker.dart'
     as _i973;
 import 'package:logger/logger.dart' as _i974;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
+import 'package:spicyapi_client/spicyapi_client.dart' as _i146;
 import 'package:venice_client/venice_client.dart' as _i693;
 
 const String _test = 'test';
@@ -202,21 +218,21 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i457.FirebaseStorage>(() => thirdPartyModule.firestorage);
     gh.singleton<_i987.DeepseekClient>(() => thirdPartyModule.deepseekClient);
     gh.singleton<_i693.VeniceClient>(() => thirdPartyModule.veniceClient);
+    gh.singleton<_i209.BananaClient>(() => thirdPartyModule.bananaClient);
+    gh.singleton<_i146.SpacyAPIClient>(() => thirdPartyModule.spacyClient);
     gh.singleton<_i216.AppModalBottomSheet>(() => _i216.AppModalBottomSheet());
     gh.singleton<_i534.AppToast>(() => _i534.AppToast());
     gh.singleton<_i523.AppStateService>(() => _i523.AppStateService());
     gh.singleton<_i551.CrashlyticsService>(() => _i551.CrashlyticsService());
     gh.singleton<_i128.NotificationService>(() => _i128.NotificationService());
     gh.singleton<_i651.PhotoPickerService>(() => _i651.PhotoPickerService());
+    gh.singleton<_i521.SecureStorageService>(
+      () => _i521.SecureStorageService(),
+    );
     gh.singleton<_i682.ImageSourceBottomSheet>(
       () => _i682.ImageSourceBottomSheet(),
     );
     gh.singleton<_i403.PaywallCubit>(() => _i403.PaywallCubit());
-    gh.singleton<_i327.RemoteConfigService>(
-      () => _i327.RemoteConfigService(
-        remoteConfig: gh<_i627.FirebaseRemoteConfig>(),
-      ),
-    );
     gh.singleton<_i320.ChatMessagesTable>(
       () => _i320.ChatMessagesTable(gh<_i366.AppDatabase>()),
     );
@@ -229,6 +245,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i2.PersonDataProvider>(
       () => _i2.PersonDataProviderFireBase(
         fireStore: gh<_i974.FirebaseFirestore>(),
+      ),
+    );
+    gh.singleton<_i327.RemoteConfigService>(
+      () => _i327.RemoteConfigService(
+        remoteConfig: gh<_i627.FirebaseRemoteConfig>(),
+        logger: gh<_i974.Logger>(),
       ),
     );
     gh.singleton<_i1048.AppConfig>(
@@ -245,12 +267,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i1072.LoggerInterceptor>(
       () => _i1072.LoggerInterceptor(logger: gh<_i974.Logger>()),
     );
-    gh.singleton<_i845.AIAgentService>(
-      () => _i845.AIAgentService(
-        deepseekClient: gh<_i987.DeepseekClient>(),
-        veniceClient: gh<_i693.VeniceClient>(),
-        remoteConfig: gh<_i327.RemoteConfigService>(),
-        appStateService: gh<_i523.AppStateService>(),
+    gh.singleton<_i664.PropertiesDataProvider>(
+      () => _i664.PropertiesDataProviderFireBase(
+        fireStore: gh<_i974.FirebaseFirestore>(),
       ),
     );
     gh.singleton<_i534.ErrorInterceptor>(
@@ -260,6 +279,18 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.singleton<_i726.StorageServices>(
       () => _i726.StorageServices(gh<_i457.FirebaseStorage>()),
+    );
+    gh.singleton<_i845.AIAgentService>(
+      () => _i845.AIAgentService(
+        deepseekClient: gh<_i987.DeepseekClient>(),
+        veniceClient: gh<_i693.VeniceClient>(),
+        bananaClient: gh<_i209.BananaClient>(),
+        spacyClient: gh<_i146.SpacyAPIClient>(),
+        remoteConfig: gh<_i327.RemoteConfigService>(),
+        storageServices: gh<_i726.StorageServices>(),
+        appStateService: gh<_i523.AppStateService>(),
+        secureStorageService: gh<_i521.SecureStorageService>(),
+      ),
     );
     gh.singleton<_i800.ChatLocalDataProvider>(
       () => _i800.ChatLocalDataProviderImpl(
@@ -279,6 +310,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i1048.AppConfig>(
       () => _i67.ProdAppConfig(),
       registerFor: {_prod},
+    );
+    gh.singleton<_i733.PropertiesAdminRepository>(
+      () => _i146.PropertiesAdminRepositoryImpl(
+        dataProvider: gh<_i664.PropertiesDataProvider>(),
+      ),
     );
     gh.factory<_i361.Dio>(
       () => httpClientModule.dioWithoutAuth(
@@ -327,6 +363,16 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i243.ChatRepository>(
       () => _i190.ChatRepositoryImpl(
         localDataProvider: gh<_i800.ChatLocalDataProvider>(),
+      ),
+    );
+    gh.singleton<_i477.GetPropertyList>(
+      () => _i477.GetPropertyList(
+        propertyRepository: gh<_i243.PropertiesAdminRepository>(),
+      ),
+    );
+    gh.singleton<_i64.UpdateProperty>(
+      () => _i64.UpdateProperty(
+        propertyRepository: gh<_i243.PropertiesAdminRepository>(),
       ),
     );
     gh.singleton<_i752.AuthAdminDataProvider>(
@@ -389,9 +435,6 @@ extension GetItInjectableX on _i174.GetIt {
         personRepository: gh<_i243.PersonAdminRepository>(),
       ),
     );
-    gh.lazySingleton<_i76.PersonListCubit>(
-      () => _i76.PersonListCubit(getPersonList: gh<_i25.GetPersonList>()),
-    );
     gh.singleton<_i243.RegistrationRepository>(
       () => _i558.RegistrationRepositoryImpl(
         dataProvider: gh<_i443.RegistrationDataProvider>(),
@@ -415,6 +458,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i671.RegistrationNewUserByGuest>(
       () => _i671.RegistrationNewUserByGuest(
         registrationRepository: gh<_i243.RegistrationRepository>(),
+      ),
+    );
+    gh.singleton<_i588.PropertiesService>(
+      () => _i588.PropertiesService(
+        getPropertyList: gh<_i25.GetPropertyList>(),
+        updateProperty: gh<_i25.UpdateProperty>(),
       ),
     );
     gh.singleton<_i220.ProfileDataProvider>(
@@ -450,6 +499,13 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i558.SetReadChat(
         chatRepository: gh<_i243.ChatRepository>(),
         appStateService: gh<_i697.AppStateService>(),
+      ),
+    );
+    gh.lazySingleton<_i76.PersonListCubit>(
+      () => _i76.PersonListCubit(
+        getPersonList: gh<_i25.GetPersonList>(),
+        propertiesService: gh<_i588.PropertiesService>(),
+        createNewPerson: gh<_i25.CreateNewPerson>(),
       ),
     );
     gh.singleton<_i91.GetListDatingPerson>(
@@ -532,6 +588,14 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i243.ProfileRepository>(
       () => _i473.ProfileRepositoryImpl(
         dataProvider: gh<_i443.ProfileDataProvider>(),
+      ),
+    );
+    gh.singleton<_i468.TickerBloc>(
+      () => _i468.TickerBloc(
+        spacyClient: gh<_i146.SpacyAPIClient>(),
+        remoteConfig: gh<_i327.RemoteConfigService>(),
+        securiteStore: gh<_i521.SecureStorageService>(),
+        chatCubit: gh<_i310.ChatCubit>(),
       ),
     );
     gh.singleton<_i367.DatingCubit>(

@@ -18,17 +18,11 @@ class GetDetailChat {
 
   Future<Either<ChatError, List<Messages>>> call(String modelId) async {
     var result = await _chatRepository.getMessageOfChat(
-      GetMessageOfChatBody(
-        userUid: _appStateService.currentUser.uid,
-        modelId: modelId,
-      ),
+      GetMessageOfChatBody(userUid: _appStateService.getUid, modelId: modelId),
     );
     if (result.isRight) {
       _chatRepository.setReadStatus(
-        SetReadStatusBody(
-          modelId: modelId,
-          userUid: _appStateService.currentUser.uid,
-        ),
+        SetReadStatusBody(modelId: modelId, userUid: _appStateService.getUid),
       );
     }
     return result;

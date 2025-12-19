@@ -32,3 +32,5 @@ export 'admin/person/create_new_person_usecase.dart';
 export 'admin/person/update_person_usecase.dart';
 export 'admin/person/remove_person_usecase.dart';
 export 'admin/person/get_person_list_usecase.dart';
+export 'admin/properties/get_property_list_usecase.dart';
+export 'admin/properties/update_property_usecase.dart';

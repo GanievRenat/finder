@@ -80,7 +80,12 @@ extension PersonModelToEntites on PersonModel {
       _getProperty(dynamicsAntiTriggers, 'dynamics.anti_triggers'),
     );
     strBuff.writeln(_getProperty(approachSpeed, 'approach.speed'));
-    strBuff.writeln(_getProperty(memorySlots, 'memory.slots'));
+    strBuff.writeln(
+      _getProperty(
+        'user_name; city; language; interests; taboos; weekly_goals',
+        'memory.slots',
+      ),
+    );
     strBuff.writeln(_getProperty(intellectDepth, 'intellect.depth'));
     strBuff.writeln(
       _getProperty(complimentsToIntellect, 'compliments.to_intellect'),
@@ -112,15 +117,20 @@ extension PersonModelToEntites on PersonModel {
       ),
     );
 
-    strBuff.writeln(_getProperty(safetyNsfwPolicy, 'safety.nsfw_policy'));
-    strBuff.writeln(_getProperty(safetyBlocked, 'safety.blocked'));
-
     if (boundariesStoreSfw) {
       // SFW
+      strBuff.writeln(_getProperty(safetyNsfwPolicy, 'safety.nsfw_policy'));
+      strBuff.writeln(_getProperty(safetyBlocked, 'safety.blocked'));
+
       strBuff.writeln(
         _getProperty(safetyToxicityHandler, 'safety.toxicity_handler'),
       );
-      strBuff.writeln(_getProperty(safetyDesiresSfw, 'safety.desires_sfw'));
+      strBuff.writeln(
+        _getProperty(
+          'slow_date_rhythm; gentle_gestures; goodbye_kiss; walks; coffee_dates; soft_tease',
+          'safety.desires_sfw',
+        ),
+      );
       strBuff.writeln(_getProperty(boundariesStoreSfw, 'boundaries.store_sfw'));
     } else {
       // NO SFW
@@ -128,14 +138,16 @@ extension PersonModelToEntites on PersonModel {
     }
 
     strBuff.writeln(_getProperty(chatBehavior, 'chat.behavior'));
-    strBuff.writeln(_getProperty(chatFilter, 'chat.filter'));
+    if (chatFilter.isNotEmpty) {
+      strBuff.writeln(_getProperty(chatFilter, 'chat.filter'));
+    }
 
     return strBuff.toString();
   }
 
   String getArtBio() {
     String artBio =
-        'identity.age_band - $identityAgeBand / gender - $gender / identity.ethnicity - $identityEthnicity / identity.occupation - $identityEthnicity / identity.city - $identityCity / identity.lifestyle - $identityLifestyle / identity.goal - $identityGoal / phenotype.body_type - $phenotypeBodyType / phenotype.somatotype - $phenotypeSomatotype / phenotype.face_type - $phenotypeFaceType / phenotype.hair.texture - $phenotypeHairTexture / phenotype.hair.color - $phenotypeHairColor / phenotype.eyes.color - $phenotypeEyesColor / phenotype.bmi - $phenotypeBmi / visual.signature - $visualSignature / visual.palette - $visualPalette / visual.wardrobe_capsule - $visualWardrobeCapsule / visual.distinctive_features - $visualDistinctiveFeatures / clothing.styles - $clothingStyles / expertise.hobbies - $expertiseHobbies';
+        'identity.age_band - $identityAgeBand / gender - $gender / identity.ethnicity - $identityEthnicity / identity.occupation - $identityEthnicity / identity.city - $identityCity / identity.lifestyle - $identityLifestyle / identity.goal - $identityGoal / phenotype.body_type - $phenotypeBodyType / phenotype.somatotype - $phenotypeSomatotype / phenotype.face_type - $phenotypeFaceType / phenotype.hair.texture - $phenotypeHairTexture / phenotype.hair.color - $phenotypeHairColor / phenotype.eyes.color - $phenotypeEyesColor / phenotype.bmi - $phenotypeBmi / visual.signature - $visualSignature / visual.palette - $visualPalette / visual.wardrobe_capsule - ${visualWardrobeCapsule.map((e) => e.toLowerCase()).toList()} / visual.distinctive_features - $visualDistinctiveFeatures / clothing.styles - ${clothingStyles.map((e) => e.toLowerCase()).toList()} / expertise.hobbies - ${expertiseHobbies.map((e) => e.toLowerCase()).toList()}';
     return artBio;
   }
 
@@ -173,9 +185,7 @@ extension PersonModelToEntites on PersonModel {
         identityCity.isNotEmpty &&
         phenotypeBmi.isNotEmpty &&
         visualDistinctiveFeatures.isNotEmpty &&
-        ((boundariesStoreSfw)
-            ? safetyDesiresSfw.isNotEmpty
-            : approachHeatRamp.isNotEmpty);
+        ((!boundariesStoreSfw) ? approachHeatRamp.isNotEmpty : true);
 
     return mainField;
   }

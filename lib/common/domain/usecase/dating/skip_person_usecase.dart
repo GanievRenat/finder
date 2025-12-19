@@ -20,7 +20,7 @@ class SkipPerson {
   Future<bool> call(Person person) async {
     // Записываем пользователя в базу данных куда, чтобы в будущем учесть.
     await _datingRepository.skipPerson(
-      SkipPersonBody(person: person, userUid: _appStateService.currentUser.uid),
+      SkipPersonBody(person: person, userUid: _appStateService.getUid),
     );
     return true;
   }

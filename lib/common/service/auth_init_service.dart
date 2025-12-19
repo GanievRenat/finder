@@ -10,11 +10,9 @@ class AuthInitService {
     required this.getProfile,
     required this.auth,
     required this.noAuth,
-  }) {
-    _initAuth();
-  }
+  });
 
-  void _initAuth() async {
+  Future<void> initAuth() async {
     var result = await getProfile();
     if (result.isRight) {
       auth(result.right);

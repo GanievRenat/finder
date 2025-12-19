@@ -43,7 +43,9 @@ class AuthRoute extends GoRouteData with $AuthRoute {
       pageKey: state.pageKey,
       name: name,
 
-      child: SliderPage(onEnterName: () => const EnterNameRoute().go(context)),
+      child: SliderPage(
+        onEnterName: () => const EnterNameRoute().push(context),
+      ),
     );
   }
 }

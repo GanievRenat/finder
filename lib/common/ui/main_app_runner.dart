@@ -37,17 +37,10 @@ class MainAppRunner implements AppRunner {
 
     getIt<CrashlyticsService>().init();
     await getIt<AnalyticsService>().init();
-
-    AuthInitService(
-      getProfile: getIt<GetProfile>(),
-      auth: (user) async {
-        // Добавить все что надо проинициализировать если пользователь авторизован
-        await InitAuthStateService.initState(user.uid);
-      },
-      noAuth: () async {
-        // Добавить все что надо проинициализировать если пользователь НЕ авторизован
-      },
-    );
+    var userAuth = await getIt<GetProfile>()();
+    if (userAuth.isRight) {
+      await InitAuthStateService.initState(userAuth.right.uid);
+    }
 
     unawaited(getIt<AnalyticsService>().logEvent(OnStartApp()));
   }

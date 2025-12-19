@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flirta/common/domain/entites/person/person.dart';
+import 'package:flirta/common/extension/extension.dart';
 import 'package:flirta/common/ui/theme/theme.dart';
+import 'package:flirta/generated/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -28,7 +30,7 @@ class _CardSwipeState extends State<CardSwipe> {
             child: Padding(
               padding: const EdgeInsets.only(bottom: 32.0, top: 16),
               child: CachedNetworkImage(
-                fit: BoxFit.fitHeight,
+                fit: BoxFit.cover,
                 height: double.infinity,
                 imageUrl: widget.person.photos.isNotEmpty
                     ? widget.person.photos.first
@@ -44,7 +46,18 @@ class _CardSwipeState extends State<CardSwipe> {
                     ),
                   ),
                 ),
-                errorWidget: (context, url, error) => SizedBox(),
+                errorWidget: (context, url, error) => Container(
+                  color: AppTheme.of(context).color.primaryLightest,
+                  child: Center(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(80 * 2),
+                      child: Assets.images.icons.avatar.svg(
+                        width: 80 * 2,
+                        height: 80 * 2,
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ),
           ),
@@ -66,7 +79,7 @@ class _CardSwipeState extends State<CardSwipe> {
                       ),
                     ),
                     Text(
-                      widget.person.job,
+                      widget.person.job.capitalize(),
                       textAlign: TextAlign.center,
                       style: AppTheme.of(context).textStyle.bodyXL.copyWith(
                         color: AppTheme.of(context).color.neutralLightLightest,

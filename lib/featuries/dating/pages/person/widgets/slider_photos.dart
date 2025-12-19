@@ -1,19 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flirta/common/di/init_di.dart';
-import 'package:flirta/common/service/app_state_service.dart';
 import 'package:flirta/common/ui/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class SliderPhotos extends StatefulWidget {
-  const SliderPhotos({
-    super.key,
-    required this.photos,
-    required this.onPayWall,
-  });
+  const SliderPhotos({super.key, required this.photos});
 
   final List<String> photos;
-  final Function() onPayWall;
 
   @override
   State<SliderPhotos> createState() => _SliderPhotosState();
@@ -71,12 +64,12 @@ class _SliderPhotosState extends State<SliderPhotos> {
                 _precacheImages(value + 3);
               }
 
-              if (value > 0) {
+              /*if (value > 0) {
                 if (!getIt<AppStateService>().isPremium) {
                   _pageController.jumpToPage(0);
                   widget.onPayWall();
                 }
-              }
+              }*/
             },
             itemBuilder: (context, index) {
               return ImagePage(
@@ -126,7 +119,7 @@ class ImagePage extends StatelessWidget {
     if (imageProvider != null) {
       return Container(
         decoration: BoxDecoration(
-          image: DecorationImage(image: imageProvider!, fit: BoxFit.fitHeight),
+          image: DecorationImage(image: imageProvider!, fit: BoxFit.cover),
         ),
         child: SizedBox(),
       );
@@ -135,13 +128,13 @@ class ImagePage extends StatelessWidget {
         imageUrl: imageUrl,
         imageBuilder: (context, imageProvider) => Container(
           decoration: BoxDecoration(
-            image: DecorationImage(image: imageProvider, fit: BoxFit.fitHeight),
+            image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
           ),
         ),
         placeholder: (context, url) =>
             Center(child: CircularProgressIndicator()),
         errorWidget: (context, url, error) => const Icon(Icons.error),
-        fit: BoxFit.fitHeight,
+        fit: BoxFit.cover,
       );
     }
   }

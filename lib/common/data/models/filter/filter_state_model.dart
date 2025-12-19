@@ -11,6 +11,8 @@ abstract class FilterStateModel with _$FilterStateModel {
     @Default([]) List<String> tags,
     @Default([]) List<String> selectTags,
     @Default(0) @JsonKey(name: 'interestedGender') int genderIndex,
+    @Default(0) @JsonKey(name: 'ageStart') int ageStart,
+    @Default(0) @JsonKey(name: 'ageFinish') int ageFinish,
   }) = _FilterStateModel;
 
   factory FilterStateModel.fromJson(Map<String, Object?> json) =>
@@ -23,6 +25,8 @@ extension FilterStateModelToEntites on FilterStateModel {
       tags: tags,
       selectTags: selectTags,
       interestedGender: Gender.values[genderIndex],
+      ageStart: ageStart,
+      ageFinish: ageFinish,
     );
   }
 }

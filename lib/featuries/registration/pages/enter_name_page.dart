@@ -7,6 +7,7 @@ import 'package:flirta/generated/locale_keys.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'package:go_router/go_router.dart';
 
 class EnterNamePage extends StatefulWidget {
   const EnterNamePage({super.key, required this.onEnterAge});
@@ -74,7 +75,11 @@ class _EnterNamePageState extends State<EnterNamePage> {
 
     return KeyboardDismissOnTap(
       child: Scaffold(
-        appBar: AuthAppBar(totalSteps: 4, currentStep: 1, onBack: null),
+        appBar: AuthAppBar(
+          totalSteps: 4,
+          currentStep: 1,
+          onBack: () => context.pop(),
+        ),
         body: Padding(
           padding: const EdgeInsets.all(32.0),
           child: BodyStepPage(

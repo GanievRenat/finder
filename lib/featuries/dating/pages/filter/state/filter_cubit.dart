@@ -88,4 +88,11 @@ class FilterCubit extends Cubit<FilterState> {
       selectTags: selectTags.toList(),
     );
   }
+
+  void setNewAgeRang(int start, int finish) {
+    forUpdateFilterData = forUpdateFilterData.copyWith(
+      ageStart: start,
+      ageFinish: finish,
+    );
+  }
 }

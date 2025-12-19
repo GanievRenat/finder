@@ -12,6 +12,8 @@ class SaveFilterStateBody extends RequestBody {
     return {
       "interestedGender": _filterData.interestedGender.index,
       "selectTags": _filterData.selectTags,
+      "ageStart": _filterData.ageStart,
+      "ageFinish": _filterData.ageFinish,
     };
   }
 }

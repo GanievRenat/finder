@@ -22,6 +22,7 @@ dependencies:
 
   # Работа с сетью
   dio: ^5.8.0+1
+  http: ^1.6.0
   retrofit: ^4.7.0
   internet_connection_checker: ^3.0.1
   freezed_annotation: ^3.1.0
@@ -32,6 +33,8 @@ dependencies:
   drift_flutter: ^0.2.4
   sqlite3: ^2.7.3
   path_provider: ^2.1.5
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
 
   # Локальное хранилище
   shared_preferences: ^2.5.3
@@ -63,6 +66,7 @@ dependencies:
   flutter_local_notifications: ^19.5.0
   flutter_timezone: ^5.0.1
   timezone: ^0.10.1
+  permission_handler: ^12.0.1
 
   cached_network_image: ^3.4.1
   smooth_page_indicator: ^1.2.1
@@ -74,6 +78,11 @@ dependencies:
   loading_animation_widget: ^1.3.0
   image_picker: ^1.2.0
   url_launcher: ^6.3.2
+  file_picker: ^10.3.7
+  csv: ^6.0.0
+  spoiler_widget: ^1.0.18
+  image: ^4.6.0
+  group_grid_view: ^1.0.1
 
   flutter_card_swiper:
     path: ./local_packages/flutter_card_swiper
@@ -81,6 +90,10 @@ dependencies:
     path: ./local_packages/deepseek_client
   venice_client:
     path: ./local_packages/venice_client
+  banana_client:
+    path: ./local_packages/banana_client
+  spicyapi_client:
+    path: ./local_packages/spicyapi_client
 
 dev_dependencies:
   flutter_test:

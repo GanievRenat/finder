@@ -1,5 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flirta/common/di/init_di.dart';
+import 'package:flirta/common/service/app_state_service.dart';
+import 'package:flirta/common/service/remote_config_service.dart';
 import 'package:flirta/common/ui/theme/app_spacing.dart';
 import 'package:flirta/common/ui/widgets/widgets.dart';
 import 'package:flirta/featuries/profile/pages/profile/state/profile_cubit.dart';
@@ -24,11 +26,21 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  String _termUrl = '';
+  String _privatePolicyUrl = '';
+  String _supportEmail = '';
+
   @override
   void initState() {
     super.initState();
 
     getIt<ProfileCubit>().init();
+
+    var remoteConfig = getIt<RemoteConfigService>();
+
+    _termUrl = remoteConfig.menuTermURL;
+    _privatePolicyUrl = remoteConfig.privacyPolicyURL;
+    _supportEmail = remoteConfig.supportEmail;
   }
 
   @override
@@ -43,7 +55,13 @@ class _ProfilePageState extends State<ProfilePage> {
           child: Column(
             children: [
               ProfileHead(),
-              ProfilePremiumStatus(onTap: () => widget.onPayWall()),
+              ProfilePremiumStatus(
+                onTap: (premiumStatus) {
+                  setState(() {
+                    getIt<AppStateService>().premium = !premiumStatus;
+                  });
+                },
+              ), //=> widget.onPayWall()),
               AppSpacing.vertical.s3,
               ListTileItem(
                 title: LocaleKeys.user_profile_menu_your_profile_title.tr(),
@@ -61,30 +79,34 @@ class _ProfilePageState extends State<ProfilePage> {
                 onTap: () => widget.onNotificationSettings(),
               ),
               AppSpacing.vertical.s8,
-              ListTileItem.link(
-                title: LocaleKeys.user_profile_menu_term_title.tr(),
-                url: 'https://levelapp.io/pages/terms',
-              ),
-              AppSpacing.vertical.s3,
-              ListTileItem.link(
-                title: LocaleKeys.user_profile_menu_privacy_policy_title.tr(),
-                url: 'https://levelapp.io/pages/privacyPolicy',
-              ),
-              AppSpacing.vertical.s3,
+              if (_termUrl.isNotEmpty)
+                ListTileItem.link(
+                  title: LocaleKeys.user_profile_menu_term_title.tr(),
+                  url: _termUrl,
+                ),
+              if (_termUrl.isNotEmpty) AppSpacing.vertical.s3,
+              if (_privatePolicyUrl.isNotEmpty)
+                ListTileItem.link(
+                  title: LocaleKeys.user_profile_menu_privacy_policy_title.tr(),
+                  url: _privatePolicyUrl,
+                ),
+              if (_privatePolicyUrl.isNotEmpty) AppSpacing.vertical.s3,
               ListTileItem(
                 title: LocaleKeys.user_profile_menu_rate_app_title.tr(),
                 isLink: true,
                 onTap: () {},
               ),
-              AppSpacing.vertical.s3,
-              ListTileItem.email(
-                title: LocaleKeys.user_profile_menu_contact_support_title.tr(),
-                email: 'info@levelapp.io',
-                queryParameters: {
-                  'subject': 'Support of Flirta App',
-                  'body': 'Hello!',
-                },
-              ),
+              if (_supportEmail.isNotEmpty) AppSpacing.vertical.s3,
+              if (_supportEmail.isNotEmpty)
+                ListTileItem.email(
+                  title: LocaleKeys.user_profile_menu_contact_support_title
+                      .tr(),
+                  email: _supportEmail,
+                  queryParameters: {
+                    'subject': 'Support of Flirta App',
+                    'body': 'Hello!',
+                  },
+                ),
             ],
           ),
         ),

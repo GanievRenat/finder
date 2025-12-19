@@ -1,9 +1,10 @@
 import 'package:flirta/common/di/init_di.dart';
 import 'package:flirta/common/ui/theme/theme.dart';
-import 'package:flirta/common/ui/widgets/widgets.dart';
+//import 'package:flirta/common/ui/widgets/widgets.dart';
 import 'package:flirta/featuries/chat/state/chat_cubit.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+//import 'package:image_picker/image_picker.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class InputMessagePanel extends StatelessWidget {
@@ -14,27 +15,29 @@ class InputMessagePanel extends StatelessWidget {
   final String modelId;
   final bool isLoading;
   final TextEditingController _textEditingController = TextEditingController();
+  final FocusNode _focusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
     return Container(
       color: AppTheme.of(context).color.neutralLightLightest,
       padding: EdgeInsets.only(
-        left: 0,
+        left: 16,
         top: 16,
         right: 16,
         bottom: 16 + MediaQuery.of(context).padding.bottom,
       ),
       child: Row(
         children: [
-          IconButton(
-            onPressed: () async {
-              var imageSource = await ImageSourceBottomSheet().show(context);
-              if (imageSource == ImageSource.camera) {
-              } else if (imageSource == ImageSource.gallery) {}
-            },
-            icon: Icon(Icons.add),
-          ),
+          /*if (!kIsWeb)
+            IconButton(
+              onPressed: () async {
+                var imageSource = await ImageSourceBottomSheet().show(context);
+                if (imageSource == ImageSource.camera) {
+                } else if (imageSource == ImageSource.gallery) {}
+              },
+              icon: Icon(Icons.add),
+            ),*/
           Expanded(
             child: Container(
               decoration: BoxDecoration(
@@ -42,11 +45,13 @@ class InputMessagePanel extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
               ),
               padding: EdgeInsets.only(left: 8),
+
               child: Row(
                 children: [
                   Expanded(
                     child: TextFormField(
                       controller: _textEditingController,
+                      focusNode: _focusNode,
                       decoration: InputDecoration(
                         isDense: true,
                         border: UnderlineInputBorder(
@@ -94,6 +99,9 @@ class InputMessagePanel extends StatelessWidget {
         message: _textEditingController.text,
       );
       _textEditingController.text = '';
+      if (kIsWeb) {
+        _focusNode.requestFocus();
+      }
     }
   }
 }
@@ -114,21 +122,21 @@ class LoadingInputMessage extends StatelessWidget {
       child: Container(
         color: AppTheme.of(context).color.neutralLightLightest,
         padding: EdgeInsets.only(
-          left: 0,
+          left: 16,
           top: 16,
           right: 16,
           bottom: 16 + MediaQuery.of(context).padding.bottom,
         ),
         child: Row(
           children: [
-            IconButton(
+            /*IconButton(
               onPressed: () async {
                 var imageSource = await ImageSourceBottomSheet().show(context);
                 if (imageSource == ImageSource.camera) {
                 } else if (imageSource == ImageSource.gallery) {}
               },
               icon: Icon(Icons.add),
-            ),
+            ),*/
             Expanded(
               child: Container(
                 decoration: BoxDecoration(

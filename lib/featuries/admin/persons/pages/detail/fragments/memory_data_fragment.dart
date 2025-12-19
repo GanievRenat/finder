@@ -1,4 +1,6 @@
 import 'package:flirta/common/data/models/persons/person_model.dart';
+import 'package:flirta/common/di/init_di.dart';
+import 'package:flirta/common/service/properties_service.dart';
 import 'package:flirta/featuries/admin/widgets/admin_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -18,9 +20,7 @@ class MemoryDataFragment extends StatelessWidget {
           MenuSelector(
             title: 'Escalation Triggers',
             initValue: state?.memorySlots,
-            values: {
-              'user_name; city; language; interests; taboos; weekly_goals',
-            },
+            values: getIt<PropertiesService>().escalationTriggers.toSet(),
             onChanged: (value) {
               final state = context.read<PersonDetailState>().personModel;
               context.read<PersonDetailState>().setNewState(

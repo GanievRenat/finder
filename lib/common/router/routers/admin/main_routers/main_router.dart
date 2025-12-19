@@ -28,6 +28,10 @@ class SettingsBranchData extends StatefulShellBranchData {
                   path: AlertDialogDeleteModelRoute.path,
                   name: AlertDialogDeleteModelRoute.name,
                 ),
+                TypedGoRoute<DetailChatAdminRoute>(
+                  path: DetailChatAdminRoute.path,
+                  name: DetailChatAdminRoute.name,
+                ),
               ],
             ),
           ],

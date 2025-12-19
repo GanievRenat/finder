@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:either_dart/either.dart';
@@ -44,6 +45,9 @@ class DatingDataProviderLocal extends DatingDataProvider {
   final SharedPreferences _sharedPreferences;
   final AppConfig _appConfig;
 
+  DocumentSnapshot<Map<String, dynamic>?>? _lastDoc;
+  DocumentSnapshot<Map<String, dynamic>?>? _lastHotDoc;
+
   DatingDataProviderLocal({
     required MatchAndBlockTable matchAndBlockTable,
     required FirebaseFirestore firestore,
@@ -60,7 +64,6 @@ class DatingDataProviderLocal extends DatingDataProvider {
   ) async {
     try {
       final List<PersonModel> result = [];
-      DocumentSnapshot<Map<String, dynamic>?>? lastDoc;
 
       // Получаем modelId пользователей, которые были лайкнуты или заблокированы
       var blockData = await _matchAndBlockTable.allModelIds(
@@ -75,47 +78,24 @@ class DatingDataProviderLocal extends DatingDataProvider {
         excludeIds: [...body.excludeIds, ...blockData],
       );
 
-      // Пока не соберём targetCount
+      _lastDoc = null;
+      _lastHotDoc = null;
+
       while (result.length < body.limit) {
-        Query<Map<String, dynamic>?> query = _firestore
-            .collection('models')
-            .limit(body.limit);
+        final filteredSFW = await _sendQuery(body: body, sfw: true);
+        final filteredNSFW = await _sendQuery(body: body, sfw: false);
 
-        if (lastDoc != null) {
-          query = query.startAfterDocument(lastDoc);
+        int maxIndex = max<int>(filteredSFW.length, filteredNSFW.length);
+        if (maxIndex > 0) {
+          for (int index = 0; index <= maxIndex - 1; index++) {
+            if (index <= (filteredNSFW.length - 1)) {
+              result.add(filteredNSFW[index]);
+            }
+            if (index <= (filteredSFW.length - 1)) {
+              result.add(filteredSFW[index]);
+            }
+          }
         }
-
-        if (body.filterData.interestedGender != Gender.none) {
-          query = query.where(
-            'gender',
-            isEqualTo: body.filterData.interestedGender
-                .getGenderForInterestedName(),
-          );
-        }
-
-        final snapshot = await query.get();
-
-        // Если данных больше нет → выходим
-        if (snapshot.docs.isEmpty) {
-          break;
-        }
-
-        // Фильтруем исключённые ID
-        /*final filtered = snapshot.docs
-            .where((doc) => !body.excludeIds.contains(doc.id))
-            .map((e) => PersonModel.fromJson(e))
-            .toList();*/
-
-        final filtered = snapshot.docs
-            .where((doc) => !body.excludeIds.contains(doc.id))
-            .map(
-              (doc) => PersonModel.fromJson(doc.data() as Map<String, dynamic>),
-            )
-            .toList();
-
-        result.addAll(filtered);
-
-        lastDoc = snapshot.docs.last;
       }
 
       // Возвращаем только нужное количество
@@ -127,6 +107,69 @@ class DatingDataProviderLocal extends DatingDataProvider {
     } catch (e) {
       return Future.value(Left(MainDatingError()));
     }
+  }
+
+  Query<Map<String, dynamic>?> _makeQuery({
+    required GetPartOfPersonsForDatingBody body,
+    required bool sfw,
+  }) {
+    int ageStart = body.filterData.ageStart <= 18
+        ? 18
+        : body.filterData.ageStart;
+
+    Query<Map<String, dynamic>?> query = _firestore
+        .collection('models')
+        .limit(body.limit);
+
+    query = query.where('identity_age_band', isGreaterThanOrEqualTo: ageStart);
+
+    if (body.filterData.interestedGender != Gender.none) {
+      query = query.where(
+        'gender',
+        isEqualTo: body.filterData.interestedGender
+            .getGenderForInterestedName(),
+      );
+    }
+
+    query = query.where('model_active', isEqualTo: true);
+    query = query.where('boundaries_store_sfw', isEqualTo: sfw);
+
+    if (sfw) {
+      if (_lastDoc != null) {
+        query = query.startAfterDocument(_lastDoc!);
+      }
+    } else {
+      if (_lastHotDoc != null) {
+        query = query.startAfterDocument(_lastHotDoc!);
+      }
+    }
+
+    return query;
+  }
+
+  Future<List<PersonModel>> _sendQuery({
+    required GetPartOfPersonsForDatingBody body,
+    required bool sfw,
+  }) async {
+    // Получаем ФИЛЬТРЫ БЕЗОПАСНЫХ
+    Query<Map<String, dynamic>?> query = _makeQuery(body: body, sfw: sfw);
+
+    final snapshot = await query.get();
+
+    final filtered = snapshot.docs
+        .where((doc) => !body.excludeIds.contains(doc.id))
+        .map((doc) => PersonModel.fromJson(doc.data() as Map<String, dynamic>))
+        .toList()
+        .where((p) => p.identityAgeBand <= body.filterData.ageFinish)
+        .toList();
+
+    if (sfw) {
+      _lastDoc = snapshot.docs.last;
+    } else {
+      _lastHotDoc = snapshot.docs.last;
+    }
+
+    return filtered;
   }
 
   @override

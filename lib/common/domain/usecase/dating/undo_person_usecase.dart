@@ -19,7 +19,7 @@ class UndoLast {
     // Удаляем пользователя из таблицы заблокированных
 
     await _datingRepository.undoLast(
-      UndoLastBody(userUid: _appStateService.currentUser.uid),
+      UndoLastBody(userUid: _appStateService.getUid),
     );
     return true;
   }

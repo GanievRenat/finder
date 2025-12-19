@@ -8,6 +8,8 @@ import 'package:flirta/common/router/router.dart';
 import 'package:flirta/common/service/app_state_service.dart';
 import 'package:flirta/featuries/chat/pages/detail_chat/detail_chat_page.dart';
 import 'package:flirta/featuries/chat/pages/list_chat/list_chat_page.dart';
+import 'package:flirta/featuries/chat/pages/photo_gallery/gallery/gallery_page.dart';
+import 'package:flirta/featuries/chat/pages/photo_gallery/slider/gallery_slider_page.dart';
 import 'package:flirta/featuries/dating/pages/filter/filter_page.dart';
 
 import 'package:flirta/featuries/dating/pages/dating/dating_page.dart';

@@ -1,3 +1,4 @@
+import 'package:flirta/common/extension/extension.dart';
 import 'package:flirta/common/ui/theme/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -63,7 +64,7 @@ class _TagState extends State<Tag> {
 
   Widget _buildTagLabel() {
     return Text(
-      widget.name.toUpperCase(),
+      widget.name.capitalize(),
       style: AppTheme.of(context).textStyle.captionL.copyWith(
         color: _select
             ? AppTheme.of(context).color.neutralLightLightest

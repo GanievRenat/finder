@@ -5,13 +5,17 @@ import 'package:flirta/common/data/models/models.dart';
 import 'package:flirta/common/data/models/persons/person_mapper.dart';
 import 'package:flirta/common/di/init_di.dart';
 import 'package:flirta/common/domain/usecase/usecases.dart';
+import 'package:flirta/common/service/ai_agent_service.dart';
+import 'package:flirta/common/service/remote_config_service.dart';
 import 'package:flirta/common/ui/theme/app_theme.dart';
 import 'package:flirta/common/ui/widgets/buttons/main_button.dart';
 import 'package:flirta/featuries/admin/persons/pages/list/state/person_list_cubit.dart';
+import 'package:flirta/featuries/chat/state/chat_cubit.dart';
 import 'package:flirta/generated/locale_keys.g.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'fragments/active_data_fragment.dart';
 import 'fragments/detail_fragments.dart';
 import 'state/person_detail_state.dart';
 
@@ -20,10 +24,12 @@ class PersonDetailAdminPage extends StatelessWidget {
     super.key,
     this.personModel,
     required this.onDeletePerson,
+    required this.onDetailChat,
   });
 
   final PersonModel? personModel;
   final Future<bool> Function() onDeletePerson;
+  final Function({required String modelId}) onDetailChat;
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +46,21 @@ class PersonDetailAdminPage extends StatelessWidget {
           actions: [
             if (personModel != null)
               RemoveButton(onDeletePerson: onDeletePerson),
+            if (personModel != null)
+              IconButton(
+                icon: Icon(Icons.message),
+                onPressed: () async {
+                  await getIt<RemoteConfigService>().init();
+                  await getIt<AIAgentService>().init();
+
+                  await getIt<ChatCubit>().init();
+
+                  await getIt<ChatCubit>().newChat(
+                    person: personModel!.toEntites(),
+                  );
+                  onDetailChat(modelId: personModel!.modelId);
+                },
+              ),
           ],
         ),
         body: SingleChildScrollView(
@@ -47,6 +68,7 @@ class PersonDetailAdminPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
+              ActiveDataFragment(),
               PersonalDataFragment(),
               IdentityDataFragment(),
               PhenotypeDataFragment(),
@@ -56,13 +78,13 @@ class PersonDetailAdminPage extends StatelessWidget {
               StyleDataFragment(),
               DinamicsDataFragment(),
               ApproachDataFragment(),
-              MemoryDataFragment(),
               IntellectDataFragment(),
               ComplimentsDataFragment(),
               LoyaltyDataFragment(),
               AxisDataFragment(),
               ChatDataFragment(),
               SfwOptionsDataFragment(),
+
               (personModel == null) ? CreateButton() : UpdateButton(),
             ],
           ),
@@ -243,117 +265,3 @@ class RemoveButton extends StatelessWidget {
     );
   }
 }
-
-/*class CopyButton extends StatefulWidget {
-  const CopyButton({super.key});
-
-  @override
-  State<CopyButton> createState() => _CopyButtonState();
-}
-
-class _CopyButtonState extends State<CopyButton> {
-  bool isLoading = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16.0),
-      child: MainButton(
-        isLoading: isLoading,
-        title: 'Copy',
-        onPressed: () async {
-          setState(() {
-            isLoading = true;
-          });
-          try {
-            final state = context.read<PersonDetailState>().personModel;
-
-            if (state != null) {
-              if (state.validate()) {
-                context.read<PersonDetailState>().setNewState(
-                  state.copyWith(artBio: state.getArtBio()),
-                );
-                await getIt<CreateNewPerson>().call(
-                  context.read<PersonDetailState>().personModel!.copyWith(
-                    modelId: 'girl_05',
-                  ),
-                );
-                await getIt<CreateNewPerson>().call(
-                  context.read<PersonDetailState>().personModel!.copyWith(
-                    modelId: 'girl_06',
-                  ),
-                );
-                await getIt<CreateNewPerson>().call(
-                  context.read<PersonDetailState>().personModel!.copyWith(
-                    modelId: 'girl_07',
-                  ),
-                );
-                await getIt<CreateNewPerson>().call(
-                  context.read<PersonDetailState>().personModel!.copyWith(
-                    modelId: 'girl_08',
-                  ),
-                );
-                await getIt<CreateNewPerson>().call(
-                  context.read<PersonDetailState>().personModel!.copyWith(
-                    modelId: 'girl_09',
-                  ),
-                );
-                await getIt<CreateNewPerson>().call(
-                  context.read<PersonDetailState>().personModel!.copyWith(
-                    modelId: 'girl_10',
-                  ),
-                );
-                await getIt<CreateNewPerson>().call(
-                  context.read<PersonDetailState>().personModel!.copyWith(
-                    modelId: 'girl_11',
-                  ),
-                );
-                await getIt<CreateNewPerson>().call(
-                  context.read<PersonDetailState>().personModel!.copyWith(
-                    modelId: 'girl_12',
-                  ),
-                );
-                await getIt<CreateNewPerson>().call(
-                  context.read<PersonDetailState>().personModel!.copyWith(
-                    modelId: 'girl_13',
-                  ),
-                );
-                await getIt<CreateNewPerson>().call(
-                  context.read<PersonDetailState>().personModel!.copyWith(
-                    modelId: 'girl_14',
-                  ),
-                );
-              } else {
-                ScaffoldMessenger.of(context).showMaterialBanner(
-                  MaterialBanner(
-                    backgroundColor: AppTheme.of(context).color.error,
-                    content: Text(
-                      'Заполните все данные анкеты',
-                      style: TextStyle(
-                        color: AppTheme.of(context).color.neutralLightLightest,
-                      ),
-                    ),
-                    actions: [
-                      MainButton.inversionSmall(
-                        title: LocaleKeys.properties_buttons_ok.tr(),
-                        onPressed: () => ScaffoldMessenger.of(
-                          context,
-                        ).clearMaterialBanners(),
-                      ),
-                    ],
-                  ),
-                );
-              }
-            }
-          } catch (e) {
-            log(e.toString());
-          }
-          setState(() {
-            isLoading = false;
-          });
-          context.pop();
-        },
-      ),
-    );
-  }
-}*/

@@ -21,8 +21,8 @@ class CreateNewChat {
       CreateNewChatBody(
         modelId: person.modelId,
         modelName: person.name,
-        modelAvatar: (person.photos.isNotEmpty) ? person.photos.first : '',
-        userUid: _appStateService.currentUser.uid,
+        modelAvatar: person.avatarMini,
+        userUid: _appStateService.getUid,
       ),
     );
     return result;

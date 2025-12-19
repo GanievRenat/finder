@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flirta/common/di/init_di.dart';
 import 'package:flirta/common/domain/entites/entities.dart';
 import 'package:flirta/common/enums/enums.dart';
+import 'package:flirta/common/extension/extension.dart';
 import 'package:flirta/featuries/dating/pages/dating/state/dating_cubit.dart';
 import 'package:flirta/generated/locale_keys.g.dart';
 import 'package:flutter/material.dart';
@@ -61,7 +62,6 @@ class _DetailPersonPageState extends State<DetailPersonPage> {
                       name: widget.person.name,
                       age: widget.person.age,
                       job: widget.person.job,
-                      onPayWall: widget.onPayWall,
                       showControlButton: widget.showControlButton,
                       onCallBack: (action) {
                         if (action == ActionCallBackPersonDetailEnums.like ||
@@ -98,7 +98,7 @@ class _DetailPersonPageState extends State<DetailPersonPage> {
                     ),
                     child: ListTileBio(
                       title: LocaleKeys.model_profile_life_style.tr(),
-                      text: widget.person.lifeStyle,
+                      text: widget.person.lifeStyle.capitalize(),
                     ),
                   ),
                 ],

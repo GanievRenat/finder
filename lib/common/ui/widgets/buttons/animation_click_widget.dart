@@ -47,12 +47,15 @@ class _AnimationClickWidgetState extends State<AnimationClickWidget>
     return MouseRegion(
       cursor: WidgetStateMouseCursor.clickable,
       child: GestureDetector(
+        behavior: HitTestBehavior.translucent,
         onTapDown: _onTapDown,
         onTapUp: _onTapUp,
         onTapCancel: () {
           _controller.reverse();
         },
-        onTap: widget.onTap,
+        onTap: () {
+          widget.onTap();
+        },
         child: Transform.scale(scale: scale, child: widget.child),
       ),
     );

@@ -5,6 +5,8 @@ import 'package:flirta/common/di/init_di.dart';
 import 'package:flirta/common/domain/usecase/usecases.dart';
 import 'package:flirta/common/service/analytics/events.dart';
 import 'package:flirta/common/service/auth_init_admin_service.dart';
+import 'package:flirta/common/service/properties_service.dart';
+import 'package:flirta/common/service/secure_storage_service.dart';
 import 'package:flirta/common/service/services.dart';
 
 import 'package:easy_localization/easy_localization.dart';
@@ -46,6 +48,8 @@ class AdminAppRunner implements AppRunner {
 
     getIt<CrashlyticsService>().init();
     await getIt<AnalyticsService>().init();
+    await getIt<PropertiesService>().loadAllProperties();
+    await getIt<SecureStorageService>().init();
 
     AuthInitAdminService(
       initAdmin: getIt<InitAdmin>(),

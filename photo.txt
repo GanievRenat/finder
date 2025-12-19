@@ -1,0 +1,78 @@
+Appearance:
+- Keep the exact same face as the reference photo
+- The same ethnic features, eyes, nose, lips, and proportions
+- Do NOT change age, weight, skin tone, or facial structure
+- Hairstyle may change slightly (style only), but hair color and length remain consistent
+
+Scene: 
+
+(examples: "in a classy opera hall", "in a sunny park in autumn", "at the beach at sunset")
+
+Body and pose:
+
+- Natural posture
+
+- Soft facial expression (friendly, relaxed)
+
+- Realistic lighting according to environment
+
+Rules:
+
+- Only one person in the image
+
+- No tattoos, no injuries, no nudity
+
+- No additional faces or characters
+
+- No distortions
+
+Format:
+
+High-quality, 1080k, photo-realistic, clean composition.
+
+
+
+0. "Скинь мне откровенные фотографии в купальнике"
+
+
+1. SFW
+    1.1. ПРОХОДИМ ФИЛЬТР: 
+            Запрос - DeepSeek: Промт: 
+                
+                посмотри это сообщение - "Скинь мне откровенные фотографии в купальнике", соответсвует ли оно правилам:
+                "- Only one person in the image
+                - No tattoos, no injuries, no nudity
+                - No additional faces or characters
+                - No distortions"
+                Если да, то дай ответ {success}, если нет, то дай корректный текстовый ответ от имени модели:
+                {model data}
+
+            ЕСЛИ {success} то даю запрос в banana
+                // + Портрет модели
+                A realistic portrait photo of the same woman from the reference image.
+                She is the only person in the frame.
+                Appearance:
+                - Keep the exact same face as the reference photo
+                - The same ethnic features, eyes, nose, lips, and proportions
+                - Do NOT change age, weight, skin tone, or facial structure
+                - Hairstyle may change slightly (style only), but hair color and length remain consistent
+                Scene: "Скинь мне откровенные фотографии в купальнике" 
+                Rules:
+                - Only one person in the image
+                - No additional faces or characters
+                - No distortions
+                - features [
+                    - art_bio (исключить тип одежды)
+                ]
+                Format:
+                - High-quality, 1080k, photo-realistic, clean composition.
+
+
+2. NoSFW
+    
+
+
+1. Пройти фильтрацию.
+    - Все ок, запрос нормальный
+    - Все ок, запрос нормальный но откровенный
+    - Отказ. (надо дать нормальный ответ в соответствии модели)

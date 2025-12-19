@@ -161,6 +161,16 @@ class AppTheme {
         color: colorScheme.neutralLightDark,
       ),
     ),
+    sliderTheme: SliderThemeData(
+      activeTrackColor: colorScheme.primaryDarkset,
+      inactiveTrackColor: colorScheme.neutralLightMedium,
+      thumbColor: colorScheme.primaryDarkset, // Цвет основной кнопки
+      activeTickMarkColor: colorScheme.primaryDarkset,
+      inactiveTickMarkColor: colorScheme.neutralLightMedium,
+      trackHeight: 8,
+      thumbSize: WidgetStatePropertyAll<Size>(Size(20, 20)),
+      overlayShape: RoundSliderOverlayShape(overlayRadius: 20),
+    ),
   );
 
   static ThemeData _createBaseThemeDataAdmin(

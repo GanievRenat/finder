@@ -5,3 +5,4 @@ export 'persons/person_model.dart';
 export 'chat/chat_model.dart';
 export 'chat/messages_model.dart';
 export 'remote_config/remote_config_model.dart';
+export 'photo_request/photo_request_model.dart';

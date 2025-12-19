@@ -1,4 +1,6 @@
 import 'package:flirta/common/data/models/persons/person_model.dart';
+import 'package:flirta/common/di/init_di.dart';
+import 'package:flirta/common/service/properties_service.dart';
 import 'package:flirta/featuries/admin/widgets/admin_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -66,12 +68,7 @@ class ComplimentsDataFragment extends StatelessWidget {
           MenuSelector(
             title: 'Triggers',
             initValue: state?.complimentsTriggers,
-            values: {
-              'achievements; initiative; humor',
-              'achievements; kindness; patience',
-              'achievements; vulnerability; humor',
-              'metrics_shared; training_story; clear_plan',
-            },
+            values: getIt<PropertiesService>().triggers.toSet(),
             onChanged: (value) {
               final state = context.read<PersonDetailState>().personModel;
               context.read<PersonDetailState>().setNewState(

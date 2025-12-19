@@ -16,6 +16,9 @@ class Person extends Equatable {
   final List<String> interests;
   final String requestToChat;
   final List<String> photos;
+  final String video;
+  final String avatarMini;
+  final String avatar;
   final bool sfw;
 
   const Person({
@@ -27,6 +30,9 @@ class Person extends Equatable {
     required this.job,
     required this.sfw,
     this.lifeStyle = '',
+    this.video = '',
+    this.avatarMini = '',
+    this.avatar = '',
     this.photos = const [],
     this.interests = const [],
     required this.requestToChat,
@@ -40,6 +46,9 @@ class Person extends Equatable {
     String? job,
     String? bio,
     String? lifeStyle,
+    String? video,
+    String? avatarMini,
+    String? avatar,
     List<String>? interests,
     List<String>? photos,
     String? requestToChat,
@@ -57,6 +66,9 @@ class Person extends Equatable {
       lifeStyle: lifeStyle ?? this.lifeStyle,
       photos: photos ?? this.photos,
       sfw: sfw ?? this.sfw,
+      video: video ?? this.video,
+      avatarMini: avatarMini ?? this.avatarMini,
+      avatar: avatar ?? this.avatar,
     );
   }
 
@@ -84,6 +96,9 @@ class Person extends Equatable {
       sfw: json['boundaries.store_sfw'] ?? true,
       requestToChat: json['requestToChat'] ?? '',
       lifeStyle: json['lifeStyle'] ?? '',
+      video: json['video'] ?? '',
+      avatarMini: json['avatarMini'] ?? '',
+      avatar: json['avatar'] ?? '',
       gender: getGender(json['gender'] ?? ''),
       interests: json['interests'] != null
           ? (json['interests'] as List<dynamic>)
@@ -111,6 +126,9 @@ class Person extends Equatable {
       'interests': interests,
       'photos': photos,
       'boundaries.store_sfw': sfw,
+      'avatarMini': avatarMini,
+      'avatar': avatar,
+      'video': video,
     };
 
     return json.encode(jsonMap);
@@ -129,5 +147,8 @@ class Person extends Equatable {
     requestToChat,
     photos,
     sfw,
+    video,
+    avatarMini,
+    avatar,
   ];
 }

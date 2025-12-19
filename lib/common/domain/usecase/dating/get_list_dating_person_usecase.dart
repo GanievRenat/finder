@@ -29,7 +29,7 @@ class GetListDatingPerson {
     var result = await _datingRepository.getPartOfPersonsForDating(
       GetPartOfPersonsForDatingBody(
         filter: filters,
-        userUid: _appStateService.currentUser.uid,
+        userUid: _appStateService.getUid,
         limit: _appStateService.isPremium ? 14 : 4,
       ),
     );

@@ -1,4 +1,6 @@
 import 'package:flirta/common/data/models/persons/person_model.dart';
+import 'package:flirta/common/di/init_di.dart';
+import 'package:flirta/common/service/properties_service.dart';
 import 'package:flirta/featuries/admin/widgets/admin_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -18,12 +20,7 @@ class DinamicsDataFragment extends StatelessWidget {
           MenuSelector(
             title: 'Escalation Triggers',
             initValue: state?.dynamicsEscalationTriggers,
-            values: {
-              'positive_feedback; stable_dialog_10+; mutual_compliments',
-              'shared calm; respect; thoughtful listening',
-              'shared humor; curiosity; calm confidence',
-              'shared humor; curiosity; empathy',
-            },
+            values: getIt<PropertiesService>().escalationTriggers.toSet(),
             onChanged: (value) {
               final state = context.read<PersonDetailState>().personModel;
               context.read<PersonDetailState>().setNewState(
@@ -36,11 +33,7 @@ class DinamicsDataFragment extends StatelessWidget {
           MenuSelector(
             title: 'Anti Triggers',
             initValue: state?.dynamicsAntiTriggers,
-            values: {
-              'arrogance; pressure; rudeness',
-              'cold_replies; topic_change; toxicity',
-              'disrespect; pressure; rudeness',
-            },
+            values: getIt<PropertiesService>().antiTrigers.toSet(),
             onChanged: (value) {
               final state = context.read<PersonDetailState>().personModel;
               context.read<PersonDetailState>().setNewState(

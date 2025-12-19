@@ -54,8 +54,34 @@ class PersonDetailAdminRoute extends GoRouteData with $PersonDetailAdminRoute {
         personModel: personModel != null
             ? PersonModel.fromJson(json.decode(personModel!)!)
             : null,
+        onDetailChat: ({required String modelId}) async =>
+            await DetailChatAdminRoute(modelId: modelId).push(context) ?? false,
         onDeletePerson: () async =>
             await AlertDialogDeleteModelRoute().push<bool?>(context) ?? false,
+      ),
+    );
+  }
+}
+
+class DetailChatAdminRoute extends GoRouteData with $DetailChatAdminRoute {
+  const DetailChatAdminRoute({required this.modelId});
+
+  static const path = 'detail_chats';
+  static const name = 'detail_chats';
+
+  final String modelId;
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return DialogPage<bool>(
+      key: state.pageKey,
+      name: name,
+      dialogContent: DetailChatPage(
+        modelId: modelId,
+        onPhotoGallery: ({required person}) {},
+        onDetailPerson: ({required person}) {},
+        onSliderPhoto: ({required fileName, required modelId}) {},
+        onPayWall: () async => false,
       ),
     );
   }

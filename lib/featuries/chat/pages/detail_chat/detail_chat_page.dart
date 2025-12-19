@@ -21,11 +21,16 @@ class DetailChatPage extends StatelessWidget {
     required this.modelId,
     required this.onDetailPerson,
     required this.onPhotoGallery,
+    required this.onSliderPhoto,
+    required this.onPayWall,
   });
 
   final String modelId;
   final Function({required Person person}) onDetailPerson;
-  final Function({required String modelId}) onPhotoGallery;
+  final Function({required Person person}) onPhotoGallery;
+  final Function({required String fileName, required String modelId})
+  onSliderPhoto;
+  final Future<bool> Function() onPayWall;
 
   final GlobalKey _chatListKey = GlobalKey();
 
@@ -56,8 +61,17 @@ class DetailChatPage extends StatelessWidget {
               loading: (context) => ChatDetailLoaderFragment(),
               error: (context, value, child) =>
                   ChatDetailErrorFragment(error: value.toString()),
-              success: (context, value, child) =>
-                  ChatDetailDataFragment(key: _chatListKey, modelId: modelId),
+              success: (context, value, child) => ChatDetailDataFragment(
+                key: _chatListKey,
+                modelId: modelId,
+                onSliderPhoto: onSliderPhoto,
+                onPayWall: () async {
+                  var result = await onPayWall();
+                  if (result && context.mounted) {
+                    BlocProvider.of<DetailChatCubit>(context).getDetailChat();
+                  }
+                },
+              ),
             ),
           ),
         ),

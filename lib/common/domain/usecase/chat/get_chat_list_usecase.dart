@@ -16,9 +16,7 @@ class GetChatList {
        _appStateService = appStateService;
 
   Future<Either<ChatError, List<Chat>>> call() async {
-    var result = await _chatRepository.getChats(
-      _appStateService.currentUser.uid,
-    );
+    var result = await _chatRepository.getChats(_appStateService.getUid);
     return result;
   }
 }

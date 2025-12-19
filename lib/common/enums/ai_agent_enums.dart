@@ -12,7 +12,7 @@ enum AIAgentChat {
 
 enum AIAgentImage {
   none('none'), //
-  aistudio('aistudio'), // Фото с SFW (безопасно)
+  banana('banana'), // Фото с SFW (безопасно)
   spicyapi('spicyapi'); // Фото без SFW (горячиеы)
 
   const AIAgentImage(this.displayName);
@@ -24,6 +24,7 @@ enum AIAgentImage {
 
 enum AIAgentResultAnswer {
   success('success'), //
+  photo('photo'), //
   error('error'); //
 
   const AIAgentResultAnswer(this.displayName);

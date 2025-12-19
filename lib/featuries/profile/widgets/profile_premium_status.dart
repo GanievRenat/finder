@@ -6,16 +6,16 @@ import 'package:flutter/material.dart';
 class ProfilePremiumStatus extends StatelessWidget {
   const ProfilePremiumStatus({super.key, required this.onTap});
 
-  final Function() onTap;
+  final Function(bool isPremiumStatus) onTap;
 
   @override
   Widget build(BuildContext context) {
     bool isPremium = getIt<AppStateService>().isPremium;
 
     if (isPremium) {
-      return PremiumStatus();
+      return PremiumStatus(onTap: () => onTap(true));
     } else {
-      return NoPremiumStatus(onTap: onTap);
+      return NoPremiumStatus(onTap: () => onTap(false));
     }
   }
 }

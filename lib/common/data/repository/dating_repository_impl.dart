@@ -96,7 +96,24 @@ class DatingRepositoryImpl implements DatingRepository {
       models.map((e) async {
         var ent = e.toEntites();
         var photos = await _storageServices.getPhotoList(ent.modelId);
-        ent = ent.copyWith(photos: photos);
+        var avatarMini = await _storageServices.getAvatarMini(ent.modelId);
+        var avatar = await _storageServices.getAvatar(ent.modelId);
+        var video = await _storageServices.getVideo(ent.modelId);
+
+        ent = ent.copyWith(
+          photos: photos,
+          avatarMini: avatarMini.isEmpty
+              ? photos.isNotEmpty
+                    ? photos.first
+                    : ''
+              : avatarMini,
+          video: video,
+          avatar: avatar.isEmpty
+              ? photos.isNotEmpty
+                    ? photos.first
+                    : ''
+              : avatar,
+        );
         return ent;
       }),
     );
@@ -144,7 +161,23 @@ class DatingRepositoryImpl implements DatingRepository {
     if (result.isRight) {
       var ent = result.right.toEntites();
       var photos = await _storageServices.getPhotoList(ent.modelId);
-      ent = ent.copyWith(photos: photos);
+      var avatarMini = await _storageServices.getAvatarMini(ent.modelId);
+      var avatar = await _storageServices.getAvatar(ent.modelId);
+      var video = await _storageServices.getVideo(ent.modelId);
+      ent = ent.copyWith(
+        photos: photos,
+        avatarMini: avatarMini.isEmpty
+            ? photos.isNotEmpty
+                  ? photos.first
+                  : ''
+            : avatarMini,
+        video: video,
+        avatar: avatar.isEmpty
+            ? photos.isNotEmpty
+                  ? photos.first
+                  : ''
+            : avatar,
+      );
       personsCash[body.modelId] = ent;
       return Right(ent);
     } else {

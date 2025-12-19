@@ -1,4 +1,6 @@
 import 'package:flirta/common/data/models/persons/person_model.dart';
+import 'package:flirta/common/di/init_di.dart';
+import 'package:flirta/common/service/properties_service.dart';
 import 'package:flirta/featuries/admin/widgets/admin_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -67,15 +69,13 @@ class _SfwOptionsDataFragmentState extends State<SfwOptionsDataFragment> {
             contentPadding: EdgeInsets.zero,
             title: Text('SFW mode'),
           ),
-          if (sfw)
+
+          /*if (sfw)
             MenuSelector(
               key: ValueKey('Desires'),
               initValue: state?.safetyDesiresSfw,
               title: 'Desires',
-              values: {
-                'slow_date_rhythm; gentle_gestures; goodbye_kiss',
-                'walks; coffee_dates; soft_tease',
-              },
+              values: {'slow_date_rhythm; gentle_gestures; goodbye_kiss; walks; coffee_dates; soft_tease',},
               onChanged: (value) {
                 final state = context.read<PersonDetailState>().personModel;
                 context.read<PersonDetailState>().setNewState(
@@ -84,14 +84,13 @@ class _SfwOptionsDataFragmentState extends State<SfwOptionsDataFragment> {
                       : state.copyWith(safetyDesiresSfw: value),
                 );
               },
-            ),
-
+            ),*/
           if (!sfw)
             MenuSelector(
               key: ValueKey('HeatRamp'),
               initValue: state?.approachHeatRamp,
               title: 'Heat Ramp',
-              values: {'brisk', 'gentle', 'steady'},
+              values: getIt<PropertiesService>().heatRamp.toSet(),
               onChanged: (value) {
                 final state = context.read<PersonDetailState>().personModel;
                 context.read<PersonDetailState>().setNewState(

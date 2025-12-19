@@ -91,7 +91,9 @@ class PersonDataProviderFireBase extends PersonDataProvider {
         return Left(MainPersonRepositoryError());
       }
 
-      await docRef.update(newPerson.toJson());
+      var map = newPerson.toJson();
+
+      await docRef.update(map);
 
       return Right(true);
     } catch (e) {

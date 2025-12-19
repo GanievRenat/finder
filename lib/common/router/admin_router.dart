@@ -7,6 +7,7 @@ import 'package:flirta/featuries/admin/main/main_page.dart';
 import 'package:flirta/featuries/admin/persons/pages/detail/person_detail_page.dart';
 import 'package:flirta/featuries/admin/persons/pages/list/persons_admin_page.dart';
 import 'package:flirta/featuries/admin/settings/pages/settings_admin_page.dart';
+import 'package:flirta/featuries/chat/pages/detail_chat/detail_chat_page.dart';
 import 'package:flirta/generated/locale_keys.g.dart';
 import 'package:flutter/material.dart';
 

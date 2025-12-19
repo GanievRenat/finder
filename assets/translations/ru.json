@@ -37,6 +37,18 @@
         "labels": {
             "email": "Email",
             "password": "Password"
+        },
+        "notification_text": {
+            "0": "Let's play 💬",
+            "1": "Let's have some fun!",
+            "2": "Miss our chats 💭",
+            "3": "Hey, where are you?",
+            "4": "I'm bored, talk to me 👍",
+            "5": "Your turn to text!",
+            "6": "Got a minute? 😊",
+            "7": "Let's chat! 🗣️",
+            "8": "Thinking of you 💫",
+            "9": "Ready when you are ✅"
         }
     },
     "auth": {
@@ -61,8 +73,8 @@
         "you_identify_tip": "Choose the opton",
         "interested_title": "Who are you\ninterested in?",
         "interested_gender": {
-            "male1": "Men",
-            "female1": "Women",
+            "male1": "Man",
+            "female1": "Woman",
             "nonBinary": "Non-binary",
             "everyone": "Everyone"
         },
@@ -87,6 +99,7 @@
         "button_apply_filter": "Apply Filteres",
         "interests": "Interests",
         "preference": "Preference",
+        "age_range": "Age range",
         "interests_tags" : {
             "0": "Fitness",
             "1": "Running",
@@ -159,6 +172,13 @@
                 "subtitle": "Start swiping to get\nnew matches",
                 "button": "Find matches"
             }
+        },
+        "gallery": {
+            "empty": {
+                "title": "There are no\nphotos yet",
+                "subtitle": "You can ask for my photo\nin the chat",
+                "button": "Return to chat"
+            }
         }
     },
     "user_profile": {
@@ -224,6 +244,17 @@
                 "12": "Tap here to start!",
                 "13": "What’s your vibe?",
                 "14": "Hello! Let's explore."
+            },
+            "imnotshure": {
+                "0": "I apologize, I didn't quite catch that. Could you please rephrase it?",
+                "2": "I'm not entirely sure I understood your request. Could you clarify it for me?",
+                "3": "I think I might have missed something. Mind saying that again in a different way?",
+                "4": "Could you please repeat that?",
+                "5": "I want to make sure I get this right. Can you elaborate a bit more?",
+                "6": "My apologies, your meaning wasn't entirely clear to me. Would you mind restating it?",
+                "7": "It seems I may have misunderstood. Could you explain what you meant?",
+                "8": "Sorry, I didn't fully get that. Can you say it another way?",
+                "9": "To avoid any confusion, could you please clarify your request?"
             }
         },
         "match": {

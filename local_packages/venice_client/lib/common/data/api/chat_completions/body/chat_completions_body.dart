@@ -6,8 +6,11 @@ part 'chat_completions_body.g.dart';
 @freezed
 abstract class ChatCompletionsBody with _$ChatCompletionsBody {
   const factory ChatCompletionsBody({
-    required List<Map<String, dynamic>> messages,
-    required String model,
+    @Default([]) @JsonKey(name: 'messages') List<Map<String, dynamic>> messages,
+    @Default('venice-uncensored') @JsonKey(name: 'model') String model,
+    @Default({})
+    @JsonKey(name: 'venice_parameters')
+    Map<String, dynamic> veniceParameters,
   }) = _ChatCompletionsBody;
 
   factory ChatCompletionsBody.fromJson(Map<String, Object?> json) =>

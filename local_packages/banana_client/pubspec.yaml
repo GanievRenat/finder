@@ -1,0 +1,60 @@
+name: banana_client
+description: "Banana Client"
+version: 0.0.1
+
+environment:
+  sdk: ^3.10.1
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Работа с сетью
+  dio: ^5.8.0+1
+  retrofit: ^4.7.0
+  internet_connection_checker: ^3.0.1
+  freezed_annotation: ^3.1.0
+  json_annotation: ^4.9.0
+
+  # Логирование
+  logger: ^2.6.1
+
+  equatable: ^2.0.7
+  either_dart: ^1.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  injectable_generator: ^2.7.0
+  json_serializable: ^6.11.1
+  build_runner: ^2.10.1
+  flutter_gen_runner: ^5.12.0
+  freezed: ^3.2.3
+  retrofit_generator: ^10.0.6
+  melos: ^7.1.1
+
+melos:
+  packages:
+    - .
+  scripts:
+    clean:
+      run: flutter clean
+      description: Очистка сборки проекта.
+
+    bootstrap:
+      run: flutter pub get
+      description: Устанавливает зависимости для всех пакетов.
+
+    generate:
+      run: |
+        flutter pub run build_runner build --delete-conflicting-outputs
+      description: Генерация кода.
+
+    go:
+      run: |
+        flutter clean
+        flutter pub get
+        flutter pub run build_runner build --delete-conflicting-outputs
+      description: Запускаем все.

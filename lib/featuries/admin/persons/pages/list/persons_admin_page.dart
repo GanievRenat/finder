@@ -25,6 +25,8 @@ class PersonsAdminPage extends StatefulWidget {
 }
 
 class _PersonsAdminPageState extends State<PersonsAdminPage> {
+  bool isLoadingExport = false;
+
   @override
   void initState() {
     super.initState();
@@ -39,6 +41,39 @@ class _PersonsAdminPageState extends State<PersonsAdminPage> {
         centerTitle: false,
         title: Text(LocaleKeys.admin_persons_title.tr()),
         actions: [
+          IconButton(
+            icon: Icon(
+              Icons.download,
+              color: AppTheme.of(context).color.primaryDarkset,
+            ),
+            onPressed: () async {
+              var csvData = await getIt<PersonListCubit>().pickAndReadCsv();
+              if (csvData != null) {
+                var verification = getIt<PersonListCubit>().validateCSVData(
+                  csvData,
+                );
+                if (verification) {
+                  setState(() {
+                    isLoadingExport = true;
+                  });
+                  var modelList = getIt<PersonListCubit>().exportCSVtoModel(
+                    csvData,
+                  );
+                  int count = await getIt<PersonListCubit>().createNewModels(
+                    modelList,
+                  );
+                  if (count > 0) {
+                    getIt<PersonListCubit>().init();
+                  }
+                  setState(() {
+                    isLoadingExport = false;
+                  });
+                } else {
+                  // Надо вывести ошибку
+                }
+              }
+            },
+          ),
           IconButton(
             icon: Icon(
               Icons.add_circle,

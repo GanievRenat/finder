@@ -5,6 +5,7 @@ import 'package:flirta/featuries/dating/pages/filter/state/filter_cubit.dart';
 import 'package:flirta/generated/locale_keys.g.dart';
 import 'package:flutter/material.dart';
 import '../../../../../../common/ui/widgets/widgets.dart';
+import '../age_options.dart';
 
 class FilterStateData extends StatelessWidget {
   FilterStateData({super.key, required this.filterStateData});
@@ -20,7 +21,12 @@ class FilterStateData extends StatelessWidget {
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 16.0, top: 16, right: 16),
+            padding: const EdgeInsets.only(
+              left: 16.0,
+              top: 16,
+              right: 16,
+              bottom: 24,
+            ),
             child: GenderTagsGroup(
               key: globalKeyGender,
               title: LocaleKeys.filter_preference.tr(),
@@ -30,10 +36,17 @@ class FilterStateData extends StatelessWidget {
               },
             ),
           ),
+          AgeOption(
+            initAgeStart: filterStateData.ageStart,
+            initAgeFinish: filterStateData.ageFinish,
+            onChanched: (ageStart, ageFinish) {
+              getIt<FilterCubit>().setNewAgeRang(ageStart, ageFinish);
+            },
+          ),
           Padding(
             padding: const EdgeInsets.only(
               left: 16.0,
-              top: 32,
+              top: 16,
               right: 16,
               bottom: 16,
             ),

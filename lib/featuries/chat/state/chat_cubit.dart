@@ -49,29 +49,32 @@ class ChatCubit extends Cubit<ChatState> {
     updateChatList(loadingStatus: false);
   }
 
-  void newChat({required Person person}) async {
+  Future<void> newChat({required Person person}) async {
     // Надо проверить, возможно уже существует чат с этой моделью
 
-    // Создали новый чат
-    var result = await _cretaeNewChat(person);
-    // Надо добавить в него первое сообщение
-    if (result.isRight) {
-      int messageNumber = Random().nextInt(15);
+    int index = _chatList.indexWhere((c) => c.modelId == person.modelId);
+    if (index == -1) {
+      // Создали новый чат
+      var result = await _cretaeNewChat(person);
+      // Надо добавить в него первое сообщение
+      if (result.isRight) {
+        int messageNumber = Random().nextInt(15);
 
-      // Делаем иммитацию первого сообщения от модели
-      await _sendMessageToChat(
-        AddNewMessageBody(
-          modelId: person.modelId,
-          owner: Owner.person,
-          message: 'dating.chat.first_welcome_message.$messageNumber'.tr(),
-          images: [],
-        ),
-      );
+        // Делаем иммитацию первого сообщения от модели
+        await _sendMessageToChat(
+          AddNewMessageBody(
+            modelId: person.modelId,
+            owner: Owner.person,
+            message: 'dating.chat.first_welcome_message.$messageNumber'.tr(),
+            images: [],
+          ),
+        );
 
-      // Обновить список чатов
-      updateChatList(loadingStatus: false);
-    } else {
-      emit(ChatState.error(result.left.errorText));
+        // Обновить список чатов
+        updateChatList(loadingStatus: false);
+      } else {
+        emit(ChatState.error(result.left.errorText));
+      }
     }
   }
 
@@ -126,56 +129,59 @@ class ChatCubit extends Cubit<ChatState> {
     required String modelId,
     required String message,
     List<String> images = const [],
+    Owner owner = Owner.you,
   }) async {
     await _sendMessageToChat(
       AddNewMessageBody(
         modelId: modelId,
-        owner: Owner.you,
+        owner: owner,
         message: message,
         images: images,
       ),
     );
     updateChatList(loadingStatus: false, modelId: modelId, waitingStatus: true);
 
-    var resultDetailPerson = await _detailOfPerson(modelId);
-    if (resultDetailPerson.isRight) {
-      // надо найти чат
-      var result = _chatList.where((c) => c.modelId == modelId);
-      if (result.isNotEmpty) {
-        _aiAgentService
-            .sendMessage(
-              message: message,
-              model: resultDetailPerson.right,
-              chat: result.first,
-            )
-            .then((value) {
-              if (value.result != AIAgentResultAnswer.error) {
-                _sendMessageToChat(
-                      AddNewMessageBody(
-                        modelId: modelId,
-                        owner: Owner.person,
-                        message: value.message,
-                        images: value.images,
-                      ),
-                    )
-                    .then((value) {
-                      updateChatList(
-                        loadingStatus: false,
-                        modelId: modelId,
-                        waitingStatus: false,
-                      );
-                    })
-                    .onError((error, stackTrace) {
-                      _setWaitingStatus(modelId, false);
-                    });
-              }
-            })
-            .onError((error, stackTrace) {
-              _setWaitingStatus(modelId, false);
-            });
+    if (owner == Owner.you) {
+      var resultDetailPerson = await _detailOfPerson(modelId);
+      if (resultDetailPerson.isRight) {
+        // надо найти чат
+        var result = _chatList.where((c) => c.modelId == modelId);
+        if (result.isNotEmpty) {
+          _aiAgentService
+              .sendMessage(
+                message: message,
+                model: resultDetailPerson.right,
+                chat: result.first,
+              )
+              .then((value) {
+                if (value.result != AIAgentResultAnswer.error) {
+                  _sendMessageToChat(
+                        AddNewMessageBody(
+                          modelId: modelId,
+                          owner: Owner.person,
+                          message: value.message,
+                          images: value.images,
+                        ),
+                      )
+                      .then((value) {
+                        updateChatList(
+                          loadingStatus: false,
+                          modelId: modelId,
+                          waitingStatus: false,
+                        );
+                      })
+                      .onError((error, stackTrace) {
+                        _setWaitingStatus(modelId, false);
+                      });
+                }
+              })
+              .onError((error, stackTrace) {
+                _setWaitingStatus(modelId, false);
+              });
+        }
+      } else {
+        _setWaitingStatus(modelId, false);
       }
-    } else {
-      _setWaitingStatus(modelId, false);
     }
   }
 }

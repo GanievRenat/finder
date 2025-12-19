@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:venice_client/common/data/api/chat_completions/body/chat_completions_body.dart';
 import 'package:venice_client/common/data/models/answer/answer_model.dart';
 import 'package:venice_client/common/domain/entities/answer/answer.dart';
@@ -18,12 +20,16 @@ class MessageRepositoryImpl implements MessageRepository {
   @override
   Future<Either<SendMessageError, Answer>> send(SendMessageBody body) async {
     try {
-      var result = await _chatCompletionsApi.send(
-        request: ChatCompletionsBody(
-          messages: body.messages.map((e) => e.toMap()).toList(),
-          model: body.model.toString(),
-        ),
+      var newBody = ChatCompletionsBody(
+        messages: body.messages.map((e) => e.toMap()).toList(),
+        model: body.model.toString(),
+        veniceParameters: {
+          "include_venice_system_prompt": true,
+          "temperature": 1,
+        },
       );
+      log(newBody.toJson().toString());
+      var result = await _chatCompletionsApi.send(request: newBody);
       // result -> entities
       return Right(result.toEntites());
     } catch (e) {

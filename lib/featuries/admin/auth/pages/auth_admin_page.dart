@@ -82,6 +82,7 @@ class _AuthAdminPageState extends State<AuthAdminPage> {
                           },
                           keyboardType: TextInputType.emailAddress,
                         ),
+                        AppSpacing.vertical.s4,
                         TextFormField(
                           controller: _passwordController,
                           decoration: InputDecoration(
