@@ -223,6 +223,18 @@
                 "7": "I see the message, but I'm running on empty. Won't make it today, sorry. But the photo for you tomorrow — it's sacred! I'll set a reminder.",
                 "8": "Nothing's getting sent today, I admit — I'm completely swamped. But I give you my word, the photo for you will be the first item on my to-do list tomorrow!",
                 "9": "Ugh, today is just crazy, I'm being pulled in a million directions! Let's better move this to tomorrow morning? I'll find and send the photo for you first thing, I promise!"
+            },
+            "sorry_something_wrong_with_my_photo": {
+                "0": "Oops, sorry, something went wrong, the photo won't send! Honestly, I'm clueless when it comes to phones, always struggling with them. Remind me a bit later, okay? Maybe it'll fix itself by then.",
+                "1": "Ugh, technology is letting me down again. Wanted to send the photo, but it's refusing. I'm a total zero with gadgets, as always at the worst possible moment. Try texting me in an hour or so, maybe I'll come to my senses and figure it out.",
+                "2": "Darn, everything's frozen! My phone is glitching again, and I'm no expert. The photo is trapped. How about this: you give me a nudge in a couple of hours, and I'll throw myself at the problem with renewed vigor.",
+                "3": "Haha, what a noob I am! Again, I can't send the photo, all the buttons are weird. Probably need an eight-year-old tech whiz. Will you remind me later? Who knows, I might even figure out how it works.",
+                "4": "Oh no, everything's broken! Why does technology always act up when it's urgently needed? With phones, I'm like a bull in a china shop. Maybe try reminding me tonight? I'll be calmer then.",
+                "5": "Seriously?! This stupid internet or whatever again. Honestly, I can't even find the \"fix everything\" button. Don't be mad, remind me a little later, okay?",
+                "6": "Whoops, technological failure! My phone clearly objects to me sending anything to anyone. We're on formal terms, unfortunately. Let's postpone for a couple of hours? By then, maybe it will forgive me.",
+                "7": "Argh, again! The photo seems glued in place. I've already shaken it, rebooted — useless. I'm not good at this, alas. How about you send me an emoji tonight, and I'll try again?",
+                "8": "Honestly? I'm stumped. My phone is pretending not to understand what I want. And I don't really understand how it works either. Would you mind reminding me in an hour or two? I'd be so grateful!",
+                "9": "Well, there you go, my technical incompetence is showing again. Tried to send the photo — radio silence. Told you I'm not friends with tech. Won't you abandon me in my time of need? Remind me later, and we'll fight this evil device together."
             }
         },
         "gallery": {

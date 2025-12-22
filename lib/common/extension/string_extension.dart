@@ -36,3 +36,15 @@ extension StringCapitalization on String {
     return this[0].toUpperCase() + substring(1).toLowerCase();
   }
 }
+
+extension StringExtraction on String {
+  String extractBetweenBraces() {
+    final first = indexOf('{');
+    final last = lastIndexOf('}');
+
+    if (first != -1 && last != -1 && first <= last) {
+      return substring(first, last + 1);
+    }
+    return '';
+  }
+}

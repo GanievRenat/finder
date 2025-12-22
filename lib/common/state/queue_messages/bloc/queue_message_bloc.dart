@@ -1,6 +1,8 @@
 import 'dart:async';
-import 'dart:developer';
 
+import 'dart:math';
+
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flirta/common/domain/usecase/usecases.dart';
 import 'package:flirta/common/enums/enums.dart';
 import 'package:flirta/common/service/remote_config_service.dart';
@@ -8,6 +10,8 @@ import 'package:flirta/common/service/secure_storage_service.dart';
 import 'package:flirta/featuries/chat/state/chat_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:logger/logger.dart';
+import 'package:spicyapi_client/common/domain/entities/answer/answer.dart';
 import 'package:spicyapi_client/spicyapi_client.dart' as spacy;
 
 import '../event/queue_messages_event.dart';
@@ -23,6 +27,7 @@ class TickerBloc extends Bloc<TickerEvent, TickerState> {
   final LoadQueueMessage _loadQueueMessage;
   final SaveQueueMessage _saveQueueMessage;
   final ChatCubit _chatCubit;
+  final Logger _logger;
 
   Map<String, dynamic> queueMessages = {};
 
@@ -37,12 +42,14 @@ class TickerBloc extends Bloc<TickerEvent, TickerState> {
     required LoadQueueMessage loadQueueMessage,
     required SaveQueueMessage saveQueueMessage,
     required ChatCubit chatCubit,
+    required Logger logger,
   }) : _spacyClient = spacyClient,
        _remoteConfig = remoteConfig,
        _chatCubit = chatCubit,
        _secureStorageService = securiteStore,
        _loadQueueMessage = loadQueueMessage,
        _saveQueueMessage = saveQueueMessage,
+       _logger = logger,
        super(const TickerState()) {
     on<TickerStarted>(_onStarted);
     on<TickerGo>(_onTickerGo);
@@ -117,17 +124,28 @@ class TickerBloc extends Bloc<TickerEvent, TickerState> {
                   images: [fileName],
                 );
                 await _secureStorageService.addRequestSpicy();
-                _chatCubit.setWaitingPhotoStatus(modelId, false);
               }
             } catch (e) {
-              log(e.toString());
+              _logger.e(e.toString());
             }
             queueMessages.remove(modelId);
-            _chatCubit.setWaitingPhotoStatus(modelId, false);
+          } else {
+            if (resultStatus.right.status == Status.cancelled ||
+                resultStatus.right.status == Status.failed) {
+              queueMessages.remove(modelId);
+              // Отправить ошибку об ошибке.
+              int imNotShureIndex = Random().nextInt(10);
+              _chatCubit.sendMessage(
+                modelId: modelId,
+                message:
+                    'chat.messages.sorry_something_wrong_with_my_photo.$imNotShureIndex'
+                        .tr(),
+                owner: Owner.person,
+              );
+            }
           }
         } else {
           queueMessages.remove(modelId);
-          _chatCubit.setWaitingPhotoStatus(modelId, false);
         }
         _chatCubit.updateChatList(loadingStatus: false);
       }
@@ -146,6 +164,10 @@ class TickerBloc extends Bloc<TickerEvent, TickerState> {
       _saveQueueMessage(queueMessages);
     }
     add(TickerStarted());
+  }
+
+  void removeBananaRequest() {
+    queueMessages.removeWhere((k, v) => v == 'banana');
   }
 
   @override

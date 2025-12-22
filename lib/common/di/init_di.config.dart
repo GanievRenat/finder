@@ -598,11 +598,6 @@ extension GetItInjectableX on _i174.GetIt {
         setReadChat: gh<_i25.SetReadChat>(),
       ),
     );
-    gh.singleton<_i243.ProfileRepository>(
-      () => _i473.ProfileRepositoryImpl(
-        dataProvider: gh<_i443.ProfileDataProvider>(),
-      ),
-    );
     gh.singleton<_i468.TickerBloc>(
       () => _i468.TickerBloc(
         spacyClient: gh<_i146.SpacyAPIClient>(),
@@ -611,6 +606,12 @@ extension GetItInjectableX on _i174.GetIt {
         loadQueueMessage: gh<_i25.LoadQueueMessage>(),
         saveQueueMessage: gh<_i25.SaveQueueMessage>(),
         chatCubit: gh<_i310.ChatCubit>(),
+        logger: gh<_i974.Logger>(),
+      ),
+    );
+    gh.singleton<_i243.ProfileRepository>(
+      () => _i473.ProfileRepositoryImpl(
+        dataProvider: gh<_i443.ProfileDataProvider>(),
       ),
     );
     gh.singleton<_i367.DatingCubit>(

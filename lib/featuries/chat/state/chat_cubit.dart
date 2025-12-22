@@ -43,7 +43,6 @@ class ChatCubit extends Cubit<ChatState> {
   List<Chat> _chatList = [];
 
   Map<String, bool> typingStatus = {};
-  Map<String, bool> sendingPhotoStatus = {};
 
   Future<void> init() async {
     updateChatList(loadingStatus: true);
@@ -134,17 +133,6 @@ class ChatCubit extends Cubit<ChatState> {
     return false;
   }
 
-  bool setWaitingPhotoStatus(String modelId, bool status) {
-    int index = _chatList.indexWhere((item) => item.modelId == modelId);
-
-    if (index != -1) {
-      sendingPhotoStatus[modelId] = status;
-      return true;
-    }
-    sendingPhotoStatus[modelId] = false;
-    return false;
-  }
-
   // Написать сообщение в конкретный чат (отправить запрос на сервер)
   void sendMessage({
     required String modelId,
@@ -177,6 +165,7 @@ class ChatCubit extends Cubit<ChatState> {
               )
               .then((value) {
                 if (value.result != AIAgentResultAnswer.error) {
+                  var messageFromAIAgent = value;
                   _sendMessageToChat(
                         AddNewMessageBody(
                           modelId: modelId,
@@ -188,6 +177,19 @@ class ChatCubit extends Cubit<ChatState> {
                       .then((value) {
                         setWaitingStatus(modelId, false);
                         updateChatList(loadingStatus: false);
+
+                        if (messageFromAIAgent.imageAiAgent !=
+                                AIAgentImage.none &&
+                            messageFromAIAgent
+                                .requestForImageGeneration
+                                .isNotEmpty) {
+                          _aiAgentService.generatePhoto(
+                            generationRequest:
+                                messageFromAIAgent.requestForImageGeneration,
+                            aiAgentImage: messageFromAIAgent.imageAiAgent,
+                            modelId: modelId,
+                          );
+                        }
                       })
                       .onError((error, stackTrace) {
                         setWaitingStatus(modelId, false);
