@@ -9,7 +9,8 @@ class LoadQueueMessage {
     : _chatRepository = chatRepository;
 
   Future<Map<String, dynamic>> call() async {
-    var result = _chatRepository.loadRequestIds();
+    var result = await _chatRepository.loadRequestIds();
+    result.removeWhere((key, value) => key.contains('banana'));
     return result;
   }
 }

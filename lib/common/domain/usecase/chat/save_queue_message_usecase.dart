@@ -9,6 +9,7 @@ class SaveQueueMessage {
     : _chatRepository = chatRepository;
 
   Future<void> call(Map<String, dynamic> requestIds) async {
+    requestIds.removeWhere((key, value) => key.contains('banana'));
     var result = _chatRepository.saveRequestIds(requestIds);
     return result;
   }

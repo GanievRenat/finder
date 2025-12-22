@@ -171,6 +171,58 @@
                 "title": "Nothing here yet",
                 "subtitle": "Start swiping to get\nnew matches",
                 "button": "Find matches"
+            },
+            "first_welcome_message": {
+                "0": "Hi there! What’s up?",
+                "1": "Ready to chat?",
+                "2": "Hey! Good to see you.",
+                "3": "Welcome aboard!",
+                "4": "Let's connect.",
+                "5": "How's your day going?",
+                "6": "Got any fun plans?",
+                "7": "Hello! What inspires you?",
+                "8": "Quick question: Coffee or tea?",
+                "9": "Your turn! Say hi.",
+                "10": "Hi! What are you reading?",
+                "11": "Found anything interesting?",
+                "12": "Tap here to start!",
+                "13": "What’s your vibe?",
+                "14": "Hello! Let's explore."
+            },
+            "notshure_request": {
+                "0": "I apologize, I didn't quite catch that. Could you please rephrase it?",
+                "2": "I'm not entirely sure I understood your request. Could you clarify it for me?",
+                "3": "I think I might have missed something. Mind saying that again in a different way?",
+                "4": "Could you please repeat that?",
+                "5": "I want to make sure I get this right. Can you elaborate a bit more?",
+                "6": "My apologies, your meaning wasn't entirely clear to me. Would you mind restating it?",
+                "7": "It seems I may have misunderstood. Could you explain what you meant?",
+                "8": "Sorry, I didn't fully get that. Can you say it another way?",
+                "9": "To avoid any confusion, could you please clarify your request?"
+            },
+            "refusal_send_photo": {
+                "0": "Oh, I'm right in the middle of sending out photos, totally swamped! Let's do it a bit later, okay? I'll let you know when I'm free and will get yours right away.",
+                "1": "Listen, I'm just sending out a batch of photos right now and I might mix everything up. Let's wait until I'm done with this, and then I'll handle yours with a fresh head!",
+                "2": "Yeah, bad timing — I'm in the process. Photos are already flying to others. How about I give you a nudge when I'm all done, and we'll do yours separately, no rush?",
+                "3": "Ah, you caught me at the busiest moment! The sending is in progress, everything's hectic. Let's postpone until tonight / tomorrow? I'll be more free and won't mess up.",
+                "4": "See how it is — I'm like a postman right now with a whole bag. Let me deliver all this first, and then I'll make a separate run for you!",
+                "5": "Honestly? Can't right now, my head's spinning from this sending spree. To do yours properly, I need like 5 minutes. Can you wait a bit?",
+                "6": "Ugh, I'm up to my ears in this right now! If I start a new one, I'll definitely mix something up. Let me finish this crunch and then I'll calmly take care of your photo, deal?",
+                "7": "Can't do it right this second, sorry — the ball is rolling, don't wanna interrupt. But I'll put you on the 'for later' list, promise! Remind me in a bit.",
+                "8": "I see the request, but my hands are tied for now) All busy with work. How about this: you ping me in an hour, and you'll get my undivided attention!",
+                "9": "Phew, you should see the mess I have with these photos right now! Let's not do it now, or I might send the wrong thing in a hurry. A little later — and it'll be perfect!"
+            },
+            "limit_photo_today": {
+                "0": "I'm afraid today is a no-go — it's been a mad day, my brain is fried. But tomorrow — absolutely! Give me a nudge in the morning, and the photo for you will be ready.",
+                "1": "Ah, I'm totally spent today, only have energy left for sleep. Can we make a deal for tomorrow? First thing in the morning, with a fresh mind, I'll handle the photo for you.",
+                "2": "Listen, my to-do list is so long today that even my computer is lagging. To avoid sending something silly, let me sort out the photo for you calmly tomorrow, okay? I promise!",
+                "3": "Today-me is inefficient and would mix everything up. But tomorrow-me is focused and reliable. Trust tomorrow-me, the photo for you will definitely be sorted!",
+                "4": "It's already evening and I still have a ton to do, my eyes are closing. Let's not do it today, or I'll fall asleep. Tomorrow, as soon as I open my eyes — the photo for you is my first task!",
+                "5": "Honestly, my brain has logged off for today. Won't do a quality job. But here's the plan: you message me tomorrow after 10 AM, and I'll instantly send the photo for you. Deal?",
+                "6": "Argh, today is just not my day, everything's slipping through my fingers. Let's try again tomorrow? I'll be back in shape and will get the photo for you ready quickly and without mistakes.",
+                "7": "I see the message, but I'm running on empty. Won't make it today, sorry. But the photo for you tomorrow — it's sacred! I'll set a reminder.",
+                "8": "Nothing's getting sent today, I admit — I'm completely swamped. But I give you my word, the photo for you will be the first item on my to-do list tomorrow!",
+                "9": "Ugh, today is just crazy, I'm being pulled in a million directions! Let's better move this to tomorrow morning? I'll find and send the photo for you first thing, I promise!"
             }
         },
         "gallery": {
@@ -227,36 +279,6 @@
         }
     },
     "dating": {
-        "chat": {
-            "first_welcome_message": {
-                "0": "Hi there! What’s up?",
-                "1": "Ready to chat?",
-                "2": "Hey! Good to see you.",
-                "3": "Welcome aboard!",
-                "4": "Let's connect.",
-                "5": "How's your day going?",
-                "6": "Got any fun plans?",
-                "7": "Hello! What inspires you?",
-                "8": "Quick question: Coffee or tea?",
-                "9": "Your turn! Say hi.",
-                "10": "Hi! What are you reading?",
-                "11": "Found anything interesting?",
-                "12": "Tap here to start!",
-                "13": "What’s your vibe?",
-                "14": "Hello! Let's explore."
-            },
-            "imnotshure": {
-                "0": "I apologize, I didn't quite catch that. Could you please rephrase it?",
-                "2": "I'm not entirely sure I understood your request. Could you clarify it for me?",
-                "3": "I think I might have missed something. Mind saying that again in a different way?",
-                "4": "Could you please repeat that?",
-                "5": "I want to make sure I get this right. Can you elaborate a bit more?",
-                "6": "My apologies, your meaning wasn't entirely clear to me. Would you mind restating it?",
-                "7": "It seems I may have misunderstood. Could you explain what you meant?",
-                "8": "Sorry, I didn't fully get that. Can you say it another way?",
-                "9": "To avoid any confusion, could you please clarify your request?"
-            }
-        },
         "match": {
             "match": "MATCH",
             "message": "You and Jessica like each other.\nWhat’s your next move?",

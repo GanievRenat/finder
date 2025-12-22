@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:deepseek_client/deepseek_client.dart' as deepseek;
 import 'package:flirta/common/di/init_di.dart';
+import 'package:flirta/common/domain/app_config.dart';
 import 'package:flirta/common/service/secure_storage_service.dart';
 import 'package:flirta/common/service/storage_services.dart';
 import 'package:venice_client/venice_client.dart' as venice;
@@ -29,6 +30,7 @@ class AIAgentService {
   final RemoteConfigService _remoteConfig;
   final StorageServices _storageServices;
   final SecureStorageService _secureStorageService;
+  final AppConfig _appConfig;
 
   AIAgentService({
     required deepseek.DeepseekClient deepseekClient,
@@ -39,6 +41,7 @@ class AIAgentService {
     required StorageServices storageServices,
     required AppStateService appStateService,
     required SecureStorageService secureStorageService,
+    required AppConfig appConfig,
   }) : _deepseekClient = deepseekClient,
        _appStateService = appStateService,
        _veniceClient = veniceClient,
@@ -46,7 +49,8 @@ class AIAgentService {
        _spacyClient = spacyClient,
        _storageServices = storageServices,
        _secureStorageService = secureStorageService,
-       _remoteConfig = remoteConfig;
+       _remoteConfig = remoteConfig,
+       _appConfig = appConfig;
 
   Future<void> init() async {
     if (!_remoteConfig.isInit) {
@@ -111,6 +115,7 @@ class AIAgentService {
             message: result.choices.first.message!.content,
             messageAiAgent: AIAgentChat.venice,
           );
+          // Отправляем запрос на фото если надо
           return resultAnswer;
         }
       }
@@ -137,6 +142,7 @@ class AIAgentService {
             message: result.choices.first.message!.content,
             messageAiAgent: AIAgentChat.deepseek,
           );
+          // Отправляем запрос на фото если надо
           return resultAnswer;
         }
       }
@@ -336,6 +342,16 @@ class AIAgentService {
       if (photoRequestModel.userNeedPhoto) {
         // Делаем запрос в AI агент для ген. изображения
         if (messageAiAgent == AIAgentChat.deepseek) {
+          // Проверяем лимит на сегодня, если лимит привышен, то делаем мягкий отказ
+          int countRequestToDay = _secureStorageService.getCountRequestBanana();
+          if (countRequestToDay >= _appConfig.limitRequestBananaPhotoPerDay) {
+            int refusalSendPhoto = Random().nextInt(10);
+            return AIAnswer(
+              message: 'chat.messages.limit_photo_today.$refusalSendPhoto'.tr(),
+              messageAiAgent: messageAiAgent,
+            );
+          }
+
           // NANO BANANA
           var refData = await _storageServices.getAvatarByte(modelId);
           if (refData != null) {
@@ -344,6 +360,8 @@ class AIAgentService {
               refData: refData,
             );
             if (result.isRight) {
+              await _secureStorageService.addRequestSpicy();
+
               // Сохранить в защищенном месте на телефоне
               String fileName = '${DateTime.now().millisecondsSinceEpoch}.png';
 
@@ -363,6 +381,26 @@ class AIAgentService {
             }
           }
         } else {
+          // Проверяем лимит на сегодня, если лимит привышен, то делаем мягкий отказ
+          int countRequestToDay = _secureStorageService.getCountRequestSpicy();
+          if (countRequestToDay >= _appConfig.limitRequestSpicyPhotoPerDay) {
+            int refusalSendPhoto = Random().nextInt(10);
+            return AIAnswer(
+              message: 'chat.messages.limit_photo_today.$refusalSendPhoto'.tr(),
+              messageAiAgent: messageAiAgent,
+            );
+          }
+
+          // Проверяем очередь, если вдруг уже есть запрос, то мягко отказываем
+          if (getIt<TickerBloc>().queueMessages.isNotEmpty) {
+            int refusalSendPhoto = Random().nextInt(10);
+            return AIAnswer(
+              message: 'chat.messages.refusal_send_photo.$refusalSendPhoto'
+                  .tr(),
+              messageAiAgent: messageAiAgent,
+            );
+          }
+
           // SPICYAPI
           var refData = await _storageServices.getAvatarByte(modelId);
           if (refData != null) {
@@ -391,7 +429,7 @@ class AIAgentService {
       }
       int imNotShureIndex = Random().nextInt(10);
       return AIAnswer(
-        message: 'dating.chat.imnotshure.$imNotShureIndex'.tr(),
+        message: 'chat.messages.notshure_request.$imNotShureIndex'.tr(),
         messageAiAgent: messageAiAgent,
       );
     } else {

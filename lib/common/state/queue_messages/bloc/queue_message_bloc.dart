@@ -95,6 +95,7 @@ class TickerBloc extends Bloc<TickerEvent, TickerState> {
 
       var modelId = queueMessages.keys.first;
       var reuestId = queueMessages[modelId] ?? '';
+      if (reuestId == 'banana') return;
       // Узнаем статус и
       if (reuestId.isNotEmpty) {
         var resultStatus = await _spacyClient.checkStatus(requestId: reuestId);
@@ -115,6 +116,7 @@ class TickerBloc extends Bloc<TickerEvent, TickerState> {
                   message: '',
                   images: [fileName],
                 );
+                await _secureStorageService.addRequestSpicy();
                 _chatCubit.setWaitingPhotoStatus(modelId, false);
               }
             } catch (e) {
@@ -140,7 +142,9 @@ class TickerBloc extends Bloc<TickerEvent, TickerState> {
 
   void addNewMessage({required String modelId, required String requestId}) {
     queueMessages[modelId] = requestId;
-    _saveQueueMessage(queueMessages);
+    if (requestId != 'banana') {
+      _saveQueueMessage(queueMessages);
+    }
     add(TickerStarted());
   }
 

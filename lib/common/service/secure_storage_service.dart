@@ -11,16 +11,58 @@ import 'package:image/image.dart' as img;
 class SecureStorageService {
   // Название "коробки" (box) - аналог папки или таблицы
   static const String _boxName = 'secure_images';
+  static const String _counterRequestSpicyApi = 'counter_request_spicyapi';
+  static const String _counterRequestBanana = 'counter_request_banana';
 
   // Инициализация (вызвать 1 раз в main.dart)
   Future<void> init() async {
     // Эта строка магии:
     // На Mobile: находит правильную папку документов.
     // На Web: настраивает IndexedDB.
+    await Hive.initFlutter();
+    await Hive.openBox<int>(_counterRequestSpicyApi);
+    await Hive.openBox<int>(_counterRequestBanana);
     if (kIsWeb) {
-      await Hive.initFlutter();
       await Hive.openBox<Uint8List>(_boxName);
     }
+  }
+
+  int getCountRequestSpicy() {
+    final box = Hive.box<int>(_counterRequestSpicyApi);
+    String dateKey =
+        '${DateTime.now().day}.${DateTime.now().month}.${DateTime.now().year}';
+
+    return box.get(dateKey) ?? 0;
+  }
+
+  Future<int> addRequestSpicy() async {
+    final box = Hive.box<int>(_counterRequestSpicyApi);
+    String dateKey =
+        '${DateTime.now().day}.${DateTime.now().month}.${DateTime.now().year}';
+
+    int count = box.get(dateKey) ?? 0;
+    count = count + 1;
+    await box.put(dateKey, count);
+    return count;
+  }
+
+  int getCountRequestBanana() {
+    final box = Hive.box<int>(_counterRequestBanana);
+    String dateKey =
+        '${DateTime.now().day}.${DateTime.now().month}.${DateTime.now().year}';
+
+    return box.get(dateKey) ?? 0;
+  }
+
+  Future<int> addRequestBanana() async {
+    final box = Hive.box<int>(_counterRequestBanana);
+    String dateKey =
+        '${DateTime.now().day}.${DateTime.now().month}.${DateTime.now().year}';
+
+    int count = box.get(dateKey) ?? 0;
+    count = count + 1;
+    await box.put(dateKey, count);
+    return count;
   }
 
   // 1. Сохранение (работает и на Web, и на Mobile)

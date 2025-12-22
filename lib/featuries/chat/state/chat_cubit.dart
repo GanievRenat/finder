@@ -70,7 +70,7 @@ class ChatCubit extends Cubit<ChatState> {
           AddNewMessageBody(
             modelId: person.modelId,
             owner: Owner.person,
-            message: 'dating.chat.first_welcome_message.$messageNumber'.tr(),
+            message: 'chat.messages.first_welcome_message.$messageNumber'.tr(),
             images: [],
           ),
         );
@@ -127,20 +127,10 @@ class ChatCubit extends Cubit<ChatState> {
     int index = _chatList.indexWhere((item) => item.modelId == modelId);
 
     if (index != -1) {
-      /*var updatedItem = _chatList[index].copyWith(waitingAnswer: status);
-      _chatList[index] = updatedItem;
-
-      int countNoReadMessage = _chatList
-          .where((chat) => chat.countNewMessage > 0)
-          .length;
-      emit(ChatState.data(_chatList, countNoReadMessage));
-      */
       typingStatus[modelId] = status;
-
       return true;
     }
     typingStatus[modelId] = false;
-    //updateChatList(loadingStatus: false);
     return false;
   }
 
@@ -148,16 +138,7 @@ class ChatCubit extends Cubit<ChatState> {
     int index = _chatList.indexWhere((item) => item.modelId == modelId);
 
     if (index != -1) {
-      /*var updatedItem = _chatList[index].copyWith(waitingPhoto: status);
-      _chatList[index] = updatedItem;
-
-      int countNoReadMessage = _chatList
-          .where((chat) => chat.countNewMessage > 0)
-          .length;
-      emit(ChatState.data(_chatList, countNoReadMessage));*/
-
       sendingPhotoStatus[modelId] = status;
-
       return true;
     }
     sendingPhotoStatus[modelId] = false;

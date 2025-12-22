@@ -34,6 +34,12 @@ class DefAppConfig implements AppConfig {
     LocalKeies.localPersonsPerDay: 'person_per_day',
     LocalKeies.localRequestIds: 'request_ids',
   };
+
+  @override
+  int get limitRequestSpicyPhotoPerDay => 2;
+
+  @override
+  int get limitRequestBananaPhotoPerDay => 10;
 }
 
 @Singleton(as: AppConfig)

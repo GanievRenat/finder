@@ -284,18 +284,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i726.StorageServices>(
       () => _i726.StorageServices(gh<_i457.FirebaseStorage>()),
     );
-    gh.singleton<_i845.AIAgentService>(
-      () => _i845.AIAgentService(
-        deepseekClient: gh<_i987.DeepseekClient>(),
-        veniceClient: gh<_i693.VeniceClient>(),
-        bananaClient: gh<_i209.BananaClient>(),
-        spacyClient: gh<_i146.SpacyAPIClient>(),
-        remoteConfig: gh<_i327.RemoteConfigService>(),
-        storageServices: gh<_i726.StorageServices>(),
-        appStateService: gh<_i523.AppStateService>(),
-        secureStorageService: gh<_i521.SecureStorageService>(),
-      ),
-    );
     gh.singleton<_i864.LanguageInterceptor>(
       () => _i864.LanguageInterceptor(
         appStateService: gh<_i523.AppStateService>(),
@@ -475,6 +463,19 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i220.ProfileDataProvider>(
       () => _i220.ProfileDataProviderLocal(
         sharedPreferences: gh<_i460.SharedPreferences>(),
+        appConfig: gh<_i1048.AppConfig>(),
+      ),
+    );
+    gh.singleton<_i845.AIAgentService>(
+      () => _i845.AIAgentService(
+        deepseekClient: gh<_i987.DeepseekClient>(),
+        veniceClient: gh<_i693.VeniceClient>(),
+        bananaClient: gh<_i209.BananaClient>(),
+        spacyClient: gh<_i146.SpacyAPIClient>(),
+        remoteConfig: gh<_i327.RemoteConfigService>(),
+        storageServices: gh<_i726.StorageServices>(),
+        appStateService: gh<_i523.AppStateService>(),
+        secureStorageService: gh<_i521.SecureStorageService>(),
         appConfig: gh<_i1048.AppConfig>(),
       ),
     );
