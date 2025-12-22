@@ -65,12 +65,12 @@
         "how_old_are_you_subtitle": "We need this information to make sure you’re old enough to safety use Flirta",
         "not_old_enough_error": {
             "title": "You’re not old enough to use Flirta",
-            "subtitle": "You don’t meet the minimum age requirement. You must be over 18 to use Flinder",
+            "subtitle": "You don’t meet the minimum age requirement. You must be over 18 to use Flirta",
             "button_terms": "Terms of service",
             "button_got_it": "Got It"
         },
         "you_identify_title": "How do you identify?",
-        "you_identify_tip": "Choose the opton",
+        "you_identify_tip": "Choose the option",
         "interested_title": "Who are you\ninterested in?",
         "interested_gender": {
             "male1": "Man",

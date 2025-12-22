@@ -53,6 +53,7 @@ class SecondButton extends StatelessWidget {
               )
             : Text(
                 title,
+                textAlign: TextAlign.center,
                 style: _small
                     ? AppTheme.of(context).textStyle.actionL.copyWith(
                         color: AppTheme.of(context).color.primaryDarkset,

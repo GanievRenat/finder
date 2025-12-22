@@ -38,6 +38,7 @@ class BlackButton extends StatelessWidget {
               )
             : Text(
                 title,
+                textAlign: TextAlign.center,
                 style: AppTheme.of(context).textStyle.actionXL.copyWith(
                   color: AppTheme.of(context).color.neutralLightLightest,
                 ),

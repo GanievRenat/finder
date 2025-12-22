@@ -133,6 +133,7 @@ class MainButton extends StatelessWidget {
               )
             : Text(
                 title,
+                textAlign: TextAlign.center,
                 style: _small
                     ? AppTheme.of(
                         context,
