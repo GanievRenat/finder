@@ -9,6 +9,8 @@ import 'package:flirta/featuries/profile/profile.dart';
 import 'package:flirta/generated/locale_keys.g.dart';
 import 'package:flutter/material.dart';
 
+import '../../../dating/pages/dating/state/dating_cubit.dart';
+
 class ProfilePage extends StatefulWidget {
   const ProfilePage({
     super.key,
@@ -58,7 +60,11 @@ class _ProfilePageState extends State<ProfilePage> {
               ProfilePremiumStatus(
                 onTap: (premiumStatus) {
                   setState(() {
-                    getIt<AppStateService>().premium = !premiumStatus;
+                    bool pStatus = !premiumStatus;
+                    getIt<AppStateService>().premium = pStatus;
+                    if (pStatus) {
+                      getIt<DatingCubit>().getListDatingPerson();
+                    }
                   });
                 },
               ), //=> widget.onPayWall()),

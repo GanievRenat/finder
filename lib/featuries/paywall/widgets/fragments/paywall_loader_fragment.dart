@@ -5,6 +5,7 @@ import 'package:flirta/common/ui/theme/app_spacing.dart';
 import 'package:flirta/common/ui/theme/app_theme.dart';
 import 'package:flirta/common/ui/widgets/buttons/close_button.dart';
 import 'package:flirta/common/ui/widgets/buttons/main_button.dart';
+import 'package:flirta/featuries/dating/pages/dating/state/dating_cubit.dart';
 import 'package:flirta/featuries/paywall/widgets/benefid_item.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -148,6 +149,7 @@ class PaywallLoaderFragment extends StatelessWidget {
                   title: 'Subscription',
                   onPressed: () {
                     getIt<AppStateService>().premium = true;
+                    getIt<DatingCubit>().getListDatingPerson();
                     context.pop(true);
                   },
                 ),
