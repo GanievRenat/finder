@@ -1,11 +1,11 @@
 export 'auth_repository.dart';
 export 'profile_repository.dart';
-export 'remote_config_repository.dart';
 export 'settings_repository.dart';
 export 'registration_repository.dart';
 export 'filter_repository.dart';
 export 'dating_repository.dart';
 export 'chat_repository.dart';
+export 'prompt_repository.dart';
 export 'admin/auth_admin_repository.dart';
 export 'admin/person_admin_repository.dart';
 export 'admin/properties_admin_repository.dart';

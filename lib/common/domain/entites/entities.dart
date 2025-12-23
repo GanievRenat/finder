@@ -7,3 +7,4 @@ export 'person/person.dart';
 export 'chat/chat.dart';
 export 'chat/message.dart';
 export 'subscription/subscription_package.dart';
+export 'prompts/prompts.dart';

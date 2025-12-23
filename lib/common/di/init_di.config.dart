@@ -121,6 +121,10 @@ import 'package:flirta/common/domain/usecase/profile/get_profile_usecase.dart'
     as _i194;
 import 'package:flirta/common/domain/usecase/profile/update_profile_usecase.dart'
     as _i942;
+import 'package:flirta/common/domain/usecase/prompt/get_prompts_usecase.dart'
+    as _i8;
+import 'package:flirta/common/domain/usecase/prompt/update_prompts_usecase.dart'
+    as _i184;
 import 'package:flirta/common/domain/usecase/registration_user/clear_registration_form_data_usecase.dart'
     as _i732;
 import 'package:flirta/common/domain/usecase/registration_user/load_registration_form_data_usecase.dart'
@@ -283,6 +287,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.singleton<_i726.StorageServices>(
       () => _i726.StorageServices(gh<_i457.FirebaseStorage>()),
+    );
+    gh.singleton<_i8.GetPrompts>(
+      () => _i8.GetPrompts(promptRepository: gh<_i243.PromptRepository>()),
+    );
+    gh.singleton<_i184.UpdatePrompts>(
+      () => _i184.UpdatePrompts(promptRepository: gh<_i243.PromptRepository>()),
     );
     gh.singleton<_i864.LanguageInterceptor>(
       () => _i864.LanguageInterceptor(

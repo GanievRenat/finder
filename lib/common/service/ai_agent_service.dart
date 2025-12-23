@@ -195,7 +195,7 @@ class AIAgentService {
       '"your_answer": A text string with your affirmative, in-character reply to the user (e.g., "Great idea, I happen to have a photo like that!").', //Hold on while I find it...
     );
     strBufferByPhoto.writeln(
-      '"generation_request": A comprehensive, descriptive text prompt crafted for an image generation AI. It should encapsulate the visual concept discussed (subject, action, environment, lighting, artistic style, etc.). This is your interpretation of the user request.',
+      '"generation_request": A comprehensive, descriptive text prompt crafted for an image generation AI. It should encapsulate the visual concept discussed (subject, action, environment, lighting, artistic style, etc.). This is your interpretation of the user request. Be sure to add a requirement for photo quality to the request: {PHOTO_QUALITY}',
     );
     strBufferByPhoto.writeln(
       "Default Dialogue: If the user's message does not contain any photo-related request, respond naturally according to the normal flow of conversation, staying strictly within your defined character.",
