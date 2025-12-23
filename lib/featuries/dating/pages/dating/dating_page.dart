@@ -62,7 +62,8 @@ class _DatingPageState extends State<DatingPage> {
       body: DatingBuilder(
         init: (context) => DatingListLoaderFragment(),
         loading: (context) => DatingListLoaderFragment(),
-        error: (context, value, child) => DatingListErrorFragment(error: value),
+        error: (context, value, child) =>
+            DatingListEmptyFragment(onRefresh: widget.onFilter),
         empty: (BuildContext context) =>
             DatingListEmptyFragment(onRefresh: widget.onFilter),
         completed: (context) => isPremium

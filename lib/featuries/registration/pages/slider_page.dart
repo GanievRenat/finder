@@ -94,7 +94,7 @@ class _SliderPageState extends State<SliderPage> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 8.0, bottom: 16),
+                  padding: const EdgeInsets.only(top: 8.0, bottom: 24),
                   child: SmoothPageIndicator(
                     controller: pageController,
                     axisDirection: Axis.horizontal,
@@ -127,46 +127,6 @@ class _SliderPageState extends State<SliderPage> {
               ],
             ),
           ),
-          /*Positioned(
-            bottom: MediaQuery.of(context).viewPadding.bottom == 0
-                ? 16
-                : MediaQuery.of(context).viewPadding.bottom,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width - 32,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SmoothPageIndicator(
-                      controller: pageController,
-                      axisDirection: Axis.horizontal,
-                      count: 3,
-                      effect: ExpandingDotsEffect(
-                        activeDotColor: AppTheme.of(
-                          context,
-                        ).color.primaryDarkset,
-                        dotColor: AppTheme.of(
-                          context,
-                        ).color.neutralLightLightest.withAlpha(100),
-                        dotWidth: 8,
-                        dotHeight: 8,
-                      ),
-                    ),
-                    SizedBox(height: 8),
-                    MainButton.inversion(
-                      title: LocaleKeys.auth_button_get_start.tr(),
-                      onPressed: () async {
-                        await _controller.pause();
-                        await widget.onEnterName();
-                        await _controller.play();
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),*/
         ],
       ),
     );
@@ -183,19 +143,13 @@ class ScrollTextPage extends StatelessWidget {
     return Align(
       alignment: Alignment.bottomCenter,
       child: Padding(
-        padding: EdgeInsets.only(
-          //top:
-          //    MediaQuery.of(context).size.height -
-          //    (MediaQuery.of(context).viewPadding.bottom + 45 + 32 + 50),
-          left: 16,
-          right: 16,
-        ),
+        padding: EdgeInsets.only(left: 16, right: 16),
         child: Text(
           text,
           softWrap: true,
           style: AppTheme.of(context).textStyle.header2.copyWith(
             color: AppTheme.of(context).color.neutralLightLightest,
-            height: 1,
+            height: 1.2,
           ),
           textAlign: TextAlign.center,
         ),

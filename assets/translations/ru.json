@@ -293,7 +293,7 @@
     "dating": {
         "match": {
             "match": "MATCH",
-            "message": "You and Jessica like each other.\nWhat’s your next move?",
+            "message": "You and {} like each other.\nWhat’s your next move?",
             "button_title": "Chat now"
         },
         "text": {

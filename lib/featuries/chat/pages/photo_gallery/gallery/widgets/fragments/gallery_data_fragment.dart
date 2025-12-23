@@ -4,6 +4,7 @@ import 'package:flirta/common/ui/theme/theme.dart';
 import 'package:flirta/featuries/chat/pages/photo_gallery/gallery/state/gallery_cubit.dart';
 import 'package:flirta/featuries/chat/widget/person_photo.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:group_grid_view/group_grid_view.dart';
 
@@ -18,7 +19,7 @@ class GalleryDataFragment extends StatelessWidget {
   });
 
   final Function(String fileName) onSliderPhoto;
-  final Function() onPayWall;
+  final Future<bool> Function() onPayWall;
   final List<PhotoGroup> dataSource;
   final bool isPremium;
   final String modelId;
@@ -55,11 +56,14 @@ class GalleryDataFragment extends StatelessWidget {
           return PersonPhoto(
             isPremium: isPremium,
             imageBite: getIt<SecureStorageService>().getImage(modelId, data),
-            onTap: (isPremium) {
+            onTap: (isPremium) async {
               if (isPremium) {
                 onSliderPhoto(data);
               } else {
-                onPayWall();
+                var result = await onPayWall();
+                if (result && context.mounted) {
+                  context.read<GalleryCubit>().getGalleryData();
+                }
               }
             },
           );

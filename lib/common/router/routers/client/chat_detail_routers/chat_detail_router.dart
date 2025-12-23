@@ -81,7 +81,8 @@ class GalleryRoute extends GoRouteData with $GalleryRoute {
       name: name,
       child: GalleryPage(
         person: Person.fromJson(json.decode(personJson)),
-        onPayWall: () => PawWallRoute().push(context),
+        onPayWall: () async =>
+            await PawWallRoute().push<bool>(context) ?? false,
         onSliderPhoto: ({required fileName, required modelId}) =>
             GallerySliderRoute(
               fileName: fileName,

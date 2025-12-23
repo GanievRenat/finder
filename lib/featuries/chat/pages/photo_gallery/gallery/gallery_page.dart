@@ -23,7 +23,7 @@ class GalleryPage extends StatelessWidget {
 
   final Function({required String fileName, required String modelId})
   onSliderPhoto;
-  final Function() onPayWall;
+  final Future<bool> Function() onPayWall;
   final Person person;
 
   @override

@@ -26,6 +26,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:flirta/featuries/registration/auth.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 part 'routers/client/auth_routers/auth_router.dart';
 part 'routers/client/main_routers/home_router.dart';

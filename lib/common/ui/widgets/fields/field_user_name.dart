@@ -39,12 +39,12 @@ class _FieldUserNameState extends State<FieldUserName> {
           decoration: InputDecoration(
             hintText: LocaleKeys.auth_your_name_hint.tr(),
             errorStyle: TextStyle(height: 0, fontSize: 0),
-            //labelStyle: AppTheme.of(context).textStyle.bodyXL,
           ),
           keyboardType: TextInputType.name,
           textCapitalization: TextCapitalization.sentences,
           style: AppTheme.of(context).textStyle.bodyXL,
           textInputAction: TextInputAction.next,
+          maxLength: 25,
           validator: (value) {
             if ((value ?? '').trim().isEmpty) {
               getIt<AppToast>().show(

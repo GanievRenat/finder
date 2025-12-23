@@ -172,8 +172,8 @@ class EditGenderProfileRoute extends GoRouteData with $EditGenderProfileRoute {
     return ModalBottomSheetPage(
       key: state.pageKey,
       name: name,
-      title: LocaleKeys.auth_how_old_are_you_title.tr(),
-      subtitle: LocaleKeys.auth_how_old_are_you_subtitle.tr(),
+      title: LocaleKeys.auth_you_identify_title.tr(),
+      subtitle: LocaleKeys.auth_you_identify_tip.tr(),
       isScroll: true,
       child: GenderEditWidget(
         initGender: Gender.values[initGenderIndex],
@@ -198,8 +198,8 @@ class EditNameProfileRoute extends GoRouteData with $EditNameProfileRoute {
     return ModalBottomSheetPage(
       key: state.pageKey,
       name: name,
-      title: LocaleKeys.auth_how_old_are_you_title.tr(),
-      subtitle: LocaleKeys.auth_how_old_are_you_subtitle.tr(),
+      title: LocaleKeys.auth_whats_your_name_title.tr(),
+
       child: NameEditWidget(
         initName: initName,
         onComplited: () {

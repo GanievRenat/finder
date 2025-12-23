@@ -80,7 +80,14 @@ class EnterAgeRoute extends GoRouteData with $EnterAgeRoute {
           onSelectGender: () => const SelectGenderRoute().push(context),
           onDialogAgeValidate: () async =>
               await AlertDialogAgeValidateRoute().push<bool?>(context) ?? false,
-          onTerms: () {},
+          onTerms: (String link) async {
+            if (await canLaunchUrl(Uri.parse(link))) {
+              await launchUrl(
+                Uri.parse(link),
+                mode: LaunchMode.externalApplication,
+              );
+            }
+          },
         ),
       );
 }

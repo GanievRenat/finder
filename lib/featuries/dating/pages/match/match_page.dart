@@ -139,7 +139,9 @@ class _MatchPageState extends State<MatchPage> {
                   HeartWidget(),
                   AppSpacing.vertical.s5,
                   Text(
-                    LocaleKeys.dating_match_message.tr(),
+                    LocaleKeys.dating_match_message.tr(
+                      args: [widget.person.name],
+                    ),
                     textAlign: TextAlign.center,
                     style: AppTheme.of(context).textStyle.header2.copyWith(
                       color: AppTheme.of(context).color.neutralLightLightest,

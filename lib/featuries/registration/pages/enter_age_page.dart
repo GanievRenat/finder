@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flirta/common/di/init_di.dart';
+import 'package:flirta/common/service/remote_config_service.dart';
 import 'package:flirta/featuries/registration/state/registration_cubit.dart';
 import 'package:flirta/common/ui/widgets/widgets.dart';
 import 'package:flirta/featuries/registration/widgets/auth_widgets.dart';
@@ -18,7 +19,7 @@ class EnterAgePage extends StatefulWidget {
 
   final Function onSelectGender;
   final Future<bool> Function() onDialogAgeValidate;
-  final Function onTerms;
+  final Function(String link) onTerms;
 
   @override
   State<EnterAgePage> createState() => _EnterAgePageState();
@@ -61,7 +62,8 @@ class _EnterAgePageState extends State<EnterAgePage> {
             if (getIt<RegistrationCubit>().currentData.age < 18) {
               var result = await widget.onDialogAgeValidate();
               if (result) {
-                widget.onTerms();
+                var remoteConfig = getIt<RemoteConfigService>();
+                widget.onTerms(remoteConfig.menuTermURL);
               }
             } else {
               await getIt<RegistrationCubit>().saveCurrentState();

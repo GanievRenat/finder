@@ -4,7 +4,6 @@ import 'package:flirta/common/extension/extension.dart';
 import 'package:flirta/common/ui/theme/theme.dart';
 import 'package:flirta/generated/assets.gen.dart';
 import 'package:flutter/material.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 
 class CardSwipe extends StatefulWidget {
   const CardSwipe({super.key, required this.person, required this.onTap});
@@ -124,13 +123,32 @@ class ImageProfileOfPerson extends StatelessWidget {
         fit: BoxFit.cover,
         height: double.infinity,
         imageUrl: url,
-        placeholder: (context, url) => Skeletonizer(
-          enabled: true,
-          child: SizedBox(
-            height: double.infinity,
-            width: MediaQuery.of(context).size.width,
-            child: Container(
-              color: AppTheme.of(context).color.neutralLightLight,
+        placeholder: (context, url) => SizedBox(
+          height: double.infinity,
+          width: MediaQuery.of(context).size.width,
+          child: Container(
+            color: AppTheme.of(context).color.neutralLightLight,
+            child: Center(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(80 * 2),
+                child: Stack(
+                  children: [
+                    Center(
+                      child: Assets.images.icons.avatar.svg(
+                        width: 80 * 2,
+                        height: 80 * 2,
+                      ),
+                    ),
+                    Center(
+                      child: SizedBox(
+                        width: 80 * 2,
+                        height: 80 * 2,
+                        child: CircularProgressIndicator(),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
         ),
