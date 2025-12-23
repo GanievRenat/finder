@@ -32,6 +32,8 @@ import 'package:flirta/common/data/providers/filter_data_provider.dart'
     as _i713;
 import 'package:flirta/common/data/providers/profile_data_provider.dart'
     as _i220;
+import 'package:flirta/common/data/providers/prompts_data_provider.dart'
+    as _i111;
 import 'package:flirta/common/data/providers/registration_data_provider.dart'
     as _i566;
 import 'package:flirta/common/data/providers/registration_form_data_provider.dart'
@@ -241,6 +243,11 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i682.ImageSourceBottomSheet(),
     );
     gh.singleton<_i403.PaywallCubit>(() => _i403.PaywallCubit());
+    gh.singleton<_i111.PromptsDataProvider>(
+      () => _i111.PropertiesDataProviderFireBase(
+        fireStore: gh<_i974.FirebaseFirestore>(),
+      ),
+    );
     gh.singleton<_i320.ChatMessagesTable>(
       () => _i320.ChatMessagesTable(gh<_i366.AppDatabase>()),
     );

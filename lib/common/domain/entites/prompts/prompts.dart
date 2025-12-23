@@ -1,57 +1,37 @@
 import 'package:equatable/equatable.dart';
 
 class Prompts extends Equatable {
-  final String nsfwBasePrompt;
-  final String nsfwJsonDescription;
-  final String nsfwPhotoFilter;
-  final String nsfwPhotoQuality;
-  final String sfwBasePrompt;
-  final String sfwJsonDescription;
-  final String sfwPhotoFilter;
-  final String sfwPhotoQuality;
+  final String basePrompt;
+  final String jsonDescription;
+  final String photoFilter;
+  final String photoQuality;
 
   const Prompts({
-    required this.nsfwBasePrompt,
-    required this.nsfwJsonDescription,
-    required this.nsfwPhotoFilter,
-    required this.nsfwPhotoQuality,
-    required this.sfwBasePrompt,
-    required this.sfwJsonDescription,
-    required this.sfwPhotoFilter,
-    required this.sfwPhotoQuality,
+    required this.basePrompt,
+    required this.jsonDescription,
+    required this.photoFilter,
+    required this.photoQuality,
   });
 
   Prompts copyWith({
-    String? nsfwBasePrompt,
-    String? nsfwJsonDescription,
-    String? nsfwPhotoFilter,
-    String? nsfwPhotoQuality,
-    String? sfwBasePrompt,
-    String? sfwJsonDescription,
-    String? sfwPhotoFilter,
-    String? sfwPhotoQuality,
+    String? basePrompt,
+    String? jsonDescription,
+    String? photoFilter,
+    String? photoQuality,
   }) {
     return Prompts(
-      nsfwBasePrompt: nsfwBasePrompt ?? this.nsfwBasePrompt,
-      nsfwJsonDescription: nsfwJsonDescription ?? this.nsfwJsonDescription,
-      nsfwPhotoFilter: nsfwPhotoFilter ?? this.nsfwPhotoFilter,
-      nsfwPhotoQuality: nsfwPhotoQuality ?? this.nsfwPhotoQuality,
-      sfwBasePrompt: sfwBasePrompt ?? this.sfwBasePrompt,
-      sfwJsonDescription: sfwJsonDescription ?? this.sfwJsonDescription,
-      sfwPhotoFilter: sfwPhotoFilter ?? this.sfwPhotoFilter,
-      sfwPhotoQuality: sfwPhotoQuality ?? this.sfwPhotoQuality,
+      basePrompt: basePrompt ?? this.basePrompt,
+      jsonDescription: jsonDescription ?? this.jsonDescription,
+      photoFilter: photoFilter ?? this.photoFilter,
+      photoQuality: photoQuality ?? this.photoQuality,
     );
   }
 
   @override
   List<Object?> get props => [
-    nsfwBasePrompt,
-    nsfwJsonDescription,
-    nsfwPhotoFilter,
-    nsfwPhotoQuality,
-    sfwBasePrompt,
-    sfwJsonDescription,
-    sfwPhotoFilter,
-    sfwPhotoQuality,
+    basePrompt,
+    jsonDescription,
+    photoFilter,
+    photoQuality,
   ];
 }
